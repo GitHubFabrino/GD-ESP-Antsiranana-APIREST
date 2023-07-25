@@ -47,7 +47,7 @@ public class ConcourstciController {
         return null;
     }*/
 
-    @PostMapping
+    @PutMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public void postConcours(@RequestBody ConcoursDto concours){
         /*concourstciService.creerPersonne(personne);

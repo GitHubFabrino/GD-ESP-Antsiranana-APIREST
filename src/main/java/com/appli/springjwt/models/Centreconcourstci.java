@@ -81,6 +81,13 @@ public class Centreconcourstci {
     public void setIdPersonne(Personne idPersonne) {
         this.idPersonne = idPersonne;
     }
+    public void setIdPersonne(Integer idPersonne) {
+        // Créez un nouvel objet Concourstci en utilisant l'ID passé en argument
+        Personne personne = new Personne();
+        personne.setId(idPersonne);
+        // Affectez l'objet Concourstci à la propriété idCTCI
+        this.idPersonne = personne;
+    }
 
 
     public Set<Candidatconcourstci> getCandidatconcourstcis() {
@@ -104,8 +111,15 @@ public class Centreconcourstci {
         return idCTCI;
     }
 
-    public void setIdCTCI(Concourstci idCTCI) {
-        this.idCTCI = idCTCI;
+    //public void setIdCTCI(Concourstci idCTCI) {
+       // this.idCTCI = idCTCI;
+    //}
+    public void setIdCTCI(Integer idCTCI) {
+        // Créez un nouvel objet Concourstci en utilisant l'ID passé en argument
+        Concourstci concours = new Concourstci();
+        concours.setId(idCTCI);
+        // Affectez l'objet Concourstci à la propriété idCTCI
+        this.idCTCI = concours;
     }
 
     public Centreconcourstci() {
@@ -139,8 +153,12 @@ public class Centreconcourstci {
         return nomCentreCTCI;
     }
 
-    public void setNomCentreCTCI(String nomCentrectci) {
+    /*public void setNomCentreCTCI(String nomCentrectci) {
         this.nomCentreCTCI = nomCentreCTCI;
+    }*/
+    public void setNomCentreCTCI(String nomCentrectci) {
+        this.nomCentreCTCI = nomCentrectci;
     }
+
 
 }
