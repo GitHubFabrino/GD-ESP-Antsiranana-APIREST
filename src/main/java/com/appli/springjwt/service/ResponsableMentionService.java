@@ -16,6 +16,7 @@ public class ResponsableMentionService {
     @Autowired
     StatusRepository statusRepository;
     @Autowired
+    static
     DefinitionmentionRepository definitionmentionRepository;
     @Autowired
     AuthentificationRepository authentificationRepository;
@@ -86,5 +87,15 @@ public class ResponsableMentionService {
         statusRepository.delete(status);
 
 
+    }
+    @Autowired
+
+    public ResponsableMentionService(DefinitionmentionRepository definitionmentionRepository) {
+        this.definitionmentionRepository = definitionmentionRepository;
+    }
+
+    public static boolean isid_mention_AlreadyExists(Integer id_mention) {
+        // Vérifie si une Anneeuniv avec le même nomAU existe déjà
+        return definitionmentionRepository.existsByIdMention(id_mention);
     }
 }

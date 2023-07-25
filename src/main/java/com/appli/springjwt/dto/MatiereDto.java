@@ -7,6 +7,15 @@ public class MatiereDto {
     String nomMCTCI;
     Byte creditMCTCI;
 
+    @Override
+    public String toString() {
+        return "MatiereDto{" +
+                "id=" + id +
+                ", nomMCTCI='" + nomMCTCI + '\'' +
+                ", creditMCTCI=" + creditMCTCI +
+                '}';
+    }
+
     public MatiereDto() {
     }
 

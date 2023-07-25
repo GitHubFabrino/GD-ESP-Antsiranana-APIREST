@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public interface DefinitionmentionRepository extends JpaRepository<Definitionmention, Integer> {
 
+ 
+
     ArrayList<Definitionmention> findAllByIdAu(Anneeuniv idAu);
     ArrayList<Definitionmention> findAll();
+
+    boolean existsByIdMention(Integer id_mention);
 }

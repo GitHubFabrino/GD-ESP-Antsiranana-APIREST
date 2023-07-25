@@ -12,4 +12,6 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     Boolean existsByNomAndPrenoms(String nom,String prenoms);
 
     Optional<Personne> findByNomAndPrenoms(String nom,String prenoms);
+  //  Optional<Personne> findByFirstNameAndLastName(String firstName, String lastName);
+
 }

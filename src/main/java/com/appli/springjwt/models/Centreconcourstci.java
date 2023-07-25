@@ -12,7 +12,7 @@ import java.util.Set;
 public class Centreconcourstci {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_centreCTCI", nullable = false)
+    @Column(name = "id_centreCTCI", nullable = true)
     private Integer id;
 
     @Size(max = 50)
@@ -22,19 +22,56 @@ public class Centreconcourstci {
     @Column(name = "code_postale")
     private Integer codePostale;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_personne", nullable = false)
+    //@NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_personne", nullable = true)
     private Personne idPersonne;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_CTCI", nullable = false)
+    //@NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_CTCI", nullable = true)
     private Concourstci idCTCI;
 
     @OneToMany(mappedBy = "idCentreCTCI", orphanRemoval = true)
     private Set<Candidatconcourstci> candidatconcourstcis = new LinkedHashSet<>();
 
+    public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Personne idPersonne, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
+        this.nomCentreCTCI = nomCentreCTCI;
+        this.codePostale = codePostale;
+        this.idPersonne = idPersonne;
+        this.idCTCI = idCTCI;
+        this.candidatconcourstcis = candidatconcourstcis;
+    }
+
+    public Centreconcourstci(Integer id, String nomCentreCTCI, Integer codePostale, Personne idPersonne, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
+        this.id = id;
+        this.nomCentreCTCI = nomCentreCTCI;
+        this.codePostale = codePostale;
+        this.idPersonne = idPersonne;
+        this.idCTCI = idCTCI;
+        this.candidatconcourstcis = candidatconcourstcis;
+    }
+
+    public Centreconcourstci(
+            String nomCentreCTCI,
+            Integer codePostale,
+            Concourstci concours,
+            Integer idPersonne) {
+    }
+    /*
+    public Centreconcourstci(
+            String nomCentreCTCI,
+            Integer codePostale,
+            Personne personne,
+            Concourstci concours,
+            Integer idPersonne) {
+    }
+    public Centreconcourstci(
+            String nomCentreCTCI,
+            Integer codePostale,
+            Concourstci concours,
+            Integer idPersonne) {
+    }*/
 
 
     public Personne getIdPersonne() {

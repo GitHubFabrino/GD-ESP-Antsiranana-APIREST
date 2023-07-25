@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ConcoursDto {
 
+
     ConcoursTCIDto concoursTCI;
     ArrayList<CentreConcoursTCIDto> centreConcoursTCI;
     ArrayList<MatiereDto> matiereConcoursTCI;
@@ -18,6 +19,10 @@ public class ConcoursDto {
         this.centreConcoursTCI = centreConcoursTCI;
         this.matiereConcoursTCI = matiereConcoursTCI;
         this.calendrierConcoursTCI = calendrierConcoursTCI;
+        System.out.println(concoursTCI);
+        System.out.println(centreConcoursTCI);
+        System.out.println(matiereConcoursTCI);
+        System.out.println(calendrierConcoursTCI);
     }
 
     public ArrayList<CalendrierConcoursTCIDto> getCalendrierConcoursTCI() {
@@ -51,5 +56,24 @@ public class ConcoursDto {
     public void setMatiereConcoursTCI(ArrayList<MatiereDto> matiereConcoursTCI) {
         this.matiereConcoursTCI = matiereConcoursTCI;
     }
+  /*  @Override
+    public String toString() {
+        return "CalendrierConcoursTCIDto{" +
+                "attribut1='" + concoursTCI + '\'' +
+                ", attribut2='" + centreConcoursTCI + '\'' +
+                ", attribut2='" + matiereConcoursTCI + '\'' +
+                ", attribut2='" + calendrierConcoursTCI + '\'' +
+                '}';
+    }
+*/
 
+    @Override
+    public String toString() {
+        return "ConcoursDto{" +
+                "concoursTCI=" + concoursTCI +
+                ", centreConcoursTCI=" + centreConcoursTCI +
+                ", matiereConcoursTCI=" + matiereConcoursTCI +
+                ", calendrierConcoursTCI=" + calendrierConcoursTCI +
+                '}';
+    }
 }

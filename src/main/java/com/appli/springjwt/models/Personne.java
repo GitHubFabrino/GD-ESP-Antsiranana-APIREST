@@ -15,8 +15,8 @@ public class Personne {
     private Integer id;
 
     @Size(max = 50)
-    @NotNull
-    @Column(name = "nom", nullable = false, length = 50)
+    //@NotNull
+    @Column(name = "nom", nullable = true, length = 50)
     private String nom;
 
     @Size(max = 50)

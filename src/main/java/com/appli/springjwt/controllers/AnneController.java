@@ -44,6 +44,7 @@ public class AnneController {
     public List<Anneeuniv> listAnnee() {
         List<Anneeuniv> annee = anneeunivRepository.findAll();
         Collections.reverse(annee);
+
         return annee;
     }
     @GetMapping("{id}")

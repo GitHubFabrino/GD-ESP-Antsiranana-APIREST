@@ -4,7 +4,19 @@ public class ConcoursTCIDto {
     Integer id;
     String sessionCTCI;
     String anneeCTCI;
+
+
+
     String descriptionCTCI;
+    @Override
+    public String toString() {
+        return "ConcoursTCIDto{" +
+                "id=" + id +
+                ", sessionCTCI='" + sessionCTCI + '\'' +
+                ", anneeCTCI='" + anneeCTCI + '\'' +
+                ", descriptionCTCI='" + descriptionCTCI + '\'' +
+                '}';
+    }
 
     public ConcoursTCIDto() {
     }

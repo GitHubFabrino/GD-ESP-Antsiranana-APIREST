@@ -56,6 +56,7 @@ public class CentreConcourstciService {
                     centre.getIdPersonne().getNom(),
                     centre.getIdPersonne().getPrenoms(),
                     centre.getIdPersonne().getTelephone()
+
             ));
             i+=1;
         }

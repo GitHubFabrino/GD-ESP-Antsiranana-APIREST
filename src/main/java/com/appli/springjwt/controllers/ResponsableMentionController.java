@@ -4,8 +4,10 @@ package com.appli.springjwt.controllers;
 import com.appli.springjwt.dto.DefinitionMentionDto;
 import com.appli.springjwt.service.ResponsableMentionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,13 @@ public class ResponsableMentionController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody DefinitionMentionDto definitionMentionDto){
-        responsableMentionService.save(definitionMentionDto);
+        Integer id_mention = definitionMentionDto.getIdMention();
+        if (!ResponsableMentionService.isid_mention_AlreadyExists(id_mention)){
+            responsableMentionService.save(definitionMentionDto);
+        }else{
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "existe déjà");
+        }
+
     }
 /*
     @PutMapping

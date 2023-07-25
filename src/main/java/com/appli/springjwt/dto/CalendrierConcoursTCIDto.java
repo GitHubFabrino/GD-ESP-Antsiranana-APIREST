@@ -6,6 +6,19 @@ import java.time.LocalTime;
 public class CalendrierConcoursTCIDto {
     Integer idCTCI;
     Integer idMCTCI;
+
+    @Override
+    public String toString() {
+        return "CalendrierConcoursTCIDto{" +
+                "idCTCI=" + idCTCI +
+                ", idMCTCI=" + idMCTCI +
+                ", nomMCTCI='" + nomMCTCI + '\'' +
+                ", dateCalendrierCTCI=" + dateCalendrierCTCI +
+                ", debutHeureCalendrierCTCI=" + debutHeureCalendrierCTCI +
+                ", finHeureCalendrierCTCI=" + finHeureCalendrierCTCI +
+                '}';
+    }
+
     String nomMCTCI;
     LocalDate dateCalendrierCTCI;
 
