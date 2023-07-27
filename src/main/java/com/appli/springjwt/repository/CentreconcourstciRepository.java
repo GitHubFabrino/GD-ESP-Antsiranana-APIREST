@@ -27,5 +27,5 @@ public interface CentreconcourstciRepository extends JpaRepository<Centreconcour
     // Optional<Centreconcourstci> findbyIdCtci(Concourstci idCtci);
    ArrayList<Centreconcourstci> findAllByIdCTCI(Concourstci idCTCI);
 
-    void deleteByIdAndIdCTCI(Integer id,Concourstci idCTCI);
+    void deleteByIdAndIdCTCI(Integer id, Concourstci idCTCI);
 }

@@ -23,6 +23,12 @@ public class EnseignantDto {
         this.email = email;
     }
 
+    public EnseignantDto(Integer id, String nom, String prenoms) {
+        this.id = id;
+        this.nom = nom;
+        this.prenoms = prenoms;
+    }
+
     public Integer getId() {
         return id;
     }

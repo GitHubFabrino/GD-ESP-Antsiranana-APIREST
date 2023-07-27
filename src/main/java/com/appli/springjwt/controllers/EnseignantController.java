@@ -18,14 +18,6 @@ public class EnseignantController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody EnseignantDto enseignantDto){
-    /*
-        if (userRepository.existsByUsername(scolariteDtos.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }else {
-        }
- */
         enseignantService.save(enseignantDto);
     }
 
@@ -36,9 +28,15 @@ public class EnseignantController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') ")
     public ArrayList<EnseignantDto> list() {
          return enseignantService.get();
+    }
+
+    @GetMapping("/nom")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('SCOLARITE')")
+    public ArrayList<EnseignantDto> listInfo() {
+        return enseignantService.getNomPrenom();
     }
 
     @GetMapping("/personne/{id}")

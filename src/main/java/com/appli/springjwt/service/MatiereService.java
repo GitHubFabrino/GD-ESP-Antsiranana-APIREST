@@ -40,6 +40,7 @@ public class MatiereService {
                     calendrier.getIdMCTCI().getNomMCTCI(),
                     calendrier.getIdMCTCI().getCreditMCTCI()
             ));
+            System.out.println("matiereDtos : " + matiereDtos);
             i+=1;
         }
         Collections.reverse(matiereDtos);

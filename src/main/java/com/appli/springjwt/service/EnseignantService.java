@@ -148,6 +148,21 @@ public class EnseignantService {
         }
         return enseignantDtos;
     }
+    public ArrayList<EnseignantDto> getNomPrenom() {
+        List<Enseignant> listenseignant = enseignantRepository.findAll();
+        ArrayList<EnseignantDto> enseignantDtos = new ArrayList<>();
+
+        for(Enseignant enseignant : listenseignant){
+            Integer i = 0;
+            enseignantDtos.add(i, new EnseignantDto(
+                    enseignant.getId(),
+                    enseignant.getIdPersonne().getNom(),
+                    enseignant.getIdPersonne().getPrenoms()
+            ));
+            i+=1;
+        }
+        return enseignantDtos;
+    }
 
     public EnseignantDto getById(Integer id) {
         Personne personne = personneRepository.findById(id).orElseThrow();

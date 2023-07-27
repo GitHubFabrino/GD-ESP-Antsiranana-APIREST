@@ -5,17 +5,6 @@ import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/*@NamedEntityGraph(
-        name="Concours.sansDes",
-        attributeNodes={
-                @NamedAttributeNode("id_CTCI"),
-                @NamedAttributeNode("session_CTCI"),
-                @NamedAttributeNode("annee_CTCI")
-        }
-)
-
- */
-//@NamedEntityGraph(name="concours.sansDes", attributeNodes = {@NamedAttributeNode("session_CTCI"),@NamedAttributeNode("annee_CTCI")})
 @Entity
 @Table(name = "concourstci")
 public class Concourstci {
@@ -30,21 +19,22 @@ public class Concourstci {
     @Column(name = "description_CTCI", length = 200)
     private String descriptionCTCI;
 
-    /*@OneToMany(mappedBy = "idCTCI")
-    private Set<Candidatconcourstci> candidatconcourstcis = new LinkedHashSet<>();
-
-     */
-/*
-    @OneToMany(mappedBy = "concourstci")
-    private Set<Notematiereconcourstci> notematiereconcourstcis = new LinkedHashSet<>();
-
- */
-
     @OneToMany(mappedBy = "idCTCI")
     private Set<Calendrierconcourstci> calendrierconcourstcis = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idCTCI")
     private Set<Centreconcourstci> centreconcourstcis = new LinkedHashSet<>();
+
+    @Override
+    public String toString() {
+        return "Concourstci{" +
+                "id=" + id +
+                ", sessionCTCI='" + sessionCTCI + '\'' +
+                ", descriptionCTCI='" + descriptionCTCI + '\'' +
+                ", calendrierconcourstcis=" + calendrierconcourstcis +
+                ", centreconcourstcis=" + centreconcourstcis +
+                '}';
+    }
 
     public Set<Centreconcourstci> getCentreconcourstcis() {
         return centreconcourstcis;
@@ -61,16 +51,6 @@ public class Concourstci {
     public void setCalendrierconcourstcis(Set<Calendrierconcourstci> calendrierconcourstcis) {
         this.calendrierconcourstcis = calendrierconcourstcis;
     }
-/*
-    public Set<Notematiereconcourstci> getNotematiereconcourstcis() {
-        return notematiereconcourstcis;
-    }
-
-    public void setNotematiereconcourstcis(Set<Notematiereconcourstci> notematiereconcourstcis) {
-        this.notematiereconcourstcis = notematiereconcourstcis;
-    }
-
- */
 
     public Concourstci() {
     }

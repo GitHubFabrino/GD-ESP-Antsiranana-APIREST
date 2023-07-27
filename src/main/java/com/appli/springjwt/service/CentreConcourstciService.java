@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 @Transactional
 @Service
@@ -28,45 +29,50 @@ public class CentreConcourstciService {
     public List<Centreconcourstci> getCentreByConcoursId(Integer numero) {
         Concourstci concourstci =  concourstciRepository.findById(numero).orElseThrow();
         System.out.println(concourstciRepository.findById(numero).orElseThrow());
-        // return centreconcourstciRepository.findbyIdCtci(concourstci);
-        //return centreconcourstciRepository.findAll();
-        //return concourstciRepository.findById(numero).orElseThrow();
-
-        // Mande filtrage par nom centre
-        // return centreconcourstciRepository.findByNomCentrectci("Antananarivo");
-
-        // Mande filtrage par code postale centre
         return centreconcourstciRepository.findByIdCTCI(concourstci);
-        //return null;
+
     }
 
+    public List<CentreConcoursTCIDto> getCentreConcoursList(Integer numero) {
+        Concourstci concourstci = concourstciRepository.findById(numero).orElseThrow();
 
-    public ArrayList<CentreConcoursTCIDto> getCentreConcoursList(Integer numero) {
-        Concourstci concourstci =  concourstciRepository.findById(numero).orElseThrow();
+        List<CentreConcoursTCIDto> centreConcoursTCIDtos = new ArrayList<>();
+        List<Centreconcourstci> objCentreConcoursTCI = centreconcourstciRepository.findAllByIdCTCI(concourstci);
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        // Affichage des données des objets Centreconcourstci contenus dans la liste objCentreConcoursTCI
+        for (Centreconcourstci centre : objCentreConcoursTCI) {
+            System.out.println("ID : " + centre.getId());
+            System.out.println("Nom Centre CTCI : " + centre.getNomCentreCTCI());
+            System.out.println("Code Postal : " + centre.getCodePostale());
+            System.out.println("Nom : " + centre.getIdPersonne().getNom());
+            System.out.println("Prénoms : " + centre.getIdPersonne().getPrenoms());
+            System.out.println("Téléphone : " + centre.getIdPersonne().getTelephone());
+            System.out.println("-------------------------------------");
+        }
 
-        ArrayList<CentreConcoursTCIDto> centreConcoursTCIDtos= new ArrayList<>();
-        ArrayList<Centreconcourstci> ObjCentreConcoursTCI = centreconcourstciRepository.findAllByIdCTCI(concourstci);
-
-        for (Centreconcourstci centre :ObjCentreConcoursTCI ){
-            Integer i = 0;
-            centreConcoursTCIDtos.add(i, new CentreConcoursTCIDto(
+        for (Centreconcourstci centre : objCentreConcoursTCI) {
+            CentreConcoursTCIDto centreDto = new CentreConcoursTCIDto(
                     centre.getId(),
                     centre.getNomCentreCTCI(),
                     centre.getCodePostale(),
                     centre.getIdPersonne().getNom(),
                     centre.getIdPersonne().getPrenoms(),
-                    centre.getIdPersonne().getTelephone()
-
-            ));
-            i+=1;
+                    centre.getIdPersonne().getTelephone(),
+                    centre.getIdCTCI()
+            );
+            centreConcoursTCIDtos.add(centreDto);
         }
+        System.out.println("centreConcoursTCIDtos : " + centreConcoursTCIDtos);
+
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        Collections.reverse(centreConcoursTCIDtos);
         return centreConcoursTCIDtos;
     }
-    public void deleteCentreConcours(Integer id, Integer idCentre) {
+
+    public void deleteCentreConcours(Integer id, Integer idCTCI) {
         centreconcourstciRepository.deleteByIdAndIdCTCI(
-                idCentre,
+                idCTCI,
                 concourstciRepository.findById(id).orElseThrow());
     }
-
 
 }

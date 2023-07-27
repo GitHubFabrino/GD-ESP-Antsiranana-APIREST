@@ -35,6 +35,7 @@ public class Centreconcourstci {
     @OneToMany(mappedBy = "idCentreCTCI", orphanRemoval = true)
     private Set<Candidatconcourstci> candidatconcourstcis = new LinkedHashSet<>();
 
+
     public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Personne idPersonne, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
         this.nomCentreCTCI = nomCentreCTCI;
         this.codePostale = codePostale;
@@ -58,21 +59,9 @@ public class Centreconcourstci {
             Concourstci concours,
             Integer idPersonne) {
     }
-    /*
-    public Centreconcourstci(
-            String nomCentreCTCI,
-            Integer codePostale,
-            Personne personne,
-            Concourstci concours,
-            Integer idPersonne) {
-    }
-    public Centreconcourstci(
-            String nomCentreCTCI,
-            Integer codePostale,
-            Concourstci concours,
-            Integer idPersonne) {
-    }*/
 
+    public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Concourstci concours, Personne idPersonne) {
+    }
 
     public Personne getIdPersonne() {
         return idPersonne;
@@ -81,14 +70,14 @@ public class Centreconcourstci {
     public void setIdPersonne(Personne idPersonne) {
         this.idPersonne = idPersonne;
     }
-    public void setIdPersonne(Integer idPersonne) {
+
+    public void setIdPersonneID(Integer idpersonne) {
         // Créez un nouvel objet Concourstci en utilisant l'ID passé en argument
         Personne personne = new Personne();
-        personne.setId(idPersonne);
+        personne.setId(idpersonne);
         // Affectez l'objet Concourstci à la propriété idCTCI
         this.idPersonne = personne;
     }
-
 
     public Set<Candidatconcourstci> getCandidatconcourstcis() {
         return candidatconcourstcis;
@@ -111,10 +100,7 @@ public class Centreconcourstci {
         return idCTCI;
     }
 
-    //public void setIdCTCI(Concourstci idCTCI) {
-       // this.idCTCI = idCTCI;
-    //}
-    public void setIdCTCI(Integer idCTCI) {
+    public void setIdCTCIINT(Integer idCTCI) {
         // Créez un nouvel objet Concourstci en utilisant l'ID passé en argument
         Concourstci concours = new Concourstci();
         concours.setId(idCTCI);
@@ -131,15 +117,6 @@ public class Centreconcourstci {
         this.idPersonne = idPersonne;
         this.idCTCI = idCTCI;
     }
-/*
-    public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Chefcentreconcourstci idChefCentreCTCI, Concourstci idCTCI) {
-        this.nomCentreCTCI = nomCentreCTCI;
-        this.idChefCentreCTCI = idChefCentreCTCI;
-        this.idCTCI = idCTCI;
-        this.codePostale = codePostale;
-    }
-
- */
 
     public Integer getId() {
         return id;
@@ -160,5 +137,7 @@ public class Centreconcourstci {
         this.nomCentreCTCI = nomCentrectci;
     }
 
-
+    public void setIdCTCI(Concourstci idCTCI) {
+        this.idCTCI = idCTCI;
+    }
 }

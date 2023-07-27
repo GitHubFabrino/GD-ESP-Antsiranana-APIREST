@@ -1,5 +1,8 @@
 package com.appli.springjwt.dto;
 
+import com.appli.springjwt.models.Concourstci;
+import com.appli.springjwt.models.Personne;
+
 import java.util.Optional;
 
 public class CentreConcoursTCIDto {
@@ -10,24 +13,13 @@ public class CentreConcoursTCIDto {
     String prenoms;
     String telephone;
 
-    Integer idPersonne;
-
-    int idCTCI;
+    Personne idPersonne;
+    Concourstci idCTCI;
 
     public CentreConcoursTCIDto() {
     }
 
-    public CentreConcoursTCIDto(String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone, Integer idPersonne, int idCTCI) {
-        this.nomCentreCTCI = nomCentreCTCI;
-        this.codePostale = codePostale;
-        this.nom = nom;
-        this.prenoms = prenoms;
-        this.telephone = telephone;
-        this.idPersonne = idPersonne;
-        this.idCTCI = idCTCI;
-    }
-
-    public CentreConcoursTCIDto(Integer id_centreCTCI, String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone, Integer idPersonne, int idCTCI) {
+    public CentreConcoursTCIDto(Integer id_centreCTCI, String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone, Concourstci idCTCI) {
         this.id_centreCTCI = id_centreCTCI;
         this.nomCentreCTCI = nomCentreCTCI;
         this.codePostale = codePostale;
@@ -37,59 +29,29 @@ public class CentreConcoursTCIDto {
         this.idPersonne = idPersonne;
         this.idCTCI = idCTCI;
     }
-
-    //public Concourstci getIdCTCI() {
-        //return idCTCI;
-    //}
-    public int getIdCTCI() {
-        return idCTCI;
-    }
-
-    /*public void setIdCTCI(idCTCI) {
-        this.idCTCI = idCTCI;
-    }*/
-
-    public void setId_centreCTCI(Integer id_centreCTCI) {
-        this.id_centreCTCI = id_centreCTCI;
-    }
-
-    public void setIdCTCI(int idCTCI) {
-        this.idCTCI = idCTCI;
-    }
-
-    public Integer getIdPersonne() {
-        return idPersonne;
-    }
-
-    public void setIdPersonne(Integer idPersonne) {
-        this.idPersonne = idPersonne;
-    }
-
-    public CentreConcoursTCIDto(Integer id, String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone) {
-    }
-    public Integer getCodePostale() {
-        return codePostale;
-    }
-
-    public void setCodePostale(Integer codePostale) {
-        this.codePostale = codePostale;
-    }
-
 
     public Integer getId_centreCTCI() {
         return id_centreCTCI;
     }
 
-    public void setId(Integer id) {
-        this.id_centreCTCI = id;
+    public void setId_centreCTCI(Integer id_centreCTCI) {
+        this.id_centreCTCI = id_centreCTCI;
     }
 
     public String getNomCentreCTCI() {
         return nomCentreCTCI;
     }
 
-    public void setNomCentreCTCI(String nom_centreCTCI) {
-        this.nomCentreCTCI = nom_centreCTCI;
+    public void setNomCentreCTCI(String nomCentreCTCI) {
+        this.nomCentreCTCI = nomCentreCTCI;
+    }
+
+    public Integer getCodePostale() {
+        return codePostale;
+    }
+
+    public void setCodePostale(Integer codePostale) {
+        this.codePostale = codePostale;
     }
 
     public String getNom() {
@@ -116,15 +78,22 @@ public class CentreConcoursTCIDto {
         this.telephone = telephone;
     }
 
+    public Personne getIdPersonne() {
+        return idPersonne;
+    }
 
-/*
-    public CentreConcoursTCIDto(String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone) {
-        this.nomCentreCTCI = nomCentreCTCI;
-        this.codePostale = codePostale;
-        this.nom = nom;
-        this.prenoms = prenoms;
-        this.telephone = telephone;
-    }*/
+    public void setIdPersonne(Personne idPersonne) {
+        this.idPersonne = idPersonne;
+    }
+
+    public Concourstci getIdCTCI() {
+        return idCTCI;
+    }
+
+    public void setIdCTCI(Concourstci idCTCI) {
+        this.idCTCI = idCTCI;
+    }
+
     @Override
     public String toString() {
         return "CentreConcoursTCIDto{" +
@@ -137,6 +106,4 @@ public class CentreConcoursTCIDto {
                 '}';
     }
 
-    public void setIdCTCI(Optional<Object> id_ctci) {
-    }
 }

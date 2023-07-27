@@ -5,8 +5,6 @@ public class ConcoursTCIDto {
     String sessionCTCI;
     String anneeCTCI;
 
-
-
     String descriptionCTCI;
     @Override
     public String toString() {
