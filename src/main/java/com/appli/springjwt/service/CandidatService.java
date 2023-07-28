@@ -36,22 +36,40 @@ public class CandidatService {
 
         ArrayList<CandidatConcoursDto> objCandidatConcoursDto = dto.getCandidatConcoursTCI();
 
+        System.out.println("eto");
         for (CandidatConcoursDto candidat :objCandidatConcoursDto ){
-
+            System.out.println("ato");
             if (candidat.getId() == null) {
+                System.out.println("Get Id : null ");
                 System.out.println("Candidat: "+ candidat.getNom());
+                System.out.println("Centre d'exam : "+ candidat.getIdCentreCTCI());
 
                 Personne personne = new Personne(candidat.getNom(),candidat.getPrenoms(),candidat.getTelephone());
                 personneRepository.save(personne);
+                System.out.println("Information candidats Apres enregistrer succee dans table personne: ");
+                System.out.println(personne.getId());
+                System.out.println(personne.getNom());
+                System.out.println(personne.getPrenoms());
+               // System.out.println(personne.getId());
 
                 Centreconcourstci centreconcourstci = centreconcourstciRepository.findById(candidat.getIdCentreCTCI()).orElseThrow();
 
                 Candidatconcourstci candidatconcourstci = new Candidatconcourstci(candidat.getNumeroCandidatCTCI(),false,personne,centreconcourstci);
                 candidatconcourstciRepository.save(candidatconcourstci);
+                System.out.println("Information candidats Apres enregistrer succee dans table candidatconcourstci:");
+                System.out.println(candidatconcourstci.getId());
+                System.out.println(candidatconcourstci.getIdCentreCTCI().getNomCentreCTCI());
+                System.out.println(candidatconcourstci.getNumeroCandidatCTCI());
+                System.out.println(candidatconcourstci.getIdPersonne().getNom());
 
             } else{
+                System.out.println("Info candidats avant enregistrement :");
+                System.out.println("Get Id : " + candidat.getId());
+                System.out.println("Get nom : " + candidat.getNom());
+                System.out.println("Get prenom : " + candidat.getPrenoms());
+                System.out.println("Get IdCentreCTCI : " + candidat.getIdCentreCTCI());
 
-                Candidatconcourstci candidat1 = candidatconcourstciRepository.findById(candidat.getId()).orElseThrow();
+                Candidatconcourstci candidat1 = candidatconcourstciRepository.findById(candidat.getId()).orElse(null);
                 candidat1.getIdPersonne().setNom(candidat.getNom());
                 candidat1.getIdPersonne().setPrenoms(candidat.getPrenoms());
                 candidat1.getIdPersonne().setTelephone(candidat.getTelephone());

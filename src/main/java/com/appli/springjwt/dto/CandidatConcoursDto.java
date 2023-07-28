@@ -19,6 +19,12 @@ public class CandidatConcoursDto {
 
     private Integer idCentreCTCI;
 
+    public CandidatConcoursDto(String nom, String prenoms, String telephone) {
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.telephone = telephone;
+    }
+
     public CandidatConcoursDto() {
     }
 
@@ -52,6 +58,14 @@ public class CandidatConcoursDto {
         this.numeroCandidatCTCI = numeroCandidatCTCI;
         this.idCentreCTCI = idCentreCTCI;
     }
+
+    public CandidatConcoursDto(String nom, String prenoms, String telephone, Integer idCentreCTCI) {
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.telephone = telephone;
+        this.idCentreCTCI = idCentreCTCI;
+    }
+
     public Integer getId() {
         return id;
     }

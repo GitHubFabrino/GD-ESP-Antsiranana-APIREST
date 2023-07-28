@@ -1,7 +1,6 @@
 package com.appli.springjwt.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 public class Personne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_personne", nullable = false)
+    @Column(name = "id_personne")
     private Integer id;
 
     @Size(max = 50)
@@ -110,6 +109,13 @@ public class Personne {
     }
 
     public Personne(String nom, String prenoms, String telephone) {
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.telephone = telephone;
+    }
+
+    public Personne(Integer id, String nom, String prenoms, String telephone) {
+        this.id = id;
         this.nom = nom;
         this.prenoms = prenoms;
         this.telephone = telephone;

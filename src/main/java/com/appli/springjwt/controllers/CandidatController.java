@@ -23,10 +23,10 @@ public class CandidatController {
     @PutMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidat(@RequestBody CandidatDto candidat){
-        /*concourstciService.creerPersonne(personne);
-        return authentificationRepository.findAll();
-         */
+        System.out.println(candidat.getCandidatConcoursTCI());
         candidatService.creerCandidat(candidat);
+        System.out.println("api tapitra");
+
         return null;
     }
 

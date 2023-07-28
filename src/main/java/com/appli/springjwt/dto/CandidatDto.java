@@ -6,6 +6,7 @@ public class CandidatDto {
     ArrayList<CandidatConcoursDto> candidatConcoursTCI;
 
     public CandidatDto() {
+        this.candidatConcoursTCI = new ArrayList<>();
     }
 
     public CandidatDto(ArrayList<CandidatConcoursDto> candidatConcoursTCI) {
@@ -13,6 +14,7 @@ public class CandidatDto {
     }
 
     public ArrayList<CandidatConcoursDto> getCandidatConcoursTCI() {
+        System.out.println("Get candidat concour  TCI fonction " + candidatConcoursTCI);
         return candidatConcoursTCI;
     }
 
