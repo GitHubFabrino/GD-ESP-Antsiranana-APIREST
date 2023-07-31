@@ -27,8 +27,6 @@ public class Autorisationinscriptiona {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_niveau", nullable = false)
-
-
     private Niveau idNiveau;
 
     @ManyToOne(fetch = FetchType.LAZY)

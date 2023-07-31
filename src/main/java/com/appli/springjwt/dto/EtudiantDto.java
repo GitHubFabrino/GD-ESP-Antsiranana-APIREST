@@ -1,11 +1,9 @@
 package com.appli.springjwt.dto;
 
-import java.time.LocalDate;
-
 public class EtudiantDto {
 
     Integer id;
-    Integer numeroMatricule;
+    String numeroMatricule;
     Short anneeBacc;
     String statusEtudiant;
     Integer idBacc;
@@ -20,11 +18,11 @@ public class EtudiantDto {
         this.id = id;
     }
 
-    public Integer getNumeroMatricule() {
+    public String getNumeroMatricule() {
         return numeroMatricule;
     }
 
-    public void setNumeroMatricule(Integer numeroMatricule) {
+    public void setNumeroMatricule(String numeroMatricule) {
         this.numeroMatricule = numeroMatricule;
     }
 

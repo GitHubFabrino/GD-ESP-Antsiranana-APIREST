@@ -132,4 +132,10 @@ public class Anneeuniv {
         this.finAU = finAU;
     }
 
+    @Override
+    public String toString() {
+        return "Anneeuniv{" +
+                "id=" + id +
+                '}';
+    }
 }

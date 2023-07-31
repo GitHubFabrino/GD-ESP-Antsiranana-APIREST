@@ -34,23 +34,43 @@ public class InscriptionAdministrativeService {
     AutorisationinscriptionaRepository autorisationinscriptionaRepository;
 
     public void save(ArrayList<InscriptionAdministrativeDto> dto) {
+        System.out.println("save new etudiant ");
         String nombre = "000";
         DecimalFormat nf = new DecimalFormat("000");
         //n.format(20);
-        Integer matricule;
+        String matricule;
 
         for(InscriptionAdministrativeDto inscriptionAdministrativeDto: dto){
 
             Anneeuniv anneeuniv = anneeunivRepository.findTopByOrderByIdDesc().orElseThrow();
+            System.out.println(anneeuniv.getNomAU());
+
             Personne personne = personneRepository.findById(inscriptionAdministrativeDto.getIdPersonne()).orElseThrow();
+            System.out.println(personne.getNom());
+
             Bacc bacc = baccRepository.findById(inscriptionAdministrativeDto.getIdBacc()).orElseThrow();
+            System.out.println("BACC " + bacc.getBacc());
+            System.out.println(" idPersonne " + inscriptionAdministrativeDto.getIdPersonne());
 
-            Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+            Integer id_personne_inscr = inscriptionAdministrativeDto.getIdPersonne();
+            Integer id_Annee_Universitaire = inscriptionAdministrativeDto.getIdAU();
+
+            System.out.println("************************");
+            System.out.println("IdAU : " + id_Annee_Universitaire);
+            System.out.println("IdPersonne : " + id_personne_inscr);
+
+           /* Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
                     personne, anneeuniv
-            );
+            );*/
+            Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+                    personneRepository.findById(id_personne_inscr).orElse(null),
+                    anneeunivRepository.findById(id_Annee_Universitaire).orElse(null));
+            if (autorisation == null) {
+                System.out.println("L'autorisation est null");
+            }
 
-            Niveau niveau = niveauRepository.findById(autorisation.getIdNiveau().getId()).orElseThrow();
-
+          Niveau niveau = niveauRepository.findById(autorisation.getIdNiveau().getId()).orElseThrow();
+            System.out.println(niveau.getNiveau());
             String[] dateSplit = anneeuniv.getNomAU().split(" - ");
             String dateSplit1 = dateSplit[0];
             String dateSplit2 = dateSplit[1];
@@ -59,6 +79,7 @@ public class InscriptionAdministrativeService {
             System.out.println( dateSplit2.substring(dateSplit2.length()-2) );
 
             Etudiant etudiant = new Etudiant();
+            matricule = id_personne_inscr +"/"+ niveau.getNiveau();
 
             if(etudiantRepository.existsByIdPersonne(personne)){
 
@@ -83,13 +104,18 @@ public class InscriptionAdministrativeService {
                 etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
                 etudiant.setIdBacc(bacc);
 
-            } else {
+            }
+            else {
 
                 if(etudiantRepository.count()<1){
-                    matricule = 1 ;
+                    matricule = "" ;
                 }else{
                     // matricule = etudiantRepository.findById(etudiantRepository.count()).orElseThrow().getNumeroMatricule();
-                    matricule = etudiantRepository.findById(intValue(etudiantRepository.count())).orElseThrow().getNumeroMatricule() + 1;
+                    //matricule = etudiantRepository.findById(intValue(etudiantRepository.count())).orElseThrow().getNumeroMatricule() + 1;
+                //matricule = 10;
+
+                 //   matricule = id_personne_inscr +"/"+ niveau.getNiveau();
+
                 }
 
                 personne.setNom(inscriptionAdministrativeDto.getNom());
@@ -109,6 +135,7 @@ public class InscriptionAdministrativeService {
                 personne.setTelephone(inscriptionAdministrativeDto.getTelephone());
                 personne.setEmail(inscriptionAdministrativeDto.getEmail());
 
+
                 etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
                 etudiant.setIdPersonne(personne);
                 etudiant.setNumeroMatricule(matricule);
@@ -121,22 +148,43 @@ public class InscriptionAdministrativeService {
             baccRepository.save(bacc);
             etudiantRepository.save(etudiant);
 
+            System.out.println("amn fonction");
             if(inscriptionadministrativeRepository.existsByIdAuAndIdEtudiant(anneeuniv,etudiant)){
+                System.out.println("anatiny");
                 Inscriptionadministrative inscription = inscriptionadministrativeRepository.findByIdAuAndIdEtudiant(anneeuniv,etudiant).orElseThrow();
 
-                inscription.setValiditeIa(false);
+                if (inscription == null){
+                    System.out.println("null");
+                }else {
+                    System.out.println(" Tsi null");
+                }
+                System.out.println(" id persone " + inscription.getIdEtudiant());
+                System.out.println(anneeuniv.getNomAU());
+                System.out.println(niveau);
+                System.out.println(etudiant);
+
+                inscription.setValiditeIa(true);
                 inscription.setIdAu(anneeuniv);
                 inscription.setIdNiveau(niveau);
                 inscription.setIdEtudiant(etudiant);
                 inscription.getIdEtudiant().setIdBacc(bacc);
 
                 inscriptionadministrativeRepository.save(inscription);
+                System.out.println(" id persone " + inscription.getIdEtudiant());
+                System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
 
             }else {
+                System.out.println("ivelany");
                 Inscriptionadministrative inscription = new Inscriptionadministrative();
 
-                inscription.setValiditeIa(false);
-                inscription.setIdAu(anneeuniv);
+                inscription.setValiditeIa(true);
+
+               System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
+                /*inscription.setIdAu(anneeuniv);
+                System.out.println("id annee " + anneeuniv);*/
+                Anneeuniv anneeUniversitaire = anneeunivRepository.findById(id_Annee_Universitaire).orElseThrow();
+                inscription.setIdAu(anneeUniversitaire);
+                System.out.println("id annee " + anneeUniversitaire);
                 inscription.setIdNiveau(niveau);
                 inscription.setIdEtudiant(etudiant);
                 inscription.getIdEtudiant().setIdBacc(bacc);
@@ -149,6 +197,8 @@ public class InscriptionAdministrativeService {
     public void update(Integer id, InscriptionAdministrativeDto inscriptionAdministrativeDto) {
         Inscriptionadministrative inscriptionadministrative = inscriptionadministrativeRepository.findById(id).orElseThrow();
         inscriptionadministrative.setValiditeIa(inscriptionAdministrativeDto.getValiditeIA());
+
+        System.out.println("update");
 
         inscriptionadministrativeRepository.save(inscriptionadministrative);
     }
@@ -169,6 +219,8 @@ public class InscriptionAdministrativeService {
                     inscription.getIdEtudiant().getIdPersonne().getNom(),
                     inscription.getIdEtudiant().getIdPersonne().getPrenoms()
             ));
+            System.out.println(inscription.getIdEtudiant().getIdPersonne().getNom()
+);
             i += 1;
         }
         return dto;

@@ -20,7 +20,7 @@ public class Etudiant {
     private Personne idPersonne;
 
     @Column(name = "numero_matricule")
-    private Integer numeroMatricule;
+    private String numeroMatricule;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_bacc")
@@ -79,11 +79,11 @@ public class Etudiant {
     }
 
 
-    public Integer getNumeroMatricule() {
+    public String getNumeroMatricule() {
         return numeroMatricule;
     }
 
-    public void setNumeroMatricule(Integer numeroMatricule) {
+    public void setNumeroMatricule(String numeroMatricule) {
         this.numeroMatricule = numeroMatricule;
     }
 
@@ -108,4 +108,18 @@ public class Etudiant {
     }
 
     //TODO [JPA Buddy] generate columns from DB
+
+  /*  @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", idPersonne=" + idPersonne +
+                ", numeroMatricule='" + numeroMatricule + '\'' +
+                ", idBacc=" + idBacc +
+                ", anneeBacc=" + anneeBacc +
+                ", statusEtudiant='" + statusEtudiant + '\'' +
+                ", cursus=" + cursus +
+                ", inscriptionadministratives=" + inscriptionadministratives +
+                '}';
+    }*/
 }
