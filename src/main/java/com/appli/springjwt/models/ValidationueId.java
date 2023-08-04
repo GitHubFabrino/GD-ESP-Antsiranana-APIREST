@@ -49,4 +49,11 @@ public class ValidationueId implements Serializable {
         return Objects.hash(idCursus, idUe);
     }
 
+    @Override
+    public String toString() {
+        return "ValidationueId{" +
+                "idUe=" + idUe +
+                ", idCursus=" + idCursus +
+                '}';
+    }
 }

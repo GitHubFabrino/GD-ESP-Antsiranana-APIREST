@@ -431,12 +431,19 @@ public class ReleveNoteService {
             List<Relevenote> releveNoteList = relevenoteRepository.findByIdCursusAndIdUeEcIn(cursus,ueEcRepository.findByIdIn(ueecList));
             System.out.println(releveNoteList);
             System.out.println("ici R13");
+            ArrayList<Float> note = new ArrayList<>();
+            ArrayList<Byte> value = new ArrayList<>();
             if (releveNoteList != null){
 
                 System.out.println("efa rerak");
+
                 for (Relevenote releveNote : releveNoteList) {
                     System.out.println(releveNote);
                     System.out.println("ici R14");
+                    System.out.println("Note ve ty : " + releveNote.getNote());
+                    note.add(releveNote.getNote().floatValue());
+                    System.out.println("inon jiaby reto : " + releveNote.getIdUeEc().getCreditEc());
+                    System.out.println(" inona ty " + releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
                     moyenneUE = moyenneUE.add(releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
                     System.out.println("moyenneUE " + moyenneUE );
                     System.out.println("ici R15");
@@ -444,6 +451,12 @@ public class ReleveNoteService {
                     System.out.println("credit" + credit);
                     System.out.println("ici R16");
                 }
+                Integer i=0;
+                for (float n : note){
+                    i+=1;
+                    System.out.println("note " +i+": " + n);
+                }
+                //ArrayList<Integer> List = new ArrayList<>();
                 if (credit.floatValue() == 0){
                     moyenneUE = BigDecimal.valueOf(0);
                 }else {
@@ -464,7 +477,6 @@ public class ReleveNoteService {
                 if (validationUE == null){
                     System.out.println("null ra ty attt ato mints");
                     Validationue validationue = new Validationue();
-                    // Validationue validationue = new Validationue();
                     validationue.setIdUe(uniteenseignement);
                     validationue.setIdCursus(cursus);
 
@@ -473,26 +485,68 @@ public class ReleveNoteService {
 
                     if (moyenneUE.compareTo(seuil) < 0){
                         System.out.println("moyenne ambany 10");
-                        //validationue.setValidationUe((byte) 0);
-                        dto.add(new ReleveNoteDto(
-                                programme.getNomUE().get(0),
-                                ueecList,
-                                nomECList,
-                                noteECList,
-                                moyenneUE.floatValue(),
-                                credit.floatValue(),
-                                (byte) 0//validationUE.getValidationUe()
-                        ));
+                        validationue.setValidationUe((byte) 0);
                     } else {
                         System.out.println("moyenne ambony 10");
-                        //validationue.setValidationUe((byte) 1);
-                    }
 
+                        for (float n : note) {
+                            if (n >= 10) {
+                                value.clear();
+                                value.add((byte) 1);
+                            } else if (n < 10 && n >= 3) {
+                                value.clear();
+                                value.add((byte) 2);
+                                break;
+                            } else if (n < 3) {
+                                value.clear();
+                                value.add((byte) 0);
+                                break;
+                            }
+                        }
+                        validationue.setValidationUe((byte) value.get(0));
+                        System.out.println("ok");
+                    }
+                    validationueRepository.save(validationue);
+
+                }else {
+                    Validationue validationUETY = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
+                    System.out.println(" TSY null ra ty attt ato mints");
+                   // Validationue validationue = new Validationue();
+                    validationUETY.setIdUe(uniteenseignement);
+                    validationUETY.setIdCursus(cursus);
+
+                    System.out.println("MOYENNE UE" + moyenneUE);
+                    BigDecimal seuil = BigDecimal.TEN;
+
+                    if (moyenneUE.compareTo(seuil) < 0){
+                        System.out.println("moyenne ambany 10");
+                        validationUETY.setValidationUe((byte) 0);
+                    } else {
+                        System.out.println("moyenne ambony 10");
+
+                        for (float n : note) {
+                            if (n >= 10) {
+                                value.clear();
+                                value.add((byte) 1);
+                            } else if (n < 10 && n >= 3) {
+                                value.clear();
+                                value.add((byte) 2);
+                                break;
+                            } else if (n < 3) {
+                                value.clear();
+                                value.add((byte) 0);
+                                break;
+                            }
+                        }
+                        validationUETY.setValidationUe((byte) value.get(0));
+                        System.out.println("ok");}
+                    validationueRepository.save(validationUETY);
                 }
+
                 Validationue validationU = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
                 System.out.println(validationU);
                 System.out.println("ici R19");
-                if (moyenneUE.floatValue() >= 10 ){
+               /* if (moyenneUE.floatValue() >= 10 ){
                     System.out.println("moyenne ambony 10");
                     dto.add(new ReleveNoteDto(
                             programme.getNomUE().get(0),
@@ -501,10 +555,11 @@ public class ReleveNoteService {
                             noteECList,
                             moyenneUE.floatValue(),
                             credit.floatValue(),
-                            (byte) 1//validationUE.getValidationUe()
+                            //(byte) 1
+                            validationU.getValidationUe()
                     ));
-                }
-                /*
+                }*/
+
                dto.add(new ReleveNoteDto(
                         programme.getNomUE().get(0),
                         ueecList,
@@ -512,11 +567,29 @@ public class ReleveNoteService {
                         noteECList,
                         moyenneUE.floatValue(),
                         credit.floatValue(),
-                        (byte) 1//validationUE.getValidationUe()
-                ));*/
-                System.out.println(validationUE);
+                        validationU.getValidationUe()
+                ));
+                System.out.println(validationU.getId());
                 System.out.println("ici R20");
             }
+            /*for (float n : note) {
+                if (n >= 10) {
+                    value.clear();
+                    value.add((byte) 1);
+                } else if (n < 10 && n >= 3) {
+                    value.clear();
+                    value.add((byte) 2);
+                    break;
+                } else if (n < 3) {
+                    value.clear();
+                    value.add((byte) 0);
+                    break;
+                }
+            }*/
+            /*System.out.println(note);
+            System.out.println(value);
+            System.out.println(value.get(0));*/
+            System.out.println("ici R21");
 
 /*
             Validationue validationue = new Validationue();
