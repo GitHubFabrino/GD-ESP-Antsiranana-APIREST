@@ -162,4 +162,27 @@ public class ProgrammeDto {
     public void setVolumeHoraireTotal(Integer volumeHoraireTotal) {
         this.volumeHoraireTotal = volumeHoraireTotal;
     }
+
+    @Override
+    public String toString() {
+        return "ProgrammeDto{" +
+                "id=" + id +
+                ", idDP=" + idDP +
+                ", idUEEC=" + idUEEC +
+                ", idEnseignant=" + idEnseignant +
+                ", idUE=" + idUE +
+                ", codeUE=" + codeUE +
+                ", nomUE='" + nomUE + '\'' +
+                ", idEC=" + idEC +
+                ", creditEC=" + creditEC +
+                ", codeEC='" + codeEC + '\'' +
+                ", nomEC='" + nomEC + '\'' +
+                ", coefficientEC=" + coefficientEC +
+                ", volumeHoraireET=" + volumeHoraireET +
+                ", volumeHoraireED=" + volumeHoraireED +
+                ", volumeHoraireTP=" + volumeHoraireTP +
+                ", volumeHoraireAutre=" + volumeHoraireAutre +
+                ", volumeHoraireTotal=" + volumeHoraireTotal +
+                '}';
+    }
 }

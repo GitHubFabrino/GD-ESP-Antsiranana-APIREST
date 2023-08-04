@@ -15,6 +15,8 @@ import java.util.*;
 @Service
 public class CandidatService {
     @Autowired
+    EtudiantRepository etudiantRepository;
+    @Autowired
     PersonneRepository personneRepository;
     @Autowired
     CentreconcourstciRepository centreconcourstciRepository;
@@ -160,10 +162,16 @@ public class CandidatService {
 
         //ArrayList<CandidatConcoursDto> objCandidatConcoursDto = dto.getCandidatConcoursTCI();
 
+
         for (CandidatConcoursDto candidat :dto ){
             Candidatconcourstci candidat1 = candidatconcourstciRepository.findById(candidat.getId()).orElseThrow();
             candidat1.setPassationCandidatCTCI(candidat.getPassationCandidatCTCI());
+            System.out.println(candidat.getStatus_etudiant());
+            System.out.println(candidat.getNom() + candidat.getPrenoms());
+            //Etudiant etudiant = etudiantRepository.findById(candidat.getId()).orElseThrow();
+            //etudiant.setStatusEtudiant(candidat.getStatus_etudiant());
 
+            //etudiantRepository.save(etudiant);
             candidatconcourstciRepository.save(candidat1);
 
         }

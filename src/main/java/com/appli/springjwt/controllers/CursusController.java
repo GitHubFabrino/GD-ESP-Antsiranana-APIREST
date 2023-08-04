@@ -18,6 +18,10 @@ public class CursusController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public void post(@RequestBody CursusDto cursusDto){
+        System.out.println(cursusDto.getIdEtudiant());
+        System.out.println(cursusDto.getEmail());
+        System.out.println(cursusDto.getTelephone());
+        System.out.println(cursusDto.getIdDP());
         cursusService.save(cursusDto);
     }
 

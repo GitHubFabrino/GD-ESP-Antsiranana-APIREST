@@ -75,4 +75,15 @@ public class Uniteenseignement {
         this.idEnseignant = idEnseignant;
     }
 
+    @Override
+    public String toString() {
+        return "Uniteenseignement{" +
+                "id=" + id +
+                ", codeUe='" + codeUe + '\'' +
+                ", nomUe='" + nomUe + '\'' +
+                ", creditUe=" + creditUe +
+                ", idEnseignant=" + idEnseignant +
+                ", idDp=" + idDp +
+                '}';
+    }
 }

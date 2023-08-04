@@ -139,5 +139,21 @@ public class UeEc {
         this.idEnseignant = idEnseignant;
     }
 
-
+    @Override
+    public String toString() {
+        return "UeEc{" +
+                "id=" + id +
+                ", creditEc=" + creditEc +
+                ", coefficientEc=" + coefficientEc +
+                ", volumeHoraireEt=" + volumeHoraireEt +
+                ", volumeHoraireEd=" + volumeHoraireEd +
+                ", volumeHoraireTp=" + volumeHoraireTp +
+                ", volumeHoraireAutre=" + volumeHoraireAutre +
+                ", volumeHoraireTotal=" + volumeHoraireTotal +
+                ", idEc=" + idEc +
+                ", idUe=" + idUe +
+                ", idEnseignant=" + idEnseignant +
+                ", programmeenseignements=" + programmeenseignements +
+                '}';
+    }
 }

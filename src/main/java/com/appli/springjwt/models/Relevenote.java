@@ -75,5 +75,14 @@ public class Relevenote {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Relevenote{" +
+                "id=" + id +
+                ", idCursus=" + idCursus +
+                ", note=" + note +
+                ", idUeEc=" + idUeEc +
+                ", cloturer=" + cloturer +
+                '}';
+    }
 }

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class ReleveNoteService {
+
     @Autowired
     RelevenoteRepository relevenoteRepository;
     @Autowired
@@ -104,6 +105,7 @@ public class ReleveNoteService {
 
         for (Map.Entry<Integer, List<Cursus>> cursus : cursusListDpMap.entrySet()) {
             c += 1;
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
             System.out.println("c:" + c);
             Etudiant etudiant = etudiantRepository.findById(cursus.getKey()).orElse(null);
             Resultatfinau resultatfinau = resultatfinauRepository.findByIdEtudiantAndIdDp(
@@ -181,32 +183,49 @@ public class ReleveNoteService {
         return etudiantDTOList;
     }
 
+    //Méthode qui calcule les moyennes générales des étudiants en fonction de leurs résultats académiques
     public ArrayList<MoyenneGeneraleDto> getNoteDP(Integer id1, Integer id2) {
 
+        // Liste qui stockera les moyennes générales des étudiants
         ArrayList<MoyenneGeneraleDto> etudiantDTOList = new ArrayList<>();
 
+        // Variable qui stockera la moyenne finale
         BigDecimal moyenneFinale = BigDecimal.valueOf(0);
+
+        // Récupération de la liste des cursus associés au programme d'études id1
         List<Cursus> cursusList = cursusRepository.findAllByIdDp(definitionparcourRepository.findById(id1).orElseThrow());
 
+        // Récupération de la liste des programmes d'enseignement associés aux programmes d'études id1 et id2
         List<Programmeenseignement> idPeList = programmeenseignementRepository.findByIdDpIn(Arrays.asList(definitionparcourRepository.findById(id1).orElseThrow(), definitionparcourRepository.findById(id2).orElseThrow()));
 
+        // Récupération de la liste des UeEc associés aux programmes d'enseignement trouvés précédemment
         List<UeEc> ueEcList = idPeList.stream().map(Programmeenseignement::getIdUeEc).collect(Collectors.toList());
+
+        // Récupération de la liste des cursus associés aux programmes d'études id1 et id2
         List<Cursus> cursusListDp = cursusRepository.findByIdDpIn(Arrays.asList(definitionparcourRepository.findById(id1).orElseThrow(), definitionparcourRepository.findById(id2).orElseThrow()));
         // List<Relevenote> relevenoteList = relevenoteRepository.findByIdCursusInAndIdPeIn(cursusListDp,idPeList);
 
+        // Création d'une map pour grouper les cursus par identifiant d'étudiant
         Map<Integer, List<Cursus>> cursusListDpMap = cursusListDp.stream().collect(Collectors.groupingBy(etu -> etu.getIdEtudiant().getId()));
         System.out.println(" SIZE cursusListDpMap = "+ cursusListDpMap.size());
         Integer c = 0;
 
         Byte codeRedoublement =null;
 
+        // Boucle pour traiter chaque étudiant
         for (Map.Entry<Integer, List<Cursus>> cursus : cursusListDpMap.entrySet()) {
             c += 1;
             System.out.println("c:" + c);
+
+            // Récupération de l'objet étudiant à partir de son identifiant
             Etudiant etudiant = etudiantRepository.findById(cursus.getKey()).orElse(null);
+
+            // Récupération de l'objet Resultatfinau associé à l'étudiant et au programme d'études id2
             Resultatfinau resultatfinau = resultatfinauRepository.findByIdEtudiantAndIdDp(
                     etudiant,
                     definitionparcourRepository.findById(id2).orElse(null)).orElse(null);
+
+            // Vérification si l'objet Resultatfinau est trouvé
             if(resultatfinau == null){
                 codeRedoublement =null;
             }else {
@@ -256,12 +275,28 @@ public class ReleveNoteService {
                      */
                 }
             }
+            if (credit.floatValue() == 0 || moyenneGenerale.floatValue() == 0){
+                System.out.println("zero be");
+                System.out.println("credit pour etudiant no "+ credit);
+                System.out.println("TOTAL NOTE : "+ moyenneGenerale);
 
-            System.out.println("credit pour etudiant no "+ credit);
+                moyenneGenerale = BigDecimal.valueOf(0);
+                System.out.println(" MOYENNE =" + moyenneGenerale);
+
+            }else {
+                System.out.println("credit pour etudiant no "+ credit);
+                System.out.println("TOTAL NOTE : "+ moyenneGenerale);
+
+                moyenneGenerale = moyenneGenerale.divide(credit,new MathContext(3));
+                System.out.println(" MOYENNE =" + moyenneGenerale);
+            }
+
+            // Eto ilay mety fa nasina condution
+            /*System.out.println("credit pour etudiant no "+ credit);
             System.out.println("TOTAL NOTE : "+ moyenneGenerale);
-
             moyenneGenerale = moyenneGenerale.divide(credit,new MathContext(3));
             System.out.println(" MOYENNE =" + moyenneGenerale);
+            */
             etudiantDTOList.add(new MoyenneGeneraleDto(etudiant.getId(), etudiant.getIdPersonne().getNom(), etudiant.getIdPersonne().getPrenoms(), moyenneGenerale,codeRedoublement));
 
             /*
@@ -328,51 +363,178 @@ public class ReleveNoteService {
     }
 
     public ArrayList<ReleveNoteDto> getReleveEtudiant(Integer idEtudiant, Integer idDp1) {
+        System.out.println("donnee : " + idEtudiant + "// "+ idDp1);
+        System.out.println("********************************************************************************************");
         List<ProgrammeGetDto> pe1 = programmeService.getByIdDp(idDp1);
+        System.out.println("ici R1");
+        System.out.println(pe1);
         ArrayList<ReleveNoteDto> dto = new ArrayList<>();
+        System.out.println("ici R2");
+        System.out.println(dto);
+        System.out.println("ici R3");
+        System.out.println(etudiantRepository.findById(idEtudiant));
+        System.out.println("ici R4");
+        System.out.println(definitionparcourRepository.findById(idDp1));
+        System.out.println("ici R5");
+
         Cursus cursus = cursusRepository.findByIdEtudiantAndIdDp(
-                etudiantRepository.findById(idEtudiant).orElseThrow(),
-                definitionparcourRepository.findById(idDp1).orElseThrow()).orElseThrow();
+                etudiantRepository.findById(idEtudiant).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé")),
+                definitionparcourRepository.findById(idDp1).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"))).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"));
+        System.out.println("ici R6");
+        System.out.println(cursus.getId() +" //" + cursus.getIdEtudiant());
+
+        if (cursus == null){
+            System.out.println( "null ra ty ayyy");
+        }else {
+            System.out.println( "tsy null ayyy");
+        }
 
         for(ProgrammeGetDto programme : pe1){
+            System.out.println("ici R7");
+            System.out.println("Programme " + programme);
             ArrayList<Float> noteECList = new ArrayList<>();
             ArrayList<String> nomECList = new ArrayList<>();
             BigDecimal moyenneUE = BigDecimal.valueOf(0);
             BigDecimal credit = BigDecimal.valueOf(0);
 
+            System.out.println("ici R8");
             ArrayList<Integer> ueecList = programme.getIdUEEC();
-
+            System.out.println("   " + ueecList);
+            System.out.println("ici R9");
             for(Integer idUEEC:ueecList){
+                System.out.println("cursus.getId()" + cursus.getId());
+                System.out.println("idUEEC" + idUEEC);
+                System.out.println("ici R10");
                 Relevenote releve = relevenoteRepository.findByIdCursusAndIdUeEc(
                         cursus,
                         ueEcRepository.findById(idUEEC).orElseThrow()
-                ).orElseThrow();
-                noteECList.add(releve.getNote().floatValue());
+                ).orElse(null);
+                if (releve != null){
+                    noteECList.add(releve.getNote().floatValue());
+                    System.out.println(noteECList);
+                    System.out.println("ici R11");
+                }
+                /*noteECList.add(releve.getNote().floatValue());
+                System.out.println(noteECList);
+                System.out.println("ici R11");*/
             }
 
+            System.out.println(programme.getNomUE());
             for( ElementConstitutifDto nomEC: programme.getNomEC()){
                 nomECList.add(nomEC.getNomEC());
+                System.out.println(nomECList);
+                System.out.println("ici R12");
             }
-
+            System.out.println("--------------------------------------");
+            System.out.println("ueecList" + ueecList);
+            //System.out.println(ueEcRepository.findByIdIn(ueecList));
             List<Relevenote> releveNoteList = relevenoteRepository.findByIdCursusAndIdUeEcIn(cursus,ueEcRepository.findByIdIn(ueecList));
-            for (Relevenote releveNote : releveNoteList) {
-                moyenneUE = moyenneUE.add(releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
-                credit = credit.add(releveNote.getIdUeEc().getCreditEc());
+            System.out.println(releveNoteList);
+            System.out.println("ici R13");
+            if (releveNoteList != null){
+
+                System.out.println("efa rerak");
+                for (Relevenote releveNote : releveNoteList) {
+                    System.out.println(releveNote);
+                    System.out.println("ici R14");
+                    moyenneUE = moyenneUE.add(releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
+                    System.out.println("moyenneUE " + moyenneUE );
+                    System.out.println("ici R15");
+                    credit = credit.add(releveNote.getIdUeEc().getCreditEc());
+                    System.out.println("credit" + credit);
+                    System.out.println("ici R16");
+                }
+                if (credit.floatValue() == 0){
+                    moyenneUE = BigDecimal.valueOf(0);
+                }else {
+                    moyenneUE = moyenneUE.divide(credit,new MathContext(3));
+                    System.out.println("moyenneUE " + moyenneUE );
+                    System.out.println("ici R17");
+                }
             }
-            moyenneUE = moyenneUE.divide(credit,new MathContext(3));
 
-            Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(programme.getIdUE().get(0)).orElseThrow();
-            Validationue validationUE = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElseThrow();
+            Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(programme.getIdUE().get(0)).orElse(null);
+            System.out.println(uniteenseignement);
+            System.out.println("éto zahay");
+            if (uniteenseignement !=null){
+                System.out.println("ici R18");
+                System.out.println("uniteenseignement" + uniteenseignement);
+                System.out.println(cursus);
+                Validationue validationUE = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
+                if (validationUE == null){
+                    System.out.println("null ra ty attt ato mints");
+                    Validationue validationue = new Validationue();
+                    // Validationue validationue = new Validationue();
+                    validationue.setIdUe(uniteenseignement);
+                    validationue.setIdCursus(cursus);
 
-            dto.add(new ReleveNoteDto(
-                    programme.getNomUE().get(0),
-                    ueecList,
-                    nomECList,
-                    noteECList,
-                    moyenneUE.floatValue(),
-                    credit.floatValue(),
-                    validationUE.getValidationUe()
-            ));
+                    System.out.println("MOYENNE UE" + moyenneUE);
+                    BigDecimal seuil = BigDecimal.TEN;
+
+                    if (moyenneUE.compareTo(seuil) < 0){
+                        System.out.println("moyenne ambany 10");
+                        //validationue.setValidationUe((byte) 0);
+                        dto.add(new ReleveNoteDto(
+                                programme.getNomUE().get(0),
+                                ueecList,
+                                nomECList,
+                                noteECList,
+                                moyenneUE.floatValue(),
+                                credit.floatValue(),
+                                (byte) 0//validationUE.getValidationUe()
+                        ));
+                    } else {
+                        System.out.println("moyenne ambony 10");
+                        //validationue.setValidationUe((byte) 1);
+                    }
+
+                }
+                Validationue validationU = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
+                System.out.println(validationU);
+                System.out.println("ici R19");
+                if (moyenneUE.floatValue() >= 10 ){
+                    System.out.println("moyenne ambony 10");
+                    dto.add(new ReleveNoteDto(
+                            programme.getNomUE().get(0),
+                            ueecList,
+                            nomECList,
+                            noteECList,
+                            moyenneUE.floatValue(),
+                            credit.floatValue(),
+                            (byte) 1//validationUE.getValidationUe()
+                    ));
+                }
+                /*
+               dto.add(new ReleveNoteDto(
+                        programme.getNomUE().get(0),
+                        ueecList,
+                        nomECList,
+                        noteECList,
+                        moyenneUE.floatValue(),
+                        credit.floatValue(),
+                        (byte) 1//validationUE.getValidationUe()
+                ));*/
+                System.out.println(validationUE);
+                System.out.println("ici R20");
+            }
+
+/*
+            Validationue validationue = new Validationue();
+            System.out.println("MOYENNE UE" + moyenneUE);
+            BigDecimal seuil = BigDecimal.TEN;
+            if ( moyenneUE.compareTo(seuil) < 0){
+                validationue.setIdUe(uniteenseignement);
+                validationue.setIdCursus(cursus);
+                validationue.setValidationUe((byte) 0);
+                validationueRepository.save(validationue);
+            }else{
+                validationue.setIdUe(uniteenseignement);
+                validationue.setIdCursus(cursus);
+                validationue.setValidationUe((byte) 1);
+                validationueRepository.save(validationue);
+            }*/
+            //System.out.println("uniteenseignement");
+
         }
         return dto;
     }

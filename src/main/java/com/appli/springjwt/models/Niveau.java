@@ -33,4 +33,11 @@ public class Niveau {
         this.niveau = niveau;
     }
 
+    @Override
+    public String toString() {
+        return "Niveau{" +
+                "id=" + id +
+                ", niveau='" + niveau + '\'' +
+                '}';
+    }
 }

@@ -13,6 +13,21 @@ public class CursusDto {
  String email;
  ArrayList<Integer> idDP;
 
+ String status_etudiant;
+
+ public CursusDto(Integer id, Boolean validiteCurcus, Boolean validiteIP, Integer idEtudiant, String nom, String prenoms, String telephone, String email, ArrayList<Integer> idDP, String status_etudiant) {
+  this.id = id;
+  this.validiteCurcus = validiteCurcus;
+  this.validiteIP = validiteIP;
+  this.idEtudiant = idEtudiant;
+  this.nom = nom;
+  this.prenoms = prenoms;
+  this.telephone = telephone;
+  this.email = email;
+  this.idDP = idDP;
+  this.status_etudiant = status_etudiant;
+ }
+
  public CursusDto() {
  }
 
@@ -42,6 +57,13 @@ public class CursusDto {
   this.email = email;
  }
 
+ public String getStatus_etudiant() {
+  return status_etudiant;
+ }
+
+ public void setStatus_etudiant(String status_etudiant) {
+  this.status_etudiant = status_etudiant;
+ }
 
  public Integer getIdEtudiant() {
   return idEtudiant;

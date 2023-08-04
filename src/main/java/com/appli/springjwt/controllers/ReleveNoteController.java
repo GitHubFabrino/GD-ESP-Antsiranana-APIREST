@@ -27,24 +27,28 @@ public class ReleveNoteController {
     @GetMapping("/ueec/{idUEEC}/dp/{idDp}")
     @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<MoyenneEtudiantDto> getNote(@PathVariable("idUEEC") Integer idUEEC, @PathVariable("idDp") Integer idDp){
-            return releveNoteService.getNote(idUEEC,idDp);
+        System.out.println("teste1");
+        return releveNoteService.getNote(idUEEC,idDp);
     }
 
     @GetMapping("/dp/{idDp1}/{idDp2}")
     @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<MoyenneGeneraleDto> getMoyenneSemestre(@PathVariable("idDp1") Integer idDp1, @PathVariable("idDp2") Integer idDp2){
+        System.out.println("eto minsty");
         return releveNoteService.getNoteDP(idDp1,idDp2);
     }
 
     @GetMapping("/etudiant/{idEtudiant}/dp/{idDp1}/{idDp2}")
     @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<MoyenneGeneraleDto> getMoyenneEtudiant(@PathVariable("idEtudiant") Integer idEtudiant,@PathVariable("idDp1") Integer idDp1,@PathVariable("idDp2") Integer idDp2){
+        System.out.println("eto mijery releve olona raiky");
         return releveNoteService.getNoteDPEtudiant(idEtudiant,idDp1,idDp2);
     }
 
     @GetMapping("/etudiant/{idEtudiant}/dp/{idDp1}")
     @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<ReleveNoteDto> getReleveEtudiant(@PathVariable("idEtudiant") Integer idEtudiant, @PathVariable("idDp1") Integer idDp1){
+        System.out.println("teste2");
         return releveNoteService.getReleveEtudiant(idEtudiant,idDp1);
     }
 

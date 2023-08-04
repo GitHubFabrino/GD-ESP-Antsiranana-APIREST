@@ -109,6 +109,14 @@ public class Etudiant {
 
     //TODO [JPA Buddy] generate columns from DB
 
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", idPersonne=" + idPersonne +
+                '}';
+    }
+
   /*  @Override
     public String toString() {
         return "Etudiant{" +

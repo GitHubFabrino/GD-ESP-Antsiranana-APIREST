@@ -45,6 +45,7 @@ public class CandidatController {
     @PutMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidatConcours(@RequestBody ArrayList<CandidatConcoursDto> candidat){
+        System.out.println(candidat);
         candidatService.creerCandidatConcours(candidat);
         return null;
     }

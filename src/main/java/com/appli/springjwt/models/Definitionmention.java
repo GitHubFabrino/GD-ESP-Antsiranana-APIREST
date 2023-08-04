@@ -55,5 +55,13 @@ public class Definitionmention {
         this.idEnseignant = idEnseignant;
     }
 
-
+    @Override
+    public String toString() {
+        return "Definitionmention{" +
+                "id=" + id +
+                ", idAu=" + idAu +
+                ", idMention=" + idMention +
+                ", idEnseignant=" + idEnseignant +
+                '}';
+    }
 }

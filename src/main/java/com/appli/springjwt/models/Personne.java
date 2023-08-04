@@ -283,5 +283,31 @@ public class Personne {
         this.authentification = authentification;
     }
 
-
+    @Override
+    public String toString() {
+        return "Personne{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenoms='" + prenoms + '\'' +
+                ", sexe='" + sexe + '\'' +
+                ", dateNaissance=" + dateNaissance +
+                ", lieuNaissance='" + lieuNaissance + '\'' +
+                ", villeNaissance='" + villeNaissance + '\'' +
+                ", paysNaissance='" + paysNaissance + '\'' +
+                ", nationalite='" + nationalite + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", numeroCIN='" + numeroCIN + '\'' +
+                ", dateDelivreCIN=" + dateDelivreCIN +
+                ", villeDelivreCIN='" + villeDelivreCIN + '\'' +
+                ", affiliation1='" + affiliation1 + '\'' +
+                ", affiliation2='" + affiliation2 + '\'' +
+                ", anneeEntree=" + anneeEntree +
+                ", telephone='" + telephone + '\'' +
+                ", direction=" + direction +
+                ", authentification=" + authentification +
+                ", email='" + email + '\'' +
+                ", enseignant=" + enseignant +
+                ", scolarite=" + scolarite +
+                '}';
+    }
 }

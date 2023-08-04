@@ -53,4 +53,13 @@ public class Validationue {
         this.validationUe = validationUe;
     }
 
+    @Override
+    public String toString() {
+        return "Validationue{" +
+                "id=" + id +
+                ", idUe=" + idUe +
+                ", idCursus=" + idCursus +
+                ", validationUe=" + validationUe +
+                '}';
+    }
 }

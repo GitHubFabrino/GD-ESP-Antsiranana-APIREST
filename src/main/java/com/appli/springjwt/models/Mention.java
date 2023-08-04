@@ -55,5 +55,13 @@ public class Mention {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Mention{" +
+                "id=" + id +
+                ", acronymeMention='" + acronymeMention + '\'' +
+                ", mention='" + mention + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

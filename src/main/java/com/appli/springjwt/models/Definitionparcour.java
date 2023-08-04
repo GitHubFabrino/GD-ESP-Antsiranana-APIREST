@@ -108,4 +108,12 @@ public class Definitionparcour {
         this.idParcours = idParcours;
     }
 
+    @Override
+    public String toString() {
+        return "Definitionparcour{" +
+                "id=" + id +
+                ", idNiveau=" + idNiveau +
+                ", idDm=" + idDm +
+                '}';
+    }
 }

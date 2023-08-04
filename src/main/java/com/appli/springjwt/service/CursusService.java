@@ -40,37 +40,67 @@ public class CursusService {
         Etudiant etudiant = etudiantRepository.findById(cursusDto.getIdEtudiant()).orElseThrow();
         etudiant.getIdPersonne().setTelephone(cursusDto.getTelephone());
         etudiant.getIdPersonne().setEmail(cursusDto.getEmail());
-        etudiantRepository.save(etudiant);
+        System.out.println(cursusDto.getIdDP());
+        System.out.println(etudiant.getStatusEtudiant());
+        System.out.println(cursusDto.getStatus_etudiant());
+        etudiant.setStatusEtudiant(cursusDto.getStatus_etudiant());
 
-        List<Definitionparcour> iddpList = etudiant.getCursus().stream().collect(Collectors.toList()).subList(0, 1).stream().map(Cursus::getIdDp).collect(Collectors.toList());
-        ArrayList<BigDecimal> noteList = new ArrayList<>();
+        etudiantRepository.save(etudiant);
+    System.out.println(etudiant.getStatusEtudiant());
+
+        //List<Definitionparcour> iddpList = etudiant.getCursus().stream().collect(Collectors.toList()).subList(0, 1).stream().map(Cursus::getIdDp).collect(Collectors.toList());
+    /*List<Definitionparcour> iddpList = new ArrayList<>();
+    if (!etudiant.getCursus().isEmpty()) {
+        iddpList = etudiant.getCursus().stream()
+                .map(Cursus::getIdDp)
+                .collect(Collectors.toList());
+    }*/
+    List<Definitionparcour> iddpList = new ArrayList<>();
+    if (!cursusDto.getIdDP().isEmpty()) {
+        for (Integer idDP : cursusDto.getIdDP()) {
+            Definitionparcour dp = definitionparcourRepository.findById(idDP).orElseThrow();
+            iddpList.add(dp);
+        }
+    }
+    ArrayList<BigDecimal> noteList = new ArrayList<>();
+    System.out.println("ici 1");
 
         for(Integer idDP: cursusDto.getIdDP()){
             Cursus cursus = new Cursus();
             Definitionparcour dp = definitionparcourRepository.findById(idDP).orElseThrow();
+            System.out.println("ici 2");
 
             if(cursusRepository.existsByIdEtudiantAndIdDp(etudiant,dp)){
-
-            }else {
+                System.out.println("ici cursus miexiste");
+            }
+            else {
+                System.out.println("ici 3");
                 if (etudiant.getStatusEtudiant().equalsIgnoreCase("REDOUBLANT")) {
-
+                    System.out.println("ici 4");
                     for (Definitionparcour idDPLast : iddpList) {
+                        System.out.println(idDPLast.getId());
+                        System.out.println("ici 6");
+
                         ArrayList<ReleveNoteDto> releveList = releveNoteService.getReleveEtudiant(cursusDto.getIdEtudiant(), idDPLast.getId());
-
+                        System.out.println("ici 7");
                         for (ReleveNoteDto releve : releveList) {
+                            System.out.println("ici 8");
                             if (releve.getValidationUE() == 1 || releve.getValidationUE() == 0) {
-
+                                System.out.println("ici 9");
                                 for (int i = 0; i < releve.getNomEC().size(); i++) {
+                                    System.out.println("ici 10");
                                     Integer idUeEC = releve.getIdUEEC().get(i);
                                     UeEc ueEc = ueEcRepository.findById(idUeEC).orElseThrow();
+                                    System.out.println("ici 11");
                                     List<UeEc> ueecList = programmeService.findUeEcByDpMap(dp);
-
+                                    System.out.println("ici 12");
                                     if (ueecList.contains(ueEc)) {
                                         Relevenote releveNew = new Relevenote();
                                         releveNew.setIdUeEc(ueEc);
                                         releveNew.setIdCursus(cursus);
                                         releveNew.setNote(BigDecimal.valueOf(releve.getNoteEC().get(i)));
 
+                                        System.out.println("ici cursus avant save");
                                         cursusRepository.save(cursus);
                                         relevenoteRepository.save(releveNew);
                                     }
@@ -89,7 +119,10 @@ public class CursusService {
                         }
                     }
                 } else {
+                    System.out.println("ici 5");
+                    System.out.println("ici cursus avant save else");
                     cursus.setValiditeCurcus(false);
+                    cursus.setValiditeIp(true);
                     cursus.setIdEtudiant(etudiant);
                     cursus.setIdDp(dp);
                     cursusRepository.save(cursus);

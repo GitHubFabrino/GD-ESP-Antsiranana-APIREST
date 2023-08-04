@@ -68,4 +68,14 @@ public class Cursus {
         this.idDp = idDp;
     }
 
+    @Override
+    public String toString() {
+        return "Cursus{" +
+                "id=" + id +
+                ", validiteCurcus=" + validiteCurcus +
+                ", idEtudiant=" + idEtudiant +
+                ", idDp=" + idDp +
+                ", validiteIp=" + validiteIp +
+                '}';
+    }
 }

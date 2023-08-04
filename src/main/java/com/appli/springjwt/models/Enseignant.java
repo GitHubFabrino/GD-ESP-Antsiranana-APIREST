@@ -91,4 +91,12 @@ public class Enseignant {
         this.idPersonne = idPersonne;
     }
 
+    @Override
+    public String toString() {
+        return "Enseignant{" +
+                "id=" + id +
+                ", numeroMatricule='" + numeroMatricule + '\'' +
+
+                '}';
+    }
 }

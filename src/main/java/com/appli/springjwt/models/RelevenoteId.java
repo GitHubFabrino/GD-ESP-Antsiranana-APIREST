@@ -49,4 +49,11 @@ public class RelevenoteId implements Serializable {
         return Objects.hash(idUeEc, idCursus);
     }
 
+    @Override
+    public String toString() {
+        return "RelevenoteId{" +
+                "idCursus=" + idCursus +
+                ", idUeEc=" + idUeEc +
+                '}';
+    }
 }
