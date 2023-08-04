@@ -382,12 +382,12 @@ public class ReleveNoteService {
                 definitionparcourRepository.findById(idDp1).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"))).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"));
         System.out.println("ici R6");
         System.out.println(cursus.getId() +" //" + cursus.getIdEtudiant());
-
+/*
         if (cursus == null){
             System.out.println( "null ra ty ayyy");
         }else {
             System.out.println( "tsy null ayyy");
-        }
+        }*/
 
         for(ProgrammeGetDto programme : pe1){
             System.out.println("ici R7");
@@ -414,9 +414,6 @@ public class ReleveNoteService {
                     System.out.println(noteECList);
                     System.out.println("ici R11");
                 }
-                /*noteECList.add(releve.getNote().floatValue());
-                System.out.println(noteECList);
-                System.out.println("ici R11");*/
             }
 
             System.out.println(programme.getNomUE());
@@ -451,12 +448,11 @@ public class ReleveNoteService {
                     System.out.println("credit" + credit);
                     System.out.println("ici R16");
                 }
-                Integer i=0;
+                /*Integer i=0;
                 for (float n : note){
                     i+=1;
                     System.out.println("note " +i+": " + n);
-                }
-                //ArrayList<Integer> List = new ArrayList<>();
+                }*/
                 if (credit.floatValue() == 0){
                     moyenneUE = BigDecimal.valueOf(0);
                 }else {
@@ -546,20 +542,6 @@ public class ReleveNoteService {
                 Validationue validationU = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
                 System.out.println(validationU);
                 System.out.println("ici R19");
-               /* if (moyenneUE.floatValue() >= 10 ){
-                    System.out.println("moyenne ambony 10");
-                    dto.add(new ReleveNoteDto(
-                            programme.getNomUE().get(0),
-                            ueecList,
-                            nomECList,
-                            noteECList,
-                            moyenneUE.floatValue(),
-                            credit.floatValue(),
-                            //(byte) 1
-                            validationU.getValidationUe()
-                    ));
-                }*/
-
                dto.add(new ReleveNoteDto(
                         programme.getNomUE().get(0),
                         ueecList,
@@ -572,42 +554,7 @@ public class ReleveNoteService {
                 System.out.println(validationU.getId());
                 System.out.println("ici R20");
             }
-            /*for (float n : note) {
-                if (n >= 10) {
-                    value.clear();
-                    value.add((byte) 1);
-                } else if (n < 10 && n >= 3) {
-                    value.clear();
-                    value.add((byte) 2);
-                    break;
-                } else if (n < 3) {
-                    value.clear();
-                    value.add((byte) 0);
-                    break;
-                }
-            }*/
-            /*System.out.println(note);
-            System.out.println(value);
-            System.out.println(value.get(0));*/
             System.out.println("ici R21");
-
-/*
-            Validationue validationue = new Validationue();
-            System.out.println("MOYENNE UE" + moyenneUE);
-            BigDecimal seuil = BigDecimal.TEN;
-            if ( moyenneUE.compareTo(seuil) < 0){
-                validationue.setIdUe(uniteenseignement);
-                validationue.setIdCursus(cursus);
-                validationue.setValidationUe((byte) 0);
-                validationueRepository.save(validationue);
-            }else{
-                validationue.setIdUe(uniteenseignement);
-                validationue.setIdCursus(cursus);
-                validationue.setValidationUe((byte) 1);
-                validationueRepository.save(validationue);
-            }*/
-            //System.out.println("uniteenseignement");
-
         }
         return dto;
     }
