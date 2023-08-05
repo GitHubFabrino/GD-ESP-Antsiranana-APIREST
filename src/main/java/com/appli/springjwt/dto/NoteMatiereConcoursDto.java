@@ -59,4 +59,14 @@ public class NoteMatiereConcoursDto {
     public void setCandidatNotesDto(ArrayList<Candidats> candidats) {
         this.candidats = candidats;
     }
+
+    @Override
+    public String toString() {
+        return "NoteMatiereConcoursDto{" +
+                "idCTCI=" + idCTCI +
+                ", idCentreCTCI=" + idCentreCTCI +
+                ", matiere=" + matiere +
+                ", candidats=" + candidats +
+                '}';
+    }
 }

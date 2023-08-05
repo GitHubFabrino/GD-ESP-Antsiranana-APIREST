@@ -70,4 +70,14 @@ public class Candidats {
     public void setNotes(ArrayList<BigDecimal> notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return "Candidats{" +
+                "idCandidatCTCI=" + idCandidatCTCI +
+                ", nom='" + nom + '\'' +
+                ", prenoms='" + prenoms + '\'' +
+                ", notes=" + notes +
+                '}';
+    }
 }

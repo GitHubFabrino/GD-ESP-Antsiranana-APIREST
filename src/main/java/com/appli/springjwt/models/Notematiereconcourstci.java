@@ -132,16 +132,17 @@ public class Notematiereconcourstci {
     public void setId(NotematiereconcourstciId id) {
         this.id = id;
     }
-/*
-    public Matiereconcourstci getIdMctci() {
-        return idMctci;
+
+    @Override
+    public String toString() {
+        return "Notematiereconcourstci{" +
+                "id=" + id +
+                ", idCtci=" + idCtci +
+                ", idCentrectci=" + idCentrectci +
+                ", noteMctci=" + noteMctci +
+                ", idCandidatctci=" + idCandidatctci +
+                ", idMctci=" + idMctci +
+                '}';
     }
-
-    public void setIdMctci(Matiereconcourstci idMctci) {
-        this.idMctci = idMctci;
-    }
-
- */
-
-    //TODO [JPA Buddy] generate columns from DB
+//TODO [JPA Buddy] generate columns from DB
 }

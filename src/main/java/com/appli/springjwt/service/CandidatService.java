@@ -119,28 +119,54 @@ public class CandidatService {
 
     public ArrayList<CandidatConcoursDto> getCandidatConcoursList(Integer idConcours,Integer idCentre) {
         BigDecimal somme = BigDecimal.valueOf(0);
+        System.out.println("CD1");
+        System.out.println("Donne recu : ");
+        System.out.println("idConcours : " + idConcours);
+        System.out.println("idCentre : " +idCentre);
         Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
+        System.out.println("concourstci : " + concourstci);
+        System.out.println("CD2");
+
         List<Centreconcourstci> centreconcourstci = centreconcourstciRepository.findByIdCTCI(concourstci);
+        System.out.println("centreconcourstci : " + centreconcourstci);
+        System.out.println("CD3");
 
         Centreconcourstci centre = centreconcourstciRepository.findById(idCentre).orElseThrow();
+        System.out.println("centre : " + centre);
+        System.out.println("CD4");
 
         Integer centreConcours = null;
         for (Centreconcourstci centreconcours: centreconcourstci ){
             if(centreconcours.getNomCentreCTCI().equals(centre.getNomCentreCTCI())){
                 centreConcours = centreconcours.getId();
+                System.out.println("centreConcours : " + centreConcours);
+                System.out.println("CD5");
             }
         }
 
         ArrayList<CandidatConcoursDto> candidatConcoursDtos= new ArrayList<>();
         ArrayList<Candidatconcourstci> ObjCandidatconcourstci = candidatconcourstciRepository.findAllByIdCentreCTCI(centreconcourstciRepository.findById(centreConcours).orElseThrow());
+        System.out.println("ObjCandidatconcourstci : " + ObjCandidatconcourstci);
+        System.out.println("CD6");
 
         for (Candidatconcourstci candidat :ObjCandidatconcourstci ){
             Integer i = 0;
             somme = BigDecimal.valueOf(0);
             Set<Notematiereconcourstci> notematiereconcourstci = candidat.getNotematiereconcourstcis();
+            System.out.println("notematiereconcourstci : " + notematiereconcourstci);
+            System.out.println("CD7");
+
             for (Notematiereconcourstci notematiere: notematiereconcourstci){
+                System.out.println("notematiere : " + notematiere);
                 somme = somme.add(notematiere.getNoteMctci());
+                System.out.println("somme : " + somme);
+                System.out.println("CD8");
             }
+            System.out.println("somme TOTAL : " + somme);
+            System.out.println("CD9");
+
+            System.out.println("notematiereconcourstci.size(): " + notematiereconcourstci.size());
+            System.out.println("CD10");
 
             candidatConcoursDtos.add(i,new CandidatConcoursDto(
                     candidat.getId(),
@@ -151,7 +177,10 @@ public class CandidatService {
                     somme.divide(BigDecimal.valueOf(notematiereconcourstci.size())),
                     candidat.getPassationCandidatCTCI()
             ));
+
             System.out.println(candidatConcoursDtos.get(i).getNom());
+            System.out.println("Moyenne GENERALE: " +  somme.divide(BigDecimal.valueOf(notematiereconcourstci.size())));
+            System.out.println("CD11");
             i+=1;
         }
 
