@@ -2,6 +2,7 @@ package com.appli.springjwt.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -20,6 +21,18 @@ public class Matiereconcourstci {
     @Column(name = "credit_MCTCI")
     private Byte creditMCTCI;
 /*
+    private BigDecimal creditMCTCIDecimal;
+
+    public BigDecimal getCreditMCTCIDecimal() {
+        creditMCTCIDecimal = BigDecimal.valueOf(getCreditMCTCI());
+        return creditMCTCIDecimal;
+    }
+
+    public void setCreditMCTCIDecimal(BigDecimal creditMCTCIDecimal) {
+        this.creditMCTCIDecimal = creditMCTCIDecimal;
+    }
+*/
+    /*
     @OneToMany(mappedBy = "idMctci")
     private Set<Notematiereconcourstci> notematiereconcourstcis = new LinkedHashSet<>();
 
@@ -73,8 +86,18 @@ public class Matiereconcourstci {
         return creditMCTCI;
     }
 
+
     public void setCreditMCTCI(Byte creditMCTCI) {
         this.creditMCTCI = creditMCTCI;
     }
 
+    @Override
+    public String toString() {
+        return "Matiereconcourstci{" +
+                "id=" + id +
+                ", nomMCTCI='" + nomMCTCI + '\'' +
+                ", creditMCTCI=" + creditMCTCI +
+                ", calendrierconcourstcis=" + calendrierconcourstcis +
+                '}';
+    }
 }

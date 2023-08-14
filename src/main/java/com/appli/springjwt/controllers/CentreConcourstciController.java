@@ -1,6 +1,9 @@
 package com.appli.springjwt.controllers;
 
+import com.appli.springjwt.models.CentreConcours;
 import com.appli.springjwt.models.Centreconcourstci;
+import com.appli.springjwt.repository.CentreConcoursRepository;
+import com.appli.springjwt.service.CentreConcoursService;
 import com.appli.springjwt.service.CentreConcourstciService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,10 +18,37 @@ public class CentreConcourstciController {
     @Autowired
     CentreConcourstciService concourstciService;
 
+
+    @Autowired
+    CentreConcoursService centreConcoursService;
+
+    @Autowired
+    CentreConcoursRepository centreConcoursRepository;
+
+
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Centreconcourstci> listCentre() {
         return concourstciService.getConcoursList();
+    }
+
+
+    @GetMapping(path = "/concours")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    public List<CentreConcours> getMatiereconcou(){
+        System.out.println("Donnée getée : ");
+        System.out.println(centreConcoursService.getAllCentreConcours());
+        return centreConcoursService.getAllCentreConcours();
+    }
+
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    public void postCentreConcours(@RequestBody CentreConcours CentreConcours){
+        System.out.println("Donnée recus : ");
+        System.out.println(CentreConcours);
+        centreConcoursRepository.save(CentreConcours);
+        System.out.println("Centre ajoutée");
     }
 
 }

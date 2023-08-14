@@ -179,6 +179,9 @@ public class NoteMatiereConcoursService {
             notematiereconcoursDtos.setCandidatNotesDto(candidatsList);
             System.out.println("notematiereconcoursDtos : " + notematiereconcoursDtos);
             System.out.println("G15");
+
+            // TODO vita verificztion niany
+
             return notematiereconcoursDtos;
 
         }catch (Exception e){

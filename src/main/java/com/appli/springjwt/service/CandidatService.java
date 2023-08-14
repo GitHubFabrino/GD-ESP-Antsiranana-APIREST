@@ -119,6 +119,8 @@ public class CandidatService {
 
     public ArrayList<CandidatConcoursDto> getCandidatConcoursList(Integer idConcours,Integer idCentre) {
         BigDecimal somme = BigDecimal.valueOf(0);
+        //BigDecimal credit = BigDecimal.ZERO;
+        byte credit = 0 ;
         System.out.println("CD1");
         System.out.println("Donne recu : ");
         System.out.println("idConcours : " + idConcours);
@@ -159,12 +161,19 @@ public class CandidatService {
             for (Notematiereconcourstci notematiere: notematiereconcourstci){
                 System.out.println("notematiere : " + notematiere);
                 somme = somme.add(notematiere.getNoteMctci());
+                System.out.println("credit : " + notematiere.getIdMctci().getCreditMCTCI());
+                byte creditMCTCIByte = notematiere.getIdMctci().getCreditMCTCI();
+                //BigDecimal creditMCTCI = new BigDecimal(creditMCTCIByte);
+                System.out.println("credit : " + creditMCTCIByte);
+
+                credit += creditMCTCIByte;
+                System.out.println("somme des credit : " + credit);
                 System.out.println("somme : " + somme);
                 System.out.println("CD8");
             }
             System.out.println("somme TOTAL : " + somme);
             System.out.println("CD9");
-
+          //  System.out.println( " Moyenne teste : " +somme.divide(credit));
             System.out.println("notematiereconcourstci.size(): " + notematiereconcourstci.size());
             System.out.println("CD10");
 
@@ -182,6 +191,7 @@ public class CandidatService {
             System.out.println("Moyenne GENERALE: " +  somme.divide(BigDecimal.valueOf(notematiereconcourstci.size())));
             System.out.println("CD11");
             i+=1;
+            // TODO vita verification niany
         }
 
         return candidatConcoursDtos;
