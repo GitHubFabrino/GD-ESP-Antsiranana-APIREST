@@ -175,6 +175,8 @@ public class ConcourstciService {
             Concourstci concours = concourstciRepository.findById(objConcoursTCIDto.getId()).orElseThrow();
             concours.setSessionCTCI(objConcoursTCIDto.getSessionCTCI());
             concours.setDescriptionCTCI(objConcoursTCIDto.getDescriptionCTCI());
+            concours.setDateDebutConcours(objConcoursTCIDto.getDateDebutConcours());
+            concours.setDateFinConcours(objConcoursTCIDto.getDateFinConcours());
             concourstciRepository.save(concours);
             System.out.println("=========== concours enregistrer ilay misy id  : "+concours);
             // Maintenant que l'enregistrement est effectué, vous pouvez récupérer l'ID du concours
