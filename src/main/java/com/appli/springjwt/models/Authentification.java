@@ -15,7 +15,7 @@ public class Authentification {
   @Column(name = "pseudo")
   private String username;
 
-  @Column(name = "MOT_DE_PASSE")
+  @Column(name = "MOT_DE_PASSE",nullable = true)
   private String password;
 
   @OneToOne(fetch = FetchType.EAGER, optional = false)
@@ -24,6 +24,9 @@ public class Authentification {
 
   @Column(name = "activation")
   private Boolean activation;
+
+  @Column(name = "pass_word",nullable = true)
+  private String pass_word;
 
   public Personne getIdPersonne() {
     return idPersonne;
@@ -57,10 +60,35 @@ public class Authentification {
     this.fonctions = fonctions;
   }
 
+  public Authentification(String username, String password, Personne idPersonne, String pass_word, Set<Fonction> fonctions) {
+    this.username = username;
+    this.password = password;
+    this.idPersonne = idPersonne;
+    this.pass_word = pass_word;
+    this.fonctions = fonctions;
+  }
+
   public Authentification(String username, String password) {
     this.username = username;
     this.password = password;
   }
+
+  public Authentification(Long id, String username, String password, Personne idPersonne, Boolean activation, String pass_word, Set<Fonction> fonctions) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.idPersonne = idPersonne;
+    this.activation = activation;
+    this.pass_word = pass_word;
+    this.fonctions = fonctions;
+  }
+
+  public Authentification(Personne idPersonne, String pass_word) {
+    this.idPersonne = idPersonne;
+    this.pass_word = pass_word;
+  }
+
+
 
   public Long getId() {
     return id;
@@ -92,5 +120,32 @@ public class Authentification {
 
   public void setRoles(Set<Fonction> fonctions) {
     this.fonctions = fonctions;
+  }
+
+  public String getPass_word() {
+    return pass_word;
+  }
+
+  public void setPass_word(String pass_word) {
+    this.pass_word = pass_word;
+  }
+/*
+  @Override
+  public String toString() {
+    return "Authentification{" +
+            "username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", idPersonne=" + idPersonne +
+            '}';
+  }*/
+
+  @Override
+  public String toString() {
+    return "Authentification{" +
+            "username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", idPersonne=" + idPersonne +
+            ", pass_word='" + pass_word + '\'' +
+            '}';
   }
 }

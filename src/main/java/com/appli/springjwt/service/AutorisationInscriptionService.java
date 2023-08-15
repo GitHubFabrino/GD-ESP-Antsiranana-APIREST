@@ -34,6 +34,9 @@ public class AutorisationInscriptionService {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    AuthentificationRepository authentificationRepository;
+
     public Candidatconcourstci creerAutorisation(Integer idConcours, AutorisationDto autorisationDto) {
 
         Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
@@ -112,7 +115,9 @@ public class AutorisationInscriptionService {
 
                 Authentification authentification = userRepository.findByUsername(pseudo).orElseThrow();
                 //Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass));
+                authentification.setPass_word(randomPass);
                 authentification.setPassword(encoder.encode(randomPass));
+                userRepository.save(authentification);
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
 
                 return new AuthentificationDto(pseudo, randomPass);
@@ -125,7 +130,7 @@ public class AutorisationInscriptionService {
             authentification.setIdPersonne(authentification.getIdPersonne());
             authentification.setRoles(fonctions);
 */
-                Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass), autorisationinscriptiona.getIdPersonne(), fonctions);
+                Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass), autorisationinscriptiona.getIdPersonne(),randomPass, fonctions);
                 userRepository.save(authentification);
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
 
@@ -144,13 +149,40 @@ public class AutorisationInscriptionService {
 
         for (Autorisationinscriptiona autorisation : autorisationinscriptiona) {
             Integer i = 0;
-            autorisationDto.add(i, new AutorisationDto(
-                    autorisation.getId(),
-                    autorisation.getIdPersonne().getNom(),
-                    autorisation.getIdPersonne().getPrenoms(),
-                    autorisation.getNumeroRecu(),
-                    autorisation.getAutorisation()
-            ));
+
+            System.out.println(autorisation.getIdPersonne());
+           Authentification password = authentificationRepository.findByIdPersonne(autorisation.getIdPersonne());
+           if (password!= null){
+               System.out.println("PASSWORD " + password.getPass_word());
+               autorisationDto.add(i, new AutorisationDto(
+                       autorisation.getId(),
+                       autorisation.getIdPersonne().getNom(),
+                       autorisation.getIdPersonne().getPrenoms(),
+                       autorisation.getNumeroRecu(),
+                       autorisation.getAutorisation()
+                       ,password.getPass_word(),
+                       password.getUsername()
+               ));
+               System.out.println(password.getUsername());
+           }else{
+               autorisationDto.add(i, new AutorisationDto(
+                       autorisation.getId(),
+                       autorisation.getIdPersonne().getNom(),
+                       autorisation.getIdPersonne().getPrenoms(),
+                       autorisation.getNumeroRecu(),
+                       autorisation.getAutorisation()
+               ));
+           }
+
+
+
+
+
+      /*      password.setPass_word("Aucune mot de passe");
+            authentificationRepository.save(password);*/
+
+
+
             i += 1;
         }
         Collections.reverse(autorisationDto);
@@ -185,33 +217,42 @@ public class AutorisationInscriptionService {
             Niveau niveau = niveauRepository.findById(id).orElseThrow();
             Anneeuniv anneeuniv = anneeunivRepository.findById(idAnnee).orElseThrow();
 
-                if (!autorisationinscriptionaRepository.existsByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau)) {
-                    Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona();
-                    System.out.println("NIVEAU ACTUEL : "+niveau.getNiveau());
-                    if(dto.getCodeRedoublement()==1 || dto.getCodeRedoublement()==2 || dto.getCodeRedoublement()==3){
-                        if (niveau.getNiveau().equalsIgnoreCase("L1") ) {
-                            autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("L2").orElseThrow());
-                        } else if (niveau.getNiveau().equalsIgnoreCase("L2")) {
-                            autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("L3").orElseThrow());
-                        } else if (niveau.getNiveau().equalsIgnoreCase("L3")) {
-                            autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("M1").orElseThrow());
-                        } else if (niveau.getNiveau().equalsIgnoreCase("M1")) {
-                            autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("M2").orElseThrow());
-                        } else {
-                            autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("D").orElseThrow());
-                        }
-
-                    } else if (dto.getCodeRedoublement()==4) {
-                        autorisationinscriptiona.setIdNiveau(niveau);
+            if (!autorisationinscriptionaRepository.existsByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau)) {
+                Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona();
+                System.out.println("NIVEAU ACTUEL : "+niveau.getNiveau());
+                if(dto.getCodeRedoublement()==1 || dto.getCodeRedoublement()==2 || dto.getCodeRedoublement()==3){
+                    if (niveau.getNiveau().equalsIgnoreCase("L1") ) {
+                        autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("L2").orElseThrow());
+                    } else if (niveau.getNiveau().equalsIgnoreCase("L2")) {
+                        autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("L3").orElseThrow());
+                    } else if (niveau.getNiveau().equalsIgnoreCase("L3")) {
+                        autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("M1").orElseThrow());
+                    } else if (niveau.getNiveau().equalsIgnoreCase("M1")) {
+                        autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("M2").orElseThrow());
+                    } else {
+                        autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("D").orElseThrow());
                     }
-                    autorisationinscriptiona.setIdPersonne(personne);
-                    autorisationinscriptiona.setIdAu(anneeuniv);
-                    autorisationinscriptiona.setAutorisation(false);
-                    autorisationinscriptionaRepository.save(autorisationinscriptiona);
 
-                } else {
+                } else if (dto.getCodeRedoublement()==4) {
+                    autorisationinscriptiona.setIdNiveau(niveau);
                 }
+                autorisationinscriptiona.setIdPersonne(personne);
+                autorisationinscriptiona.setIdAu(anneeuniv);
+                autorisationinscriptiona.setAutorisation(false);
+                autorisationinscriptionaRepository.save(autorisationinscriptiona);
+
+            } else {
+            }
         }
     }
+/*
+    public void ajouterpassword(Authentification auth) {
+        Authentification password = authentificationRepository.findByIdPersonne(auth.getIdPersonne());
+        System.out.println("PASSWORD " + password);
+
+        password.setPass_word(auth.getPass_word());
+        authentificationRepository.save(password);
+
+    }*/
 }
 

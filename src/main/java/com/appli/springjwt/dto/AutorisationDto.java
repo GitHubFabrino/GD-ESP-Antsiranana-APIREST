@@ -12,6 +12,10 @@ public class AutorisationDto {
     String niveau;
     Byte codeRedoublement;
 
+    String pass_word ;
+
+    String username;
+
     public AutorisationDto() {
     }
 
@@ -23,11 +27,38 @@ public class AutorisationDto {
         this.autorisation = autorisation;
     }
 
+    public AutorisationDto(Integer id, String nom, String prenoms, String numeroRecu, Boolean autorisation, String pass_word) {
+        this.id = id;
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.numeroRecu = numeroRecu;
+        this.autorisation = autorisation;
+        this.pass_word = pass_word;
+    }
+
+    public AutorisationDto(Integer id, String nom, String prenoms, String numeroRecu, Boolean autorisation, String pass_word, String username) {
+        this.id = id;
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.numeroRecu = numeroRecu;
+        this.autorisation = autorisation;
+        this.pass_word = pass_word;
+        this.username = username;
+    }
+
     public AutorisationDto(String nom, String prenoms, String numeroRecu, Boolean autorisation) {
         this.nom = nom;
         this.prenoms = prenoms;
         this.numeroRecu = numeroRecu;
         this.autorisation = autorisation;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getId() {
@@ -108,5 +139,13 @@ public class AutorisationDto {
 
     public void setCodeRedoublement(Byte codeRedoublement) {
         this.codeRedoublement = codeRedoublement;
+    }
+
+    public String getPass_word() {
+        return pass_word;
+    }
+
+    public void setPass_word(String pass_word) {
+        this.pass_word = pass_word;
     }
 }

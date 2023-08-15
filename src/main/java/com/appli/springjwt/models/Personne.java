@@ -283,6 +283,7 @@ public class Personne {
         this.authentification = authentification;
     }
 
+    /*
     @Override
     public String toString() {
         return "Personne{" +
@@ -308,6 +309,13 @@ public class Personne {
                 ", email='" + email + '\'' +
                 ", enseignant=" + enseignant +
                 ", scolarite=" + scolarite +
+                '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "Personne{" +
+                "id=" + id +
                 '}';
     }
 }

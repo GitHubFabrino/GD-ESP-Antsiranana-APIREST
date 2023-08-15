@@ -33,6 +33,17 @@ public class Autorisationinscriptiona {
     @JoinColumn(name = "id_AU")
     private Anneeuniv idAu;
 
+    @Column(name = "pass_word",nullable = true)
+    private String pass_word;
+
+    public String getPass_word() {
+        return pass_word;
+    }
+
+    public void setPass_word(String pass_word) {
+        this.pass_word = pass_word;
+    }
+
     public Anneeuniv getIdAu() {
         return idAu;
     }
@@ -51,13 +62,31 @@ public class Autorisationinscriptiona {
         this.idAu = idAu;
     }
 
+    public Autorisationinscriptiona(Boolean autorisation, Personne idPersonne, Niveau idNiveau, Anneeuniv idAu, String pass_word) {
+        this.autorisation = autorisation;
+        this.idPersonne = idPersonne;
+        this.idNiveau = idNiveau;
+        this.idAu = idAu;
+        this.pass_word = pass_word;
+    }
+
     public Autorisationinscriptiona(Boolean autorisation, Personne idPersonne, Niveau idNiveau) {
         this.autorisation = autorisation;
         this.idPersonne = idPersonne;
         this.idNiveau = idNiveau;
     }
 
+    public Autorisationinscriptiona(Boolean autorisation, Personne idPersonne, Niveau idNiveau, String pass_word) {
+        this.autorisation = autorisation;
+        this.idPersonne = idPersonne;
+        this.idNiveau = idNiveau;
+        this.pass_word = pass_word;
+    }
 
+    public Autorisationinscriptiona(Personne idPersonne, String pass_word) {
+        this.idPersonne = idPersonne;
+        this.pass_word = pass_word;
+    }
 
     public Integer getId() {
         return id;
@@ -99,4 +128,10 @@ public class Autorisationinscriptiona {
         this.idNiveau = idNiveau;
     }
 
+    @Override
+    public String toString() {
+        return "Autorisationinscriptiona{" +
+                "idPersonne=" + idPersonne +
+                '}';
+    }
 }
