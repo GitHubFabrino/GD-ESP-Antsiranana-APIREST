@@ -19,7 +19,7 @@ public class Matiereconcourstci {
     private String nomMCTCI;
 
     @Column(name = "credit_MCTCI")
-    private Byte creditMCTCI;
+    private BigDecimal creditMCTCI;
 /*
     private BigDecimal creditMCTCIDecimal;
 
@@ -62,7 +62,7 @@ public class Matiereconcourstci {
     public Matiereconcourstci() {
     }
 
-    public Matiereconcourstci(String nomMCTCI, Byte creditMCTCI) {
+    public Matiereconcourstci(String nomMCTCI, BigDecimal creditMCTCI) {
         this.nomMCTCI = nomMCTCI;
         this.creditMCTCI = creditMCTCI;
     }
@@ -82,12 +82,12 @@ public class Matiereconcourstci {
         this.nomMCTCI = NomMCTCI;
     }
 
-    public Byte getCreditMCTCI() {
+    public BigDecimal getCreditMCTCI() {
         return creditMCTCI;
     }
 
 
-    public void setCreditMCTCI(Byte creditMCTCI) {
+    public void setCreditMCTCI(BigDecimal creditMCTCI) {
         this.creditMCTCI = creditMCTCI;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Transactional
@@ -119,8 +120,8 @@ public class CandidatService {
 
     public ArrayList<CandidatConcoursDto> getCandidatConcoursList(Integer idConcours,Integer idCentre) {
         BigDecimal somme = BigDecimal.valueOf(0);
-        //BigDecimal credit = BigDecimal.ZERO;
-        byte credit = 0 ;
+        BigDecimal credit = BigDecimal.valueOf(0);
+        //byte credit = 0 ;
         System.out.println("CD1");
         System.out.println("Donne recu : ");
         System.out.println("idConcours : " + idConcours);
@@ -154,41 +155,49 @@ public class CandidatService {
         for (Candidatconcourstci candidat :ObjCandidatconcourstci ){
             Integer i = 0;
             somme = BigDecimal.valueOf(0);
+            credit = BigDecimal.valueOf(0);
             Set<Notematiereconcourstci> notematiereconcourstci = candidat.getNotematiereconcourstcis();
             System.out.println("notematiereconcourstci : " + notematiereconcourstci);
             System.out.println("CD7");
 
             for (Notematiereconcourstci notematiere: notematiereconcourstci){
-                System.out.println("notematiere : " + notematiere);
-                somme = somme.add(notematiere.getNoteMctci());
+                System.out.println("notematiere : " + notematiere.getNoteMctci());
                 System.out.println("credit : " + notematiere.getIdMctci().getCreditMCTCI());
-                byte creditMCTCIByte = notematiere.getIdMctci().getCreditMCTCI();
-                //BigDecimal creditMCTCI = new BigDecimal(creditMCTCIByte);
-                System.out.println("credit : " + creditMCTCIByte);
+                BigDecimal creditMCTCI = notematiere.getIdMctci().getCreditMCTCI();
+                BigDecimal NoteWithCoef = notematiere.getNoteMctci().multiply(creditMCTCI) ;
+                System.out.println("Note avec coef " + NoteWithCoef);
+                somme = somme.add(NoteWithCoef);
+                System.out.println("credit : " + creditMCTCI);
 
-                credit += creditMCTCIByte;
+                credit = credit.add(creditMCTCI) ;
                 System.out.println("somme des credit : " + credit);
                 System.out.println("somme : " + somme);
                 System.out.println("CD8");
             }
-            System.out.println("somme TOTAL : " + somme);
+            System.out.println("somme TOTAL Moyenne: " + somme);
+            System.out.println("somme TOTAL Credit : " + credit);
             System.out.println("CD9");
-          //  System.out.println( " Moyenne teste : " +somme.divide(credit));
             System.out.println("notematiereconcourstci.size(): " + notematiereconcourstci.size());
             System.out.println("CD10");
 
-            candidatConcoursDtos.add(i,new CandidatConcoursDto(
-                    candidat.getId(),
-                    candidat.getIdPersonne().getNom(),
-                    candidat.getIdPersonne().getPrenoms(),
-                    candidat.getIdPersonne().getTelephone(),
-                    candidat.getNumeroCandidatCTCI(),
-                    somme.divide(BigDecimal.valueOf(notematiereconcourstci.size())),
-                    candidat.getPassationCandidatCTCI()
-            ));
+            if (!credit.equals(BigDecimal.ZERO)){
+                System.out.println(somme.divide(credit , 2 , RoundingMode.HALF_UP));
+                BigDecimal moyenne = somme.divide(credit , 2 , RoundingMode.HALF_UP);
+                candidatConcoursDtos.add(i,new CandidatConcoursDto(
+                        candidat.getId(),
+                        candidat.getIdPersonne().getNom(),
+                        candidat.getIdPersonne().getPrenoms(),
+                        candidat.getIdPersonne().getTelephone(),
+                        candidat.getNumeroCandidatCTCI(),
+                        moyenne,
+                        candidat.getPassationCandidatCTCI()
+                ));
+                System.out.println(candidatConcoursDtos.get(i).getNom());
+                System.out.println("Moyenne GENERALE: " +  moyenne);
+            }else {
+                System.out.println("zero credit ato");
+            }
 
-            System.out.println(candidatConcoursDtos.get(i).getNom());
-            System.out.println("Moyenne GENERALE: " +  somme.divide(BigDecimal.valueOf(notematiereconcourstci.size())));
             System.out.println("CD11");
             i+=1;
             // TODO vita verification niany
@@ -196,6 +205,7 @@ public class CandidatService {
 
         return candidatConcoursDtos;
     }
+
 
     public void creerCandidatConcours(ArrayList<CandidatConcoursDto> dto) {
 

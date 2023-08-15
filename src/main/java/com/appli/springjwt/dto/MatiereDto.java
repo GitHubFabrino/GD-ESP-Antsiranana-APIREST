@@ -1,11 +1,12 @@
 package com.appli.springjwt.dto;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class MatiereDto {
     Integer id;
     String nomMCTCI;
-    Byte creditMCTCI;
+    BigDecimal creditMCTCI;
 
     @Override
     public String toString() {
@@ -23,7 +24,7 @@ public class MatiereDto {
         this.id = id;
     }
 
-    public MatiereDto(Integer id, String nomMCTCI, Byte creditMCTCI) {
+    public MatiereDto(Integer id, String nomMCTCI, BigDecimal creditMCTCI) {
         this.id = id;
         this.nomMCTCI = nomMCTCI;
         this.creditMCTCI = creditMCTCI;
@@ -45,11 +46,11 @@ public class MatiereDto {
         this.nomMCTCI = nomMCTCI;
     }
 
-    public Byte getCreditMCTCI() {
+    public BigDecimal getCreditMCTCI() {
         return creditMCTCI;
     }
 
-    public void setCreditMCTCI(Byte creditMCTCI) {
+    public void setCreditMCTCI(BigDecimal creditMCTCI) {
         this.creditMCTCI = creditMCTCI;
     }
 }
