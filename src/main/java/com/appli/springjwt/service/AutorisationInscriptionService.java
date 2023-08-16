@@ -178,7 +178,7 @@ public class AutorisationInscriptionService {
 
 
 
-      /*      password.setPass_word("Aucune mot de passe");
+     /*  password.setPass_word("");
             authentificationRepository.save(password);*/
 
 

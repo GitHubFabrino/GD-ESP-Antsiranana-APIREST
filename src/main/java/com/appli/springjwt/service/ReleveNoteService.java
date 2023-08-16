@@ -481,25 +481,37 @@ public class ReleveNoteService {
 
                     if (moyenneUE.compareTo(seuil) < 0){
                         System.out.println("moyenne ambany 10");
-                        validationue.setValidationUe((byte) 0);
+                        for (float n : note) {
+                            if (n < 3) {
+                                value.clear();
+                                value.add((byte) 0);
+                                validationue.setValidationUe((byte) 0);
+                                break;
+                            }else{
+                                value.clear();
+                                value.add((byte) 2);
+                                validationue.setValidationUe((byte) 2);
+                               // break;
+                            }
+                        }
+                       // validationue.setValidationUe((byte) value.get(0));
                     } else {
                         System.out.println("moyenne ambony 10");
 
                         for (float n : note) {
-                            if (n >= 10) {
+                            if (n >= 3) {
                                 value.clear();
                                 value.add((byte) 1);
-                            } else if (n < 10 && n >= 3) {
+                                validationue.setValidationUe((byte) 1);
+                            }else{
                                 value.clear();
-                                value.add((byte) 2);
-                                break;
-                            } else if (n < 3) {
-                                value.clear();
-                                value.add((byte) 0);
+                                value.add((byte) 3);
+                                validationue.setValidationUe((byte) 3);
                                 break;
                             }
+
                         }
-                        validationue.setValidationUe((byte) value.get(0));
+                      //  validationue.setValidationUe((byte) value.get(0));
                         System.out.println("ok");
                     }
                     validationueRepository.save(validationue);
@@ -511,31 +523,49 @@ public class ReleveNoteService {
                     validationUETY.setIdUe(uniteenseignement);
                     validationUETY.setIdCursus(cursus);
 
+                    ArrayList<Byte> value1 = new ArrayList<>();
+
                     System.out.println("MOYENNE UE" + moyenneUE);
                     BigDecimal seuil = BigDecimal.TEN;
 
                     if (moyenneUE.compareTo(seuil) < 0){
                         System.out.println("moyenne ambany 10");
-                        validationUETY.setValidationUe((byte) 0);
+                        for (float n : note) {
+                            if (n < 3) {
+                                value1.clear();
+                                value1.add((byte) 0);
+                                System.out.println("Value 1");
+                                System.out.println(value1);
+                                validationUETY.setValidationUe((byte) 0);
+                                break;
+                            }else{
+                                value1.clear();
+                                value1.add((byte) 2);
+                                System.out.println("Value 2 ");
+                                System.out.println(value1);
+                                validationUETY.setValidationUe((byte) 2);
+                                //break;
+                            }
+                        }
+                        //validationUETY.setValidationUe((byte) value1.get(0));
                     } else {
                         System.out.println("moyenne ambony 10");
 
                         for (float n : note) {
-                            if (n >= 10) {
+                            if (n >= 3) {
                                 value.clear();
                                 value.add((byte) 1);
-                            } else if (n < 10 && n >= 3) {
+                                validationUETY.setValidationUe((byte) 1);
+                            }else{
                                 value.clear();
-                                value.add((byte) 2);
-                                break;
-                            } else if (n < 3) {
-                                value.clear();
-                                value.add((byte) 0);
+                                value.add((byte) 3);
+                                validationUETY.setValidationUe((byte) 3);
                                 break;
                             }
                         }
-                        validationUETY.setValidationUe((byte) value.get(0));
-                        System.out.println("ok");}
+                        //validationUETY.setValidationUe((byte) value.get(0));
+                        System.out.println("ok");
+                    }
                     validationueRepository.save(validationUETY);
                 }
 
