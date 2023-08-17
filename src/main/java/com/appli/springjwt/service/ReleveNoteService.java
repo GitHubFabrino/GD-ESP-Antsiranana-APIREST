@@ -473,6 +473,8 @@ public class ReleveNoteService {
                     System.out.println("Chaque RELEVE DE NOTE : " + releveNote);
                   //  System.out.println("ici R14");
                     System.out.println("NOTE : " + releveNote.getNote());
+                    System.out.println( "MATIERE :  "+releveNote.getIdUeEc().getIdEc().getNomEc());
+
                     note.add(releveNote.getNote().floatValue());
                    // System.out.println("SOMME Des Notes : " + note);
                     System.out.println("CREDIT : " + releveNote.getIdUeEc().getCreditEc());
@@ -485,6 +487,10 @@ public class ReleveNoteService {
                     credit = credit.add(releveNote.getIdUeEc().getCreditEc());
                     System.out.println("SOMME CREDIT : " + credit);
                     System.out.println("ici R16");
+                   /* if (credit.floatValue() == 0){
+                        releveNote.setNote(BigDecimal.valueOf(0));
+                        relevenoteRepository.save(releveNote);
+                    }*/
                 }
 
                 if (credit.floatValue() == 0){
@@ -507,6 +513,9 @@ public class ReleveNoteService {
             /*    moyenneUECreditTotal= moyenneUECreditTotal.add(moyenneUECredit);
             System.out.println("SOMME MOYENNE UE x Credit TOTAL : " + moyenneUECreditTotal);
                 System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");*/
+
+            }else {
+                System.out.println(" NULL NULL NULL NULL NULL NULL NULL v NULl v v NULL NULL NULL NULL NULL NULL");
 
             }
             /*moyenneUECreditTotal= moyenneUECreditTotal.add(moyenneUECredit);

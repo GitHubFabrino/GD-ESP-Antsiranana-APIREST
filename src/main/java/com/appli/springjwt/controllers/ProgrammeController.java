@@ -1,5 +1,8 @@
 package com.appli.springjwt.controllers;
 
+import com.appli.springjwt.models.Elementconstitutif;
+import com.appli.springjwt.models.Uniteenseignement;
+import com.appli.springjwt.repository.UniteenseignementRepository;
 import com.appli.springjwt.service.ProgrammeService;
 import com.appli.springjwt.dto.ProgrammeEnseignementDto;
 import com.appli.springjwt.dto.ProgrammeGetDto;
@@ -19,6 +22,9 @@ public class ProgrammeController {
     @Autowired
     private ElementconstitutifRepository elementconstitutifRepository;
 
+    @Autowired
+    private UniteenseignementRepository uniteenseignementRepository;
+
     @PostMapping("/dp/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@PathVariable("id") Integer id, @RequestBody ProgrammeEnseignementDto programmeDtos){
@@ -30,7 +36,22 @@ public class ProgrammeController {
     public List<ProgrammeGetDto> list(@PathVariable("id") Integer id) {
         return programmeService.getByIdDp(id);
     }
-/*
+
+    @GetMapping("/dp/ec")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('ENSEIGNANT') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
+    public List<Elementconstitutif> listEC() {
+        List<Elementconstitutif> listEC = elementconstitutifRepository.findAll();
+        return listEC;
+    }
+
+    @GetMapping("/dp/ue")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('ENSEIGNANT') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
+    public List<Uniteenseignement> listUE() {
+        List<Uniteenseignement> listUE = uniteenseignementRepository.findAll();
+        return listUE;
+    }
+
+    /*
     @PutMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public void modifier(@RequestBody ArrayList<ProgrammeDto> programmeDtos){

@@ -286,8 +286,34 @@ Integer i=0;
 
         return programmeDtos;
     }
+/*
+    public List<ProgrammeGetDtoEC> getEC() {
+        ArrayList<ProgrammeGetDtoEC> programmeDtos = new ArrayList<>();
 
 
+            programmeDtos.add(new ProgrammeGetDto(
+                    idUEList,
+                    codeUeList,
+                    ueList,
+                    idUEEC,
+                    nomEC,
+                    codeEC,
+                    volumeHoraireET,
+                    volumeHoraireED,
+                    volumeHoraireTP,
+                    creditEC,
+                    responsableEC,
+                    responsableUE
+            ));
+
+            ueMapCompteur+=1;
+        }
+        System.out.println("ueMapCompeur = "+ueMapCompteur);
+
+        return programmeDtos;
+    }
+
+*/
     public List<UeEc> findUeEcByDpList(Definitionparcour dp) {
         List<Programmeenseignement> programmeenseignements = programmeenseignementRepository.findAllByIdDp(dp);
 
