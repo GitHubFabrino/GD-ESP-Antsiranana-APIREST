@@ -25,8 +25,9 @@ public class Resultatfinau {
         return codeRedoublement;
     }
 
-    public void setCodeRedoublement(Byte codeRedoublement) {
+    public Byte setCodeRedoublement(Byte codeRedoublement) {
         this.codeRedoublement = codeRedoublement;
+        return codeRedoublement;
     }
 
 

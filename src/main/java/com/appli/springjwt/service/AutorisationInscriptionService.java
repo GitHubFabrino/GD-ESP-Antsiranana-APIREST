@@ -38,6 +38,8 @@ public class AutorisationInscriptionService {
     AuthentificationRepository authentificationRepository;
 
     public Candidatconcourstci creerAutorisation(Integer idConcours, AutorisationDto autorisationDto) {
+        System.out.println("AU 1 " );
+        System.out.println("AutorisationDto : " + autorisationDto.getNiveau() );
 
         Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
         List<Centreconcourstci> centreconcourstci = centreconcourstciRepository.findByIdCTCI(concourstci);
@@ -48,6 +50,7 @@ public class AutorisationInscriptionService {
             for (Candidatconcourstci candidat : candidatList) {
 
                 Personne personne = candidat.getIdPersonne();
+                System.out.println(personne);
                 Niveau niveau = niveauRepository.findById(autorisationDto.getIdNiveau()).orElseThrow();
                 Anneeuniv anneeuniv = anneeunivRepository.findById(autorisationDto.getIdAU()).orElseThrow();
 

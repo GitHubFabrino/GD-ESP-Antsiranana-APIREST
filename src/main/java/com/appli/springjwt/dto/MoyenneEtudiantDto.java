@@ -7,12 +7,37 @@ public class MoyenneEtudiantDto {
     Integer idUeEc;
     BigDecimal note;
 
+    Byte codeRedoublement;
+
+    public void setCodeRedoublement(Byte codeRedoublement) {
+        this.codeRedoublement = codeRedoublement;
+    }
+
     public MoyenneEtudiantDto() {
     }
 
     public MoyenneEtudiantDto(Integer idCursus, BigDecimal note) {
         this.idCursus = idCursus;
         this.note = note;
+    }
+
+    public MoyenneEtudiantDto(Integer idCursus, Integer idUeEc, BigDecimal note, Byte codeRedoublement) {
+        this.idCursus = idCursus;
+        this.idUeEc = idUeEc;
+        this.note = note;
+        this.codeRedoublement = codeRedoublement;
+    }
+
+    public MoyenneEtudiantDto(Byte codeRedoublement) {
+        this.codeRedoublement = codeRedoublement;
+    }
+
+    public Byte getCodeRedoublement() {
+        return codeRedoublement;
+    }
+
+    public void setCode_redoublement(Byte codeRedoublement) {
+        this.codeRedoublement = codeRedoublement;
     }
 
     public Integer getIdCursus() {

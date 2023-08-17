@@ -38,6 +38,15 @@ public class ReleveNoteController {
         return releveNoteService.getNoteDP(idDp1,idDp2);
     }
 
+    @PutMapping("/etudiant/{idEtudiant}/dp/{idDp1}/{idDp2}")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    public Byte modifierCodeDeRedoublement(@PathVariable("idEtudiant") Integer idEtudiant, @PathVariable("idDp1") Integer idDp1, @PathVariable("idDp2") Integer idDp2, @RequestBody MoyenneEtudiantDto moyenneEtudiantDtos){
+        System.out.println("eto izy io ");
+        System.out.println(" code de redoublement recus "+moyenneEtudiantDtos.getCodeRedoublement());
+        releveNoteService.modifierCodeRedoubleme(idEtudiant,idDp1,idDp2,moyenneEtudiantDtos);
+        return null;
+    }
+
     @GetMapping("/etudiant/{idEtudiant}/dp/{idDp1}/{idDp2}")
     @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<MoyenneGeneraleDto> getMoyenneEtudiant(@PathVariable("idEtudiant") Integer idEtudiant,@PathVariable("idDp1") Integer idDp1,@PathVariable("idDp2") Integer idDp2){

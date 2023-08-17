@@ -219,11 +219,24 @@ public class ReleveNoteService {
 
             // Récupération de l'objet étudiant à partir de son identifiant
             Etudiant etudiant = etudiantRepository.findById(cursus.getKey()).orElse(null);
+            System.out.println("Nom Etudiant : " + etudiant.getIdPersonne().getNom());
+            System.out.println(cursusList);
+
+            //Todo ici
+            Cursus cursus1 = cursusRepository.findByIdEtudiantAndIdDp(
+                    etudiantRepository.findById(etudiant.getId()).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé")),
+                    definitionparcourRepository.findById(id1).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"))).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"));
+            System.out.println("CURSUS 1 : " + cursus1);
 
             // Récupération de l'objet Resultatfinau associé à l'étudiant et au programme d'études id2
             Resultatfinau resultatfinau = resultatfinauRepository.findByIdEtudiantAndIdDp(
                     etudiant,
                     definitionparcourRepository.findById(id2).orElse(null)).orElse(null);
+
+        // Validationue validationUE = (Validationue) validationueRepository.findByIdCursus( cursus).orElse( null);
+            System.out.println("TESTE Recuperation validation");
+         //   System.out.println(validationUE.getValidationUe());
+            System.out.println("*******************************************************");
 
             // Vérification si l'objet Resultatfinau est trouvé
             if(resultatfinau == null){
@@ -254,7 +267,10 @@ public class ReleveNoteService {
                 //BigDecimal credit = BigDecimal.valueOf(0);
                 for (Relevenote releveNote : releveNoteList) {
                     i += 1;
-                    System.out.println("note" + i);
+                    System.out.println("note " + i + " : " + releveNote.getNote());
+                    System.out.println("Credit " + i + " : " + releveNote.getIdUeEc().getCreditEc());
+                    System.out.println("Coef " + i + " : " + releveNote.getIdUeEc().getCoefficientEc());
+                    System.out.println("Note x Credit : " + releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
 
                     // Programmeenseignement programmeEnseignement = programmeenseignementRepository.findById(releveNote.getIdPe().getId()).orElse(null);
                     // UeEc ue_ec = ueEcRepository.findById(programmeEnseignement.getIdUeEc().getId()).orElse(null);
@@ -264,15 +280,9 @@ public class ReleveNoteService {
                     System.out.println("Credit de idEc: " + releveNote.getIdUeEc().getIdEc().getId() + " est creditEc= " + releveNote.getIdUeEc().getCreditEc());
 
                     moyenneGenerale = moyenneGenerale.add(releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
+                    System.out.println("Somme des notes avec credit : " + moyenneGenerale);
                     credit = credit.add(releveNote.getIdUeEc().getCreditEc());
-
-                    /*
-                    ueEcList = ueEcRepository.findAllByIdUe(ue);
-                    ueEcList.stream().forEach(ueec -> {
-                    ueec.getProgrammeenseignements().stream().forEach(pe -> {
-                    });
-                    });
-                     */
+                    System.out.println("Somme des credit : " + credit);
                 }
             }
             if (credit.floatValue() == 0 || moyenneGenerale.floatValue() == 0){
@@ -284,7 +294,7 @@ public class ReleveNoteService {
                 System.out.println(" MOYENNE =" + moyenneGenerale);
 
             }else {
-                System.out.println("credit pour etudiant no "+ credit);
+                System.out.println("credit pour etudiant : "+ credit);
                 System.out.println("TOTAL NOTE : "+ moyenneGenerale);
 
                 moyenneGenerale = moyenneGenerale.divide(credit,new MathContext(3));
@@ -312,6 +322,29 @@ public class ReleveNoteService {
         }
          */
         return etudiantDTOList;
+    }
+
+
+    public MoyenneGeneraleDto modifierCodeRedoubleme(Integer idEtudiant, Integer id1, Integer id2, MoyenneEtudiantDto moyenneEtudiantDtos) {
+
+        System.out.println(  " Code de redoublement : "+ moyenneEtudiantDtos.getCodeRedoublement());
+
+        Etudiant etudiant = etudiantRepository.findById(idEtudiant).orElse(null);
+
+        if (etudiant == null){
+            return null;
+        }else {
+            // Récupération de l'objet Resultatfinau associé à l'étudiant et au programme d'études id2
+            Resultatfinau resultatfinau = resultatfinauRepository.findByIdEtudiantAndIdDp(
+                    etudiant,
+                    definitionparcourRepository.findById(id2).orElse(null)).orElse(null);
+            if (resultatfinau != null ){
+                resultatfinau.setCodeRedoublement(moyenneEtudiantDtos.getCodeRedoublement());
+                resultatfinauRepository.save(resultatfinau);
+            }else return null;
+        }
+
+        return null;
     }
 
 
@@ -363,115 +396,132 @@ public class ReleveNoteService {
     }
 
     public ArrayList<ReleveNoteDto> getReleveEtudiant(Integer idEtudiant, Integer idDp1) {
-        System.out.println("donnee : " + idEtudiant + "// "+ idDp1);
-        System.out.println("********************************************************************************************");
+        System.out.println("******************************************************************");
+        System.out.println("DONNEES RECUS  : " + idEtudiant + "  et  "+ idDp1);
         List<ProgrammeGetDto> pe1 = programmeService.getByIdDp(idDp1);
-        System.out.println("ici R1");
-        System.out.println(pe1);
+       // System.out.println("ici R1");
+       // System.out.println(pe1);
         ArrayList<ReleveNoteDto> dto = new ArrayList<>();
-        System.out.println("ici R2");
-        System.out.println(dto);
-        System.out.println("ici R3");
-        System.out.println(etudiantRepository.findById(idEtudiant));
-        System.out.println("ici R4");
-        System.out.println(definitionparcourRepository.findById(idDp1));
-        System.out.println("ici R5");
+       // System.out.println("ici R2");
+      //  System.out.println(dto);
+        //System.out.println("ici R3");
+        //System.out.println(etudiantRepository.findById(idEtudiant));
+        //System.out.println("ici R4");
+        //System.out.println(definitionparcourRepository.findById(idDp1));
+        //System.out.println("ici R5");
 
         Cursus cursus = cursusRepository.findByIdEtudiantAndIdDp(
                 etudiantRepository.findById(idEtudiant).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé")),
                 definitionparcourRepository.findById(idDp1).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"))).orElseThrow(() -> new NoSuchElementException("Cursus non trouvé"));
-        System.out.println("ici R6");
-        System.out.println(cursus.getId() +" //" + cursus.getIdEtudiant());
-/*
-        if (cursus == null){
-            System.out.println( "null ra ty ayyy");
-        }else {
-            System.out.println( "tsy null ayyy");
-        }*/
+        //System.out.println("ici R6");
+        //System.out.println( " ID Cursus : " +cursus.getId());
+        //System.out.println(" ID Etudiant : " + cursus.getIdEtudiant());
 
+        BigDecimal moyenneUECredit = BigDecimal.valueOf(0);
+        BigDecimal moyenneUECreditTotal = BigDecimal.valueOf(0);
+        BigDecimal CreditTotal = BigDecimal.valueOf(0);
         for(ProgrammeGetDto programme : pe1){
-            System.out.println("ici R7");
-            System.out.println("Programme " + programme);
+            System.out.println("============================================================================");
+          //  System.out.println("ici R7");
+            //System.out.println("Programme " + programme);
+
             ArrayList<Float> noteECList = new ArrayList<>();
             ArrayList<String> nomECList = new ArrayList<>();
             BigDecimal moyenneUE = BigDecimal.valueOf(0);
             BigDecimal credit = BigDecimal.valueOf(0);
 
-            System.out.println("ici R8");
+            //System.out.println("ici R8");
             ArrayList<Integer> ueecList = programme.getIdUEEC();
-            System.out.println("   " + ueecList);
-            System.out.println("ici R9");
+            //System.out.println("UE et EC Liste : " + ueecList);
+            //System.out.println("ici R9");
             for(Integer idUEEC:ueecList){
-                System.out.println("cursus.getId()" + cursus.getId());
-                System.out.println("idUEEC" + idUEEC);
-                System.out.println("ici R10");
+              //  System.out.println("ID CURSUS : " + cursus.getId());
+                //System.out.println("idUEEC" + idUEEC);
+                //System.out.println("ici R10");
                 Relevenote releve = relevenoteRepository.findByIdCursusAndIdUeEc(
                         cursus,
                         ueEcRepository.findById(idUEEC).orElseThrow()
                 ).orElse(null);
                 if (releve != null){
                     noteECList.add(releve.getNote().floatValue());
-                    System.out.println(noteECList);
-                    System.out.println("ici R11");
+                  //  System.out.println(noteECList);
+                    //System.out.println("ici R11");
                 }
             }
 
-            System.out.println(programme.getNomUE());
+            //System.out.println(programme.getNomUE());
             for( ElementConstitutifDto nomEC: programme.getNomEC()){
                 nomECList.add(nomEC.getNomEC());
-                System.out.println(nomECList);
-                System.out.println("ici R12");
+              //  System.out.println(nomECList);
+               // System.out.println("ici R12");
             }
-            System.out.println("--------------------------------------");
-            System.out.println("ueecList" + ueecList);
+          //  System.out.println("--------------------------------------");
+          //  System.out.println("ueecList" + ueecList);
             //System.out.println(ueEcRepository.findByIdIn(ueecList));
             List<Relevenote> releveNoteList = relevenoteRepository.findByIdCursusAndIdUeEcIn(cursus,ueEcRepository.findByIdIn(ueecList));
-            System.out.println(releveNoteList);
-            System.out.println("ici R13");
+
+          //  System.out.println("RELEVE DE NOTE LISTE : " + releveNoteList);
+          //  System.out.println("ici R13");
+
             ArrayList<Float> note = new ArrayList<>();
             ArrayList<Byte> value = new ArrayList<>();
+
             if (releveNoteList != null){
 
-                System.out.println("efa rerak");
-
                 for (Relevenote releveNote : releveNoteList) {
-                    System.out.println(releveNote);
-                    System.out.println("ici R14");
-                    System.out.println("Note ve ty : " + releveNote.getNote());
+                    System.out.println("*********************************************");
+                    System.out.println("Chaque RELEVE DE NOTE : " + releveNote);
+                  //  System.out.println("ici R14");
+                    System.out.println("NOTE : " + releveNote.getNote());
                     note.add(releveNote.getNote().floatValue());
-                    System.out.println("inon jiaby reto : " + releveNote.getIdUeEc().getCreditEc());
-                    System.out.println(" inona ty " + releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
+                   // System.out.println("SOMME Des Notes : " + note);
+                    System.out.println("CREDIT : " + releveNote.getIdUeEc().getCreditEc());
+                    System.out.println(" NOTE x CREDIT :  " + releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
+
                     moyenneUE = moyenneUE.add(releveNote.getNote().multiply(releveNote.getIdUeEc().getCreditEc()));
-                    System.out.println("moyenneUE " + moyenneUE );
+                    System.out.println("moyenneUE somme note x credit :  " + moyenneUE );
                     System.out.println("ici R15");
+
                     credit = credit.add(releveNote.getIdUeEc().getCreditEc());
-                    System.out.println("credit" + credit);
+                    System.out.println("SOMME CREDIT : " + credit);
                     System.out.println("ici R16");
                 }
-                /*Integer i=0;
-                for (float n : note){
-                    i+=1;
-                    System.out.println("note " +i+": " + n);
-                }*/
+
                 if (credit.floatValue() == 0){
                     moyenneUE = BigDecimal.valueOf(0);
                 }else {
                     moyenneUE = moyenneUE.divide(credit,new MathContext(3));
-                    System.out.println("moyenneUE " + moyenneUE );
+                    System.out.println("moyenneUE diviser par somme credit :  " + moyenneUE );
                     System.out.println("ici R17");
+                    System.out.println("moyenneUE x credit :  " + moyenneUE +"x " + credit + " = " + moyenneUE.multiply(credit));
+                    System.out.println("moyenneUE somme :  " + moyenneUECredit +" + " + moyenneUE.multiply(credit) + " = " + moyenneUECredit.add(moyenneUE.multiply(credit)));
+
+                    moyenneUECredit = moyenneUECredit.add(moyenneUE.multiply(credit));
+                    System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+                    System.out.println("SOMME MOYENNE UE x Credit : " + moyenneUECredit);
+
+                    CreditTotal = CreditTotal.add(credit);
+                    System.out.println("Credit TOTAL " + CreditTotal);
+
                 }
+            /*    moyenneUECreditTotal= moyenneUECreditTotal.add(moyenneUECredit);
+            System.out.println("SOMME MOYENNE UE x Credit TOTAL : " + moyenneUECreditTotal);
+                System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");*/
+
             }
+            /*moyenneUECreditTotal= moyenneUECreditTotal.add(moyenneUECredit);
+            System.out.println("SOMME MOYENNE UE x Credit TOTAL : " + moyenneUECreditTotal);*/
 
             Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(programme.getIdUE().get(0)).orElse(null);
-            System.out.println(uniteenseignement);
-            System.out.println("éto zahay");
+            //System.out.println(uniteenseignement);
+            //System.out.println("éto zahay");
             if (uniteenseignement !=null){
-                System.out.println("ici R18");
-                System.out.println("uniteenseignement" + uniteenseignement);
-                System.out.println(cursus);
+              //  System.out.println("ici R18");
+                //System.out.println("uniteenseignement" + uniteenseignement);
+                //System.out.println(cursus);
                 Validationue validationUE = validationueRepository.findByIdUeAndIdCursus(uniteenseignement, cursus).orElse( null);
                 if (validationUE == null){
-                    System.out.println("null ra ty attt ato mints");
+                  //  System.out.println("null ra ty attt ato mints");
                     Validationue validationue = new Validationue();
                     validationue.setIdUe(uniteenseignement);
                     validationue.setIdCursus(cursus);
@@ -585,6 +635,11 @@ public class ReleveNoteService {
                 System.out.println("ici R20");
             }
             System.out.println("ici R21");
+           /* moyenneUECredit = moyenneUECredit.add(moyenneUE.multiply(credit));
+            System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+            System.out.println("SOMME MOYENNE UE x Credit farany : " + moyenneUECredit);*/
+            moyenneUECreditTotal = moyenneUECreditTotal.add(moyenneUECredit);
+            System.out.println("TOTAL: " + moyenneUECreditTotal);
         }
         return dto;
     }

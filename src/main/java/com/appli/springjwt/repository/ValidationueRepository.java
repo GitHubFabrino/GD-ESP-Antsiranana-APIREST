@@ -7,6 +7,7 @@ import com.appli.springjwt.models.ValidationueId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ValidationueRepository extends JpaRepository<Validationue, ValidationueId> {
@@ -18,4 +19,6 @@ public interface ValidationueRepository extends JpaRepository<Validationue, Vali
     Optional<Validationue> findByIdUeAndIdCursus(Uniteenseignement idUe, Cursus idCursus);
 
     List<Validationue> findByIdUeAndIdCursusIn(Uniteenseignement idUe, List<Cursus> asList);
+
+    Optional<Validationue> findByIdCursus(Map.Entry<Integer, List<Cursus>> idCursus);
 }
