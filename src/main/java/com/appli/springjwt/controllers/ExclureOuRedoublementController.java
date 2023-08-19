@@ -23,8 +23,6 @@ public class ExclureOuRedoublementController {
     @PersistenceContext
     private EntityManager entityManager;
 
-
-
     private  ExclureOuRedoubleeDto exclureOuRedoubleeDto;
 
     @Autowired
@@ -55,17 +53,13 @@ public class ExclureOuRedoublementController {
             Integer pp1 = p1.getId();
             Integer pp2 = p2.getId();
           Long pdefinitive ;
-            //  = ((pp1 > pp2) ? idDP1 : idDP2);
            if ( pp1 > pp2){
                 pdefinitive = Long.valueOf(idDP1);
             }else {
                 pdefinitive = Long.valueOf(idDP2);
             }
-
             System.out.println("pdefinitive " + pdefinitive);
 
-            /*@SuppressWarnings("unchecked")
-            Resultatfinau etudiantcible = resultat.findByIdDp(pdefinitive);*/
             String sql = "SELECT * FROM resultatfinau WHERE id_DP = :pdefinitive AND id_etudiant = :id_etudiant";
             Query query = entityManager.createNativeQuery(sql, Resultatfinau.class);
             query.setParameter("pdefinitive", pdefinitive);
@@ -84,9 +78,8 @@ public class ExclureOuRedoublementController {
             System.out.println(etudiantcible.getCodeRedoublement());
             etudiantcible.setCodeRedoublement(exclureOuRedoubleeDto.getCode_redoublement());
             resultatfinauRepository.save(etudiantcible);
-        System.out.println("api tapitra");
-    }
-
+        }
 
         return null;
-    }}
+    }
+}

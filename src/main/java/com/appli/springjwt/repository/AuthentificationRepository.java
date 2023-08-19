@@ -8,4 +8,8 @@ public interface AuthentificationRepository extends JpaRepository<Authentificati
 
 
     Authentification findByIdPersonne(Personne idPersonne);
+
+    //Authentification findByPseudo(String username);
+
+    Authentification findByUsername(String username);
 }
