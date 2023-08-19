@@ -19,6 +19,9 @@ public class EtudiantController {
     @PutMapping("/deliberation/dp/{id1}/{id2}")
     @PreAuthorize("hasAuthority('RESPONSABLE_PARCOURS')")
     public void postReleveNote(@PathVariable("id1") Integer id1, @PathVariable("id2") Integer id2, @RequestBody DeliberationAUDto deliberationAUDto){
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        System.out.println(deliberationAUDto);
+        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         etudiantService.creerResultat(id2, deliberationAUDto,id1);
     }
 

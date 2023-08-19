@@ -18,4 +18,8 @@ public interface ResultatfinauRepository extends JpaRepository<Resultatfinau, Re
 
     Optional<Resultatfinau> findByIdEtudiantAndIdDpAndCodeRedoublement(Etudiant idEtudiant,Definitionparcour idDp,Byte codeRedoublement);
     List<Resultatfinau> findAllByIdDp(Definitionparcour idDp);
+
+    //Resultatfinau findByIdEtudiantAndIdDP(Integer id_etudiant, Integer pdefinitive);
+
+   // Resultatfinau findByIdDpAndIdEtudiant(Integer pdefinitive ,Integer id_etudiant);
 }

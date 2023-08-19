@@ -254,14 +254,28 @@ public class EtudiantService {
             Resultatfinau etudiantRedoublant = resultatfinauRepository.findByIdEtudiantAndIdDp(etudiantResultat, dp2).orElseThrow();
             if(etudiantRedoublant.getCodeRedoublement() == 4){
                 List<Uniteenseignement> ueList = uniteenseignementRepository.findByIdDpIn(Arrays.asList(dp1, dp2));
+                System.out.println("????????????????????????????????????????????????????????????????????????");
+                System.out.println("Nombre ue " + ueList.size());
+                System.out.println("????????????????????????????????????????????????????????????????????????");
+
                 for( Uniteenseignement ue:ueList){
+                  //  System.out.println("NOM UE : " + ue.getNomUe());
+
                     for(Cursus c:cursus) {
+                     //   System.out.println("NOM Cursus : " + c.getId());
                         Validationue validationue = validationueRepository.findByIdUeAndIdCursus(ue, c).orElse(null);
                         if(validationue == null){}
                         else{
-                            if (validationue.getValidationUe()== 2){
-                                validationue.setValidationUe((byte) 0);
-                                validationueRepository.save(validationue);
+                       //     System.out.println("VALIDATION : " + validationue);
+                            //Todo eto ilay misy olana str misy valeur null anatiny bd table validationue
+                            if (validationue.getValidationUe() == null){
+                                System.out.println("Null be ato ayyy");
+                            }else{
+                                if (validationue.getValidationUe() == 2 ){
+                                    validationue.setValidationUe((byte) 0);
+                                    validationueRepository.save(validationue);
+                                }
+
                             }
                         }
                     }

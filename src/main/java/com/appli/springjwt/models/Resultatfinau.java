@@ -65,5 +65,13 @@ public class Resultatfinau {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Resultatfinau{" +
+                "id=" + id +
+                ", idEtudiant=" + idEtudiant +
+                ", idDp=" + idDp +
+                ", codeRedoublement=" + codeRedoublement +
+                '}';
+    }
 }

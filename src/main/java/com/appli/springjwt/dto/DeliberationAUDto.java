@@ -60,4 +60,16 @@ public class DeliberationAUDto {
     public void setListIdEtudiant(ArrayList<ResultatAUDto> listIdEtudiant) {
         this.listIdEtudiant = listIdEtudiant;
     }
+
+    @Override
+    public String toString() {
+        return "DeliberationAUDto{" +
+                "mgv=" + mgv +
+                ", ecv=" + ecv +
+                ", ece=" + ece +
+                ", uec=" + uec +
+                ", uee=" + uee +
+                ", listIdEtudiant=" + listIdEtudiant +
+                '}';
+    }
 }
