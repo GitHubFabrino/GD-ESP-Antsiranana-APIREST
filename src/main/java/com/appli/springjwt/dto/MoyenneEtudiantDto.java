@@ -64,4 +64,13 @@ public class MoyenneEtudiantDto {
         this.note = note;
     }
 
+    @Override
+    public String toString() {
+        return "MoyenneEtudiantDto{" +
+                "idCursus=" + idCursus +
+                ", idUeEc=" + idUeEc +
+                ", note=" + note +
+                ", codeRedoublement=" + codeRedoublement +
+                '}';
+    }
 }

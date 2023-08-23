@@ -19,12 +19,14 @@ public class BaccController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public List<Bacc> listBacc() {
+        System.out.println("BaccController : listBacc");
         List<Bacc> bacc = baccRepository.findAll();
         return bacc;
     }
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public Bacc Bacc(@PathVariable("id") Integer id) {
+        System.out.println("BaccController : Bacc");
         Bacc bacc = baccRepository.findById(id).orElseThrow();
         return bacc;
     }

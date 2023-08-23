@@ -18,36 +18,42 @@ public class EnseignantController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody EnseignantDto enseignantDto){
+        System.out.println("EnseignantController : post");
         enseignantService.save(enseignantDto);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void put(@PathVariable("id") Integer id,@RequestBody ArrayList<EnseignantDto> enseignantDto){
+        System.out.println("EnseignantController : put");
         enseignantService.update(id, enseignantDto);
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') ")
     public ArrayList<EnseignantDto> list() {
-         return enseignantService.get();
+        System.out.println("EnseignantController : list");
+        return enseignantService.get();
     }
 
     @GetMapping("/nom")
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('SCOLARITE')")
     public ArrayList<EnseignantDto> listInfo() {
+        System.out.println("EnseignantController : listInfo");
         return enseignantService.getNomPrenom();
     }
 
     @GetMapping("/personne/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ENSEIGNANT') or hasRole('ADMIN')")
     public EnseignantDto getById(@PathVariable("id") Integer id) {
-         return enseignantService.getById(id);
+        System.out.println("EnseignantController : getById");
+        return enseignantService.getById(id);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void deleteEnseignant(@PathVariable("id") Integer numero){
+        System.out.println("EnseignantController : deleteEnseignant");
         enseignantService.delete(numero);
     }
 

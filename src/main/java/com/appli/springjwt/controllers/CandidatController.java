@@ -23,29 +23,30 @@ public class CandidatController {
     @PutMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidat(@RequestBody CandidatDto candidat){
+        System.out.println("CandidatController : putCandidat" );
         System.out.println(candidat.getCandidatConcoursTCI());
         candidatService.creerCandidat(candidat);
-        System.out.println("api tapitra");
-
         return null;
     }
 
     @GetMapping("/centre/{id}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidat(@PathVariable("id") Integer numero) {
+        System.out.println("CandidatController : putCandidat" );
         return candidatService.getCandidatList(numero);
     }
 
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours,@PathVariable("idCentre") Integer idCentre) {
+        System.out.println("CandidatController : listCandidatConcours" );
         return candidatService.getCandidatConcoursList(idConcours,idCentre);
     }
 
     @PutMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidatConcours(@RequestBody ArrayList<CandidatConcoursDto> candidat){
-        System.out.println(candidat);
+        System.out.println("CandidatController : putCandidatConcours" );
         candidatService.creerCandidatConcours(candidat);
         return null;
     }
@@ -53,6 +54,7 @@ public class CandidatController {
 
     @DeleteMapping("/{id}")
     public void deleteCandidat(@PathVariable("id") Integer numero){
+        System.out.println("CandidatController : deleteCandidat" );
         candidatService.deleteCandidat(numero);
     }
 

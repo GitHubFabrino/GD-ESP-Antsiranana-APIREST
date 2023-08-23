@@ -18,22 +18,21 @@ public class CursusController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public void post(@RequestBody CursusDto cursusDto){
-        System.out.println(cursusDto.getIdEtudiant());
-        System.out.println(cursusDto.getEmail());
-        System.out.println(cursusDto.getTelephone());
-        System.out.println(cursusDto.getIdDP());
+        System.out.println("CursusController : post");
         cursusService.save(cursusDto);
     }
 
     @GetMapping("/definition-parcours/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public ArrayList<CursusDto> get(@PathVariable("id") Integer id){
+        System.out.println("CursusController : get");
         return  cursusService.getById(id);
     }
 
     @PutMapping("/inscription-pedagogique")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<CursusDto> cursusDto){
+        System.out.println("CursusController : put");
         cursusService.update(cursusDto);
     }
 

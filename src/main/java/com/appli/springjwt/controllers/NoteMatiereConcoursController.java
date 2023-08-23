@@ -14,11 +14,17 @@ public class NoteMatiereConcoursController {
     @Autowired
     NoteMatiereConcoursService noteMatiereConcoursService;
 
-
     @PutMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public Candidatconcourstci postNoteConcours(@RequestBody NoteMatiereConcoursDto note){
         return noteMatiereConcoursService.creerNote(note);
+    }
+
+    @PutMapping("/candidat")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    public Candidatconcourstci postNoteConcoursByEtudiant(@RequestBody NoteMatiereConcoursDto note){
+        System.out.println(" donnee ::: " + note);
+        return noteMatiereConcoursService.creerNoteByEtudiant(note);
     }
 
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
@@ -31,7 +37,4 @@ public class NoteMatiereConcoursController {
             return null;
         }
     }
-
-
-
 }

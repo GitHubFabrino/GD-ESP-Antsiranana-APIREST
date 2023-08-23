@@ -62,6 +62,27 @@ public class ReleveNoteService {
         }
     }
 
+
+    public void updateByEtudiant(Integer id, MoyenneEtudiantDto moyenneEtudiantDtos) {
+
+
+            Cursus cursus = cursusRepository.findById(moyenneEtudiantDtos.getIdCursus()).orElseThrow();
+            UeEc ueEc = ueEcRepository.findById(id).orElseThrow();
+
+            System.out.println("cursus : "+ cursus.getId());
+            System.out.println("ueEc : "+ ueEc.getId() );
+            if (!relevenoteRepository.existsByIdCursusAndIdUeEc(cursus, ueEc)) {
+                Relevenote relevenote = new Relevenote(cursus, moyenneEtudiantDtos.getNote(),ueEc);
+                relevenoteRepository.save(relevenote);
+
+            } else {
+                Relevenote relevenote = relevenoteRepository.findByIdCursusAndIdUeEc(cursus, ueEc).orElseThrow();
+                relevenote.setNote(moyenneEtudiantDtos.getNote());
+                relevenoteRepository.save(relevenote);
+            }
+
+    }
+
     public ArrayList<MoyenneEtudiantDto> getNote(Integer idUEEC, Integer idDp) {
 
         ArrayList<Cursus> cursus = cursusRepository.findAllByIdDp(definitionparcourRepository.findById(idDp).orElseThrow());

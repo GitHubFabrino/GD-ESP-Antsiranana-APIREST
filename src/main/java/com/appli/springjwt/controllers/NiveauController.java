@@ -20,6 +20,7 @@ public class NiveauController {
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public List<Niveau> listNiveau() {
+        System.out.println("NiveauController : listNiveau");
         return niveauRepository.findAll();
     }
 

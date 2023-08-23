@@ -19,39 +19,42 @@ public class EtudiantController {
     @PutMapping("/deliberation/dp/{id1}/{id2}")
     @PreAuthorize("hasAuthority('RESPONSABLE_PARCOURS')")
     public void postReleveNote(@PathVariable("id1") Integer id1, @PathVariable("id2") Integer id2, @RequestBody DeliberationAUDto deliberationAUDto){
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        System.out.println(deliberationAUDto);
-        System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        System.out.println("EtudiantController : postReleveNote");
         etudiantService.creerResultat(id2, deliberationAUDto,id1);
     }
 
     @GetMapping("/personne/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public EtudiantDto getById(@PathVariable("id") Integer id) {
+        System.out.println("EtudiantController : getById");
         return etudiantService.getById(id);
     }
 
     @GetMapping("/dp/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public ArrayList<CursusDto> get(@PathVariable("id") Integer id){
+        System.out.println("EtudiantController : get");
         return  etudiantService.get(id);
     }
 
     @GetMapping("/inscription-pedagogique/dp/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public ArrayList<CursusDto> getIP(@PathVariable("id") Integer id){
+        System.out.println("EtudiantController : getIP");
         return  etudiantService.getByIdDP(id);
     }
 
     @GetMapping("/resultat/dp/{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ENSEIGNANT')")
     public ArrayList<ResultatAUDto> getResultat(@PathVariable("id") Integer id){
+        System.out.println("EtudiantController : getResultat");
         return  etudiantService.getResultatByIdDP(id);
     }
 
     @GetMapping("/attestation/{idPersonne}/{idDp}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT')")
     public AttestationDto getAttestattion(@PathVariable("idPersonne") Integer idPersonne, @PathVariable("idDp") Integer idDp) {
+        System.out.println("EtudiantController : getAttestattion");
         return etudiantService.getAttestation(idPersonne,idDp);
     }
 }

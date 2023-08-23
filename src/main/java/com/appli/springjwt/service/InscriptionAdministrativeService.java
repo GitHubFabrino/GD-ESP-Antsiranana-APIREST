@@ -114,7 +114,7 @@ public class InscriptionAdministrativeService {
                     //matricule = etudiantRepository.findById(intValue(etudiantRepository.count())).orElseThrow().getNumeroMatricule() + 1;
                 //matricule = 10;
 
-                 //   matricule = id_personne_inscr +"/"+ niveau.getNiveau();
+                 matricule = id_personne_inscr +"/"+ niveau.getNiveau();
 
                 }
 
@@ -167,8 +167,10 @@ public class InscriptionAdministrativeService {
                 inscription.setIdAu(anneeuniv);
                 inscription.setIdNiveau(niveau);
                 inscription.setIdEtudiant(etudiant);
+                etudiant.setNumeroMatricule(matricule);
                 inscription.getIdEtudiant().setIdBacc(bacc);
 
+                etudiantRepository.save(etudiant);
                 inscriptionadministrativeRepository.save(inscription);
                 System.out.println(" id persone " + inscription.getIdEtudiant());
                 System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
@@ -190,6 +192,9 @@ public class InscriptionAdministrativeService {
                 inscription.getIdEtudiant().setIdBacc(bacc);
 
                 inscriptionadministrativeRepository.save(inscription);
+
+                etudiant.setNumeroMatricule(matricule);
+                etudiantRepository.save(etudiant);
             }
     }
 }

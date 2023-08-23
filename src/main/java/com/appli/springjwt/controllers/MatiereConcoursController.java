@@ -18,38 +18,31 @@ public class MatiereConcoursController {
     @Autowired
     MatiereService matiereService;
 
-
     @Autowired
     MatiereConcoursService matiereConcoursService;
 
     @Autowired
     MatiereConcoursRepository matiereConcoursRepository;
 
-
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Object[]> getMatiereConcours(){
+        System.out.println(" MatiereConcoursController : getMatiereConcours" );
         return matiereService.getAll();
-
-        //return null;
     }
 
     @GetMapping(path = "/concours")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<MatiereConcours> getMatiereconcou(){
-        System.out.println("Donnée getée : ");
-        System.out.println(matiereConcoursService.getAllMatiereConcours());
+        System.out.println(" MatiereConcoursController : getMatiereconcou" );
         return matiereConcoursService.getAllMatiereConcours();
     }
-
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void postMatiereConcours(@RequestBody MatiereConcours matiereConcours){
-        System.out.println("Donnée recus : ");
-        System.out.println(matiereConcours);
+        System.out.println(" MatiereConcoursController : postMatiereConcours" );
         matiereConcoursRepository.save(matiereConcours);
-        System.out.println("Matiere ajoutée");
     }
 
 }

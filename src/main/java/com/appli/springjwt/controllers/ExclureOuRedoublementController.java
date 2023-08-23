@@ -37,12 +37,7 @@ public class ExclureOuRedoublementController {
     @PutMapping("/{idDP1}/{idDP2}/{id_etudiant}")
     @PreAuthorize("hasAuthority('RESPONSABLE_PARCOURS')or hasRole('ADMIN')")
     public ExclureOuRedoubleeDto coderedoublement(@PathVariable("idDP1") Integer idDP1,@PathVariable("idDP2") Integer idDP2,@PathVariable("id_etudiant") Integer id_etudiant, @RequestBody ExclureOuRedoubleeDto exclureOuRedoubleeDto){
-        System.out.println("Donnee recus : ");
-        System.out.println("IDP 1 : " + idDP1);
-        System.out.println("IDP 2 : " + idDP2);
-        System.out.println("ID Etudiant : " + id_etudiant);
-        System.out.println("Code redoublement : " + exclureOuRedoubleeDto.getCode_redoublement());
-
+        System.out.println("ExclureOuRedoublementController : coderedoublement");
         Optional<Definitionparcour> parcour1 = definitionparcourRepository.findById(idDP1);
         Optional<Definitionparcour> parcour2 = definitionparcourRepository.findById(idDP2);
         if ( parcour1 != null && parcour2 != null){

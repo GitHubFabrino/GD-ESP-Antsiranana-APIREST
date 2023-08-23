@@ -27,6 +27,7 @@ public class AnneController {
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void postAnnee(@RequestBody Anneeuniv anneeuniv){
 
+        System.out.println("AnneController : postAnnee");
         String nomAU = anneeuniv.getNomAU();
 
         if (!InscriptionAdministrativeService.isNomAUAlreadyExists(nomAU)) {
@@ -36,28 +37,28 @@ public class AnneController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Le nomAU existe déjà");
         }
 
-        //anneeunivRepository.save(anneeuniv);
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public List<Anneeuniv> listAnnee() {
+        System.out.println("AnneController : listAnnee");
         List<Anneeuniv> annee = anneeunivRepository.findAll();
         Collections.reverse(annee);
-
         return annee;
     }
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public Anneeuniv listAnnee(@PathVariable("id") Integer id) {
+        System.out.println("AnneController : listAnnee");
         return anneeunivRepository.findById(id).orElseThrow();
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void modifierAnnee(@PathVariable("id") Integer id, @RequestBody Anneeuniv anneeuniv){
+        System.out.println("AnneController : modifierAnnee");
         Anneeuniv annee = anneeunivRepository.findById(id).orElseThrow();
-
         annee.setNomAU(anneeuniv.getNomAU());
         annee.setDebutAU(anneeuniv.getDebutAU());
         annee.setFinAU(anneeuniv.getFinAU());
@@ -68,6 +69,7 @@ public class AnneController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimerAnnee(@PathVariable("id") Integer id){
+        System.out.println("AnneController : supprimerAnnee");
         Anneeuniv annee = anneeunivRepository.findById(id).orElseThrow();
         anneeunivRepository.delete(annee);
     }

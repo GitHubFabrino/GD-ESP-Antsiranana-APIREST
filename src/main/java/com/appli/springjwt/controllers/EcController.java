@@ -22,6 +22,7 @@ public class EcController {
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<ElementConstitutifDto> elementConstitutifDtos){
 
+        System.out.println("EcController : post");
         for (ElementConstitutifDto ec: elementConstitutifDtos){
 
             Elementconstitutif elementconstitutif = new Elementconstitutif();
@@ -35,7 +36,7 @@ public class EcController {
     @GetMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('ENSEIGNANT') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public ArrayList<ElementConstitutifDto> listEC() {
-
+        System.out.println("EcController : listEC");
         List<Elementconstitutif> elementconstitutifs = elementconstitutifRepository.findAll();
         ArrayList<ElementConstitutifDto> elementConstitutifDtos = new ArrayList<>();
 
@@ -50,18 +51,11 @@ public class EcController {
         Collections.reverse(elementConstitutifDtos);
         return elementConstitutifDtos;
     }
-/*
-    @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
-    public Anneeuniv listAnnee(@PathVariable("id") Integer id) {
-        return anneeunivRepository.findById(id).orElseThrow();
-    }
-
- */
 
     @PutMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public void modifier(@RequestBody ArrayList<ElementConstitutifDto> ElementConstitutifDto){
+        System.out.println("EcController : modifier");
         for(ElementConstitutifDto dto: ElementConstitutifDto){
             Elementconstitutif elementconstitutif = elementconstitutifRepository.findById(dto.getId()).orElseThrow();
 
@@ -74,6 +68,7 @@ public class EcController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimer(@PathVariable("id") Integer id){
+        System.out.println("EcController : supprimer");
         Elementconstitutif elementconstitutif = elementconstitutifRepository.findById(id).orElseThrow();
         elementconstitutifRepository.delete(elementconstitutif);
     }

@@ -215,12 +215,25 @@ public class AutorisationInscriptionService {
 
     public void creerAutorisationEtudiant(Integer id, Integer idAnnee, ArrayList<AutorisationDto> autorisationDto) {
 
+        System.out.println("T 1");
         for (AutorisationDto dto : autorisationDto) {
             Personne personne = personneRepository.findById(dto.getIdPersonne()).orElseThrow();
             Niveau niveau = niveauRepository.findById(id).orElseThrow();
             Anneeuniv anneeuniv = anneeunivRepository.findById(idAnnee).orElseThrow();
 
+            System.out.println("T 2");
+
             if (!autorisationinscriptionaRepository.existsByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau)) {
+                System.out.println("T 3");
+                Authentification personneUpdate = authentificationRepository.findByIdPersonne(personne);
+                if (personneUpdate != null){
+                    System.out.println("T 4");
+                    personneUpdate.setPass_word(null);
+                    personneUpdate.setPassword(null);
+                    authentificationRepository.save(personneUpdate);
+                    System.out.println("MOT DE PASSE AFTER SAVE : " + personneUpdate.getPass_word() +"et : " +personneUpdate.getPassword());
+                }
+                System.out.println("T 6");
                 Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona();
                 System.out.println("NIVEAU ACTUEL : "+niveau.getNiveau());
                 if(dto.getCodeRedoublement()==1 || dto.getCodeRedoublement()==2 || dto.getCodeRedoublement()==3){
@@ -245,17 +258,19 @@ public class AutorisationInscriptionService {
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
 
             } else {
+                System.out.println("T 7");
+                /*Authentification personneUpdate = authentificationRepository.findByIdPersonne(personne);
+                if (personneUpdate != null){
+                    System.out.println("T 4");
+                    personneUpdate.setPass_word(null);
+                    personneUpdate.setPassword(null);
+                    authentificationRepository.save(personneUpdate);
+                    System.out.println("MOT DE PASSE AFTER SAVE : " + personneUpdate.getPass_word() +"et : " +personneUpdate.getPassword());
+                }*/
+                System.out.println("T 8");
+                System.out.println("EFA MIEXISTE TY ");
             }
         }
     }
-/*
-    public void ajouterpassword(Authentification auth) {
-        Authentification password = authentificationRepository.findByIdPersonne(auth.getIdPersonne());
-        System.out.println("PASSWORD " + password);
-
-        password.setPass_word(auth.getPass_word());
-        authentificationRepository.save(password);
-
-    }*/
 }
 

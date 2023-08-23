@@ -18,6 +18,9 @@ public class SpringBootSecurityJwtApplication  extends SpringBootServletInitiali
 
 	public static void main(String[] args) {
     SpringApplication.run(SpringBootSecurityJwtApplication.class, args);
+	System.out.println("===============================================");
+	System.out.println("==========  Application version 9 =============");
+	System.out.println("===============================================");
 	}
 
 	@Bean

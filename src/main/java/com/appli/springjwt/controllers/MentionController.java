@@ -20,6 +20,7 @@ public class MentionController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<Mention> mentiondto){
+        System.out.println("MentionController : post");
         for(Mention mention: mentiondto){
             mentionRepository.save(mention);
         }
@@ -27,11 +28,11 @@ public class MentionController {
     @PutMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<Mention> dto){
+        System.out.println("MentionController : put");
         for(Mention mentionDto: dto){
             Mention mention = mentionRepository.findById(mentionDto.getId()).orElseThrow();
             mention.setMention(mentionDto.getMention());
             mention.setAcronymeMention(mentionDto.getAcronymeMention());
-
             mentionRepository.save(mention);
         }
 
@@ -40,17 +41,20 @@ public class MentionController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public Mention listbyId(@PathVariable("id") Integer id) {
+        System.out.println(" MentionController : listbyId");
         return mentionRepository.findById(id).orElseThrow();
     }
 
     @GetMapping()
     @PreAuthorize("hasAuthority('SCOLARITE') or  hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public List<Mention> list(){
+        System.out.println(" MentionController : list");
         return mentionRepository.findAll();
     }
 
     @DeleteMapping("/{id}")
     public void deleteCandidat(@PathVariable("id") Integer id){
+        System.out.println(" MentionController : deleteCandidat");
         mentionRepository.deleteById(id);
     }
 }

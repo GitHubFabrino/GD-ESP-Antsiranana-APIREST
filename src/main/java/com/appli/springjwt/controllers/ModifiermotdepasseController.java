@@ -18,20 +18,13 @@ public class ModifiermotdepasseController {
 
     @Autowired
     private AuthentificationRepository authentificationRepository;
-
     @Autowired
     PasswordEncoder encoder;
-
-
     @PostMapping()
     public ResponseEntity<?> modifiermotdepasse(@Valid @RequestBody ModifiermotdepasseDto modifiermotdepasseDto) {
-        System.out.println(modifiermotdepasseDto.getUsername());
-        System.out.println(modifiermotdepasseDto.getOldpassword());
-        System.out.println(modifiermotdepasseDto.getNewpassword());
+        System.out.println("ModifiermotdepasseController : modifiermotdepasse");
 
         Authentification user = authentificationRepository.findByUsername(modifiermotdepasseDto.getUsername());
-
-        System.out.println("Pseudo : " + user );
         if (user == null){
             return ResponseEntity.badRequest().body(new MessageResponse("Erreur : authentification non trouvée"));
         }

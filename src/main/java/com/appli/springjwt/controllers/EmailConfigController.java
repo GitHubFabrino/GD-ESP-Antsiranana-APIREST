@@ -25,6 +25,7 @@ public class EmailConfigController {
     @PostMapping("/update")
     public ResponseEntity<?> updateEmailConfig(@RequestParam("username") String username,
                                                @RequestParam("password") String password) {
+        System.out.println("EmailConfigController : updateEmailConfig");
         // code pour valider les valeurs de username et password, par exemple en les stockant dans une base de données
         // ...
 

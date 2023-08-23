@@ -96,6 +96,131 @@ public class NoteMatiereConcoursService {
         return null;
     }
 
+
+    public Candidatconcourstci creerNoteByEtudiant(NoteMatiereConcoursDto dto) {
+
+        ArrayList<Integer> objMatiereDtos = dto.getMatiere();
+        ArrayList<Candidats> objCandidatsDtos = dto.getCandidats();
+        ArrayList<BigDecimal> objNoteCandidatsDtos = dto.getCandidats().get(0).getNotes();
+
+        Concourstci concours = concourstciRepository.findById(dto.getIdCTCI()).orElseThrow();
+        Centreconcourstci centre = centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow();
+
+        ArrayList<Notematiereconcourstci> notematiereconcoursCandidatsytci = notematiereconcourstciRepository.findAllByIdCtciAndIdCentrectci(concours, centre);
+        //ArrayList<Matiereconcourstci> matiereconcourstci =  matiereconcourstciRepository.findAllById(id);
+
+        for(int i=0; i<objCandidatsDtos.size(); i++) {
+
+            Candidatconcourstci candidatsConcours = candidatconcourstciRepository.findById(objCandidatsDtos.get(i).getIdCandidatCTCI()).orElseThrow();
+            ArrayList<BigDecimal> noteConcours = dto.getCandidats().get(i).getNotes();
+            BigDecimal somme = BigDecimal.valueOf(0);
+
+            //  if (objMatiereDtos.get(i).getId() == null) {
+            for(int j=0; j<objNoteCandidatsDtos.size(); j++) {
+                System.out.println("setIdCentrectci "+dto.getIdCentreCTCI());
+                System.out.println("setIdCandidatctci "+objCandidatsDtos.get(i).getIdCandidatCTCI());
+
+
+                Candidatconcourstci candidats = candidatconcourstciRepository.findById(objCandidatsDtos.get(i).getIdCandidatCTCI()).orElseThrow();
+                Matiereconcourstci matiere = matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow();
+
+                if (notematiereconcourstciRepository.existsByIdCtciAndIdCentrectciAndIdCandidatctciAndIdMctci(
+                        concours, centre, candidats,matiere ) ) {
+
+                    Notematiereconcourstci notematiereconcourstci = notematiereconcourstciRepository.findByIdCtciAndIdCentrectciAndIdCandidatctciAndIdMctci(
+                            concours, centre, candidats,matiere).orElseThrow();
+
+                    notematiereconcourstci.setIdCtci(concourstciRepository.findById(dto.getIdCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCentrectci(centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCandidatctci(candidatconcourstciRepository.findById(objCandidatsDtos.get(i).getIdCandidatCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdMctci(matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow());
+                    notematiereconcourstci.setNoteMctci(dto.getCandidats().get(i).getNotes().get(j));
+
+                    notematiereconcourstciRepository.save(notematiereconcourstci);
+
+                } else {
+
+                    Notematiereconcourstci notematiereconcourstci = new Notematiereconcourstci();
+
+                    notematiereconcourstci.setIdCtci(concourstciRepository.findById(dto.getIdCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCentrectci(centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCandidatctci(candidatconcourstciRepository.findById(objCandidatsDtos.get(i).getIdCandidatCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdMctci(matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow());
+                    notematiereconcourstci.setNoteMctci(dto.getCandidats().get(i).getNotes().get(j));
+
+                    notematiereconcourstciRepository.save(notematiereconcourstci);
+                }
+
+            }
+            // }
+            for(int n = 0; n<noteConcours.size(); n++) {
+                somme = somme.add(noteConcours.get(n));
+            }
+
+            // candidatsConcours.setMoyenneCandidatCTCI(somme.divide(BigDecimal.valueOf(noteConcours.size())));
+        }
+
+        //return candidatconcourstciRepository.findById(objCandidatsDtos.get(0).getIdCandidatCTCI()).orElseThrow();
+        return null;
+    }
+
+
+    /*
+    public Candidatconcourstci creerNoteByEtudiant(NoteMatiereConcoursDto dto) {
+
+        ArrayList<Candidats> objCandidatsDtos = dto.getCandidats();
+        ArrayList<BigDecimal> objNoteCandidatsDtos = dto.getCandidats().get(0).getNotes();
+
+        Concourstci concours = concourstciRepository.findById(dto.getIdCTCI()).orElseThrow();
+        Centreconcourstci centre = centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow();
+
+
+            ArrayList<BigDecimal> noteConcours = dto.getCandidats().get(0).getNotes();
+            BigDecimal somme = BigDecimal.valueOf(0);
+
+            for(int j=0; j<objNoteCandidatsDtos.size(); j++) {
+                System.out.println("setIdCentrectci "+dto.getIdCentreCTCI());
+                System.out.println("setIdCandidatctci "+objCandidatsDtos.get(0).getIdCandidatCTCI());
+
+
+                Candidatconcourstci candidats = candidatconcourstciRepository.findById(objCandidatsDtos.get(0).getIdCandidatCTCI()).orElseThrow();
+                Matiereconcourstci matiere = matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow();
+
+                if (notematiereconcourstciRepository.existsByIdCtciAndIdCentrectciAndIdCandidatctciAndIdMctci(
+                        concours, centre, candidats,matiere ) ) {
+
+                    Notematiereconcourstci notematiereconcourstci = notematiereconcourstciRepository.findByIdCtciAndIdCentrectciAndIdCandidatctciAndIdMctci(
+                            concours, centre, candidats,matiere).orElseThrow();
+
+                    notematiereconcourstci.setIdCtci(concourstciRepository.findById(dto.getIdCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCentrectci(centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCandidatctci(candidatconcourstciRepository.findById(objCandidatsDtos.get(0).getIdCandidatCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdMctci(matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow());
+                    notematiereconcourstci.setNoteMctci(dto.getCandidats().get(0).getNotes().get(j));
+
+                    notematiereconcourstciRepository.save(notematiereconcourstci);
+
+                } else {
+
+                    Notematiereconcourstci notematiereconcourstci = new Notematiereconcourstci();
+
+                    notematiereconcourstci.setIdCtci(concourstciRepository.findById(dto.getIdCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCentrectci(centreconcourstciRepository.findById(dto.getIdCentreCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdCandidatctci(candidatconcourstciRepository.findById(objCandidatsDtos.get(0).getIdCandidatCTCI()).orElseThrow());
+                    notematiereconcourstci.setIdMctci(matiereconcourstciRepository.findById(dto.getMatiere().get(j)).orElseThrow());
+                    notematiereconcourstci.setNoteMctci(dto.getCandidats().get(0).getNotes().get(j));
+
+                    notematiereconcourstciRepository.save(notematiereconcourstci);
+                }
+
+            }
+            // }
+            for(int n = 0; n<noteConcours.size(); n++) {
+                somme = somme.add(noteConcours.get(n));
+            }
+            return null;
+    }
+*/
     public NoteMatiereConcoursDto getNote(Integer numeroConcours, Integer numeroCentre) {
         System.out.println("G1");
         System.out.println("Donnee recu : ");

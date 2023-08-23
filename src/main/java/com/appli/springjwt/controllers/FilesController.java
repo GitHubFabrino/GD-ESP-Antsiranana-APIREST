@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class FilesController {
   @Autowired
   FilesStorageService storageService;
@@ -31,6 +31,7 @@ public class FilesController {
   @PostMapping("/upload")
   @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile[] files) {
+    System.out.println("FilesController : uploadFile");
     String message = "";
     try {
       List<String> fileNames = new ArrayList<>();
@@ -53,6 +54,7 @@ public class FilesController {
   @GetMapping("/files")
   @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<List<Fichier>> getListFiles() {
+    System.out.println("FilesController : getListFiles");
     List<Fichier> fileInfos = storageService.loadAll().map(path -> {
       String filename = path.getFileName().toString();
       String url = MvcUriComponentsBuilder
@@ -67,6 +69,7 @@ public class FilesController {
   @GetMapping("/files/{filename:=+}")
   @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<Resource> getFile(@PathVariable String filename ) {
+    System.out.println("FilesController : getFile");
     Resource file = storageService.load(filename);
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
@@ -75,6 +78,7 @@ public class FilesController {
   @DeleteMapping("/files/{filename:.+}")
   @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename) {
+    System.out.println("FilesController : deleteFile");
     String message = "";
     
     try {

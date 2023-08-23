@@ -18,7 +18,6 @@ public class CentreConcourstciController {
     @Autowired
     CentreConcourstciService concourstciService;
 
-
     @Autowired
     CentreConcoursService centreConcoursService;
 
@@ -29,6 +28,7 @@ public class CentreConcourstciController {
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Centreconcourstci> listCentre() {
+        System.out.println("CentreConcourstciController : listCentre");
         return concourstciService.getConcoursList();
     }
 
@@ -36,8 +36,7 @@ public class CentreConcourstciController {
     @GetMapping(path = "/concours")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<CentreConcours> getMatiereconcou(){
-        System.out.println("Donnée getée : ");
-        System.out.println(centreConcoursService.getAllCentreConcours());
+        System.out.println("CentreConcourstciController : getMatiereconcou");
         return centreConcoursService.getAllCentreConcours();
     }
 
@@ -45,10 +44,8 @@ public class CentreConcourstciController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void postCentreConcours(@RequestBody CentreConcours CentreConcours){
-        System.out.println("Donnée recus : ");
-        System.out.println(CentreConcours);
+        System.out.println("CentreConcourstciController : postCentreConcours");
         centreConcoursRepository.save(CentreConcours);
-        System.out.println("Centre ajoutée");
     }
 
 }

@@ -15,11 +15,7 @@ public class Candidatconcourstci {
 
     @Column(name = "numero_candidatCTCI")
     private Long numeroCandidatCTCI;
-/*
-    @Column(name = "moyenne_candidatCTCI")
-    private BigDecimal moyenneCandidatCTCI;
 
- */
 
     @Column(name = "passation_candidatCTCI")
     private Boolean passationCandidatCTCI;
@@ -38,11 +34,6 @@ public class Candidatconcourstci {
     private Set<Notematiereconcourstci> notematiereconcourstcis = new LinkedHashSet<>();
 
 
-/*
-    @OneToMany(mappedBy = "idCandidatctci")
-    private Set<Notematiereconcourstci> notematiereconcourstcis = new LinkedHashSet<>();
-
- */
 
     public Candidatconcourstci() {
     }
@@ -61,16 +52,6 @@ public class Candidatconcourstci {
     }
 
 
-/*
-    public Set<Notematiereconcourstci> getNotematiereconcourstcis() {
-        return notematiereconcourstcis;
-    }
-
-    public void setNotematiereconcourstcis(Set<Notematiereconcourstci> notematiereconcourstcis) {
-        this.notematiereconcourstcis = notematiereconcourstcis;
-    }
-
- */
     public Set<Notematiereconcourstci> getNotematiereconcourstcis() {
     return notematiereconcourstcis;
 }
@@ -102,12 +83,7 @@ public class Candidatconcourstci {
     public void setPassationCandidatCTCI(Boolean passationCandidatCTCI) {
         this.passationCandidatCTCI = passationCandidatCTCI;
     }
-/*
-    public void setMoyenneCandidatCTCI(BigDecimal moyenneCandidatCTCI) {
-        this.moyenneCandidatCTCI = moyenneCandidatCTCI;
-    }
 
- */
 
     public Long getNumeroCandidatCTCI() {
         return numeroCandidatCTCI;
