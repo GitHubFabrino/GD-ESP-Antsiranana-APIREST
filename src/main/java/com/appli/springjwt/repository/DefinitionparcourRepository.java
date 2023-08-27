@@ -12,4 +12,5 @@ public interface DefinitionparcourRepository extends JpaRepository<Definitionpar
     boolean existsByIdAu(Anneeuniv idAu);
 
 
+    ArrayList<Definitionparcour> findAllByIdAuAndIdNiveau(Anneeuniv idAu, Niveau idNiveau);
 }

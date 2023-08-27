@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.appli.springjwt.utils.EmailUtils.getEmailMessageEtudiant;
+
 @Service
 public class AutorisationInscriptionService {
+    public static final String LOGIN_ESP_ANTSIRANANA = "LOGIN ESP Antsiranana ";
     @Autowired
     CentreconcourstciRepository centreconcourstciRepository;
     @Autowired
@@ -36,6 +39,12 @@ public class AutorisationInscriptionService {
 
     @Autowired
     AuthentificationRepository authentificationRepository;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    DefinitionparcourRepository definitionparcourRepository;
 
     public Candidatconcourstci creerAutorisation(Integer idConcours, AutorisationDto autorisationDto) {
         System.out.println("AU 1 " );
@@ -93,6 +102,51 @@ public class AutorisationInscriptionService {
         autorisationinscriptiona.setAutorisation(dto.getAutorisation());
         autorisationinscriptiona.setNumeroRecu(dto.getNumeroRecu());
 
+
+        String nomAU = autorisationinscriptiona.getIdAu().getNomAU();
+        String niveau = autorisationinscriptiona.getIdNiveau().getNiveau();
+
+        ArrayList<Definitionparcour> parcoursteste = definitionparcourRepository.findAllByIdAuAndIdNiveau(
+                autorisationinscriptiona.getIdAu(),
+                autorisationinscriptiona.getIdNiveau());
+
+        var i = 0;
+
+        String parcoursInscription = null;
+        String parcoursInscriptionAcronyme = null;
+        String mention = null;
+
+        for (Definitionparcour parcour : parcoursteste) {
+
+            String sem = parcour.getIdSemestre().getSemestre();
+            if (Objects.equals(sem, "S1")){
+                System.out.println("eeeeeeeeeee");
+                parcoursInscription = parcour.getIdParcours().getParcours();
+                parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
+                mention = parcour.getIdDm().getIdMention().getMention();
+            }
+            if (Objects.equals(sem, "S3")){
+                parcoursInscription = parcour.getIdParcours().getParcours();
+                parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
+                mention = parcour.getIdDm().getIdMention().getMention();
+            }
+            if (Objects.equals(sem, "S5")){
+                parcoursInscription = parcour.getIdParcours().getParcours();
+                parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
+                mention = parcour.getIdDm().getIdMention().getMention();
+            }
+            if (Objects.equals(sem, "S7")){
+                parcoursInscription = parcour.getIdParcours().getParcours();
+                parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
+                mention = parcour.getIdDm().getIdMention().getMention();
+            }
+            if (Objects.equals(sem, "S9")){
+                parcoursInscription = parcour.getIdParcours().getParcours();
+                parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
+                mention = parcour.getIdDm().getIdMention().getMention();
+            }
+        }
+
         String randomPass = alphaNumericString(8);
         //String randomPass ="TEST";
 
@@ -123,6 +177,33 @@ public class AutorisationInscriptionService {
                 userRepository.save(authentification);
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
 
+
+                System.out.println(nom);
+                System.out.println(prenom);
+                System.out.println(pseudo);
+                System.out.println(randomPass);
+                System.out.println(mention);
+                System.out.println(parcoursInscription);
+                System.out.println(parcoursInscriptionAcronyme);
+                System.out.println(nomAU);
+                System.out.println(niveau);
+
+
+                //TODO Ici envoie email
+                emailService.sendSimpleMessage(
+                        "rakotoharilalainafabrino@gmail.com",
+                        LOGIN_ESP_ANTSIRANANA,
+                        getEmailMessageEtudiant(
+                                nom,
+                                prenom,
+                                randomPass,
+                                pseudo,
+                                nomAU,
+                                mention,
+                                parcoursInscription,
+                                parcoursInscriptionAcronyme,
+                                niveau));
+
                 return new AuthentificationDto(pseudo, randomPass);
 
             } else {
@@ -133,9 +214,24 @@ public class AutorisationInscriptionService {
             authentification.setIdPersonne(authentification.getIdPersonne());
             authentification.setRoles(fonctions);
 */
-                Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass), autorisationinscriptiona.getIdPersonne(),randomPass, fonctions);
+                Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass), autorisationinscriptiona.getIdPersonne(), randomPass, fonctions);
                 userRepository.save(authentification);
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
+
+                //TODO Ici envoie email
+                emailService.sendSimpleMessage(
+                        "rakotoharilalainafabrino@gmail.com",
+                        LOGIN_ESP_ANTSIRANANA,
+                        getEmailMessageEtudiant(
+                                nom,
+                                prenom,
+                                randomPass,
+                                pseudo,
+                                nomAU,
+                                mention,
+                                parcoursInscription,
+                                parcoursInscriptionAcronyme,
+                                niveau));
 
                 return new AuthentificationDto(pseudo, randomPass);
             }
