@@ -8,10 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.Resource;
 
 @SpringBootApplication
+@EnableAsync
 public class SpringBootSecurityJwtApplication  extends SpringBootServletInitializer implements CommandLineRunner {
 	@Resource
 	FilesStorageService storageService;

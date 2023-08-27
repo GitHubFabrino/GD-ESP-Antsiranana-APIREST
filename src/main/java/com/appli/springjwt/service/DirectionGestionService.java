@@ -14,10 +14,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.appli.springjwt.utils.EmailUtils.getEmailMessage;
+
 @Transactional
 @Service
 public class DirectionGestionService {
 
+    public static final String LOGIN_ESP_ANTSIRANANA = "LOGIN ESP Antsiranana ";
     @Autowired
     PersonneRepository personneRepository;
     @Autowired
@@ -66,7 +69,15 @@ public class DirectionGestionService {
             authentification.setRoles(fonctions);
             authentification.setIdPersonne(personne);
 
-            emailService.sendSimpleMessage(directionGestionDto.getEmail(), "LOGIN ESP Antsiranana  ", " Votre compte a été créé avec le mot de passe suivant." + password);
+            //TODO Ici envoie email
+            emailService.sendSimpleMessage(
+                    directionGestionDto.getEmail(),
+                    LOGIN_ESP_ANTSIRANANA,
+                    getEmailMessage(
+                            directionGestionDto.getNom(),
+                            directionGestionDto.getPrenoms(),
+                            password ,
+                            directionGestionDto.getEmail()));
 
             direction.setIdPersonne(personne);
 
