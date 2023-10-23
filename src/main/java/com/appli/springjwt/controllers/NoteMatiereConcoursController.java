@@ -17,19 +17,21 @@ public class NoteMatiereConcoursController {
     @PutMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public Candidatconcourstci postNoteConcours(@RequestBody NoteMatiereConcoursDto note){
+        System.out.println("NoteMatiereConcoursController : postNoteConcours");
         return noteMatiereConcoursService.creerNote(note);
     }
 
     @PutMapping("/candidat")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public Candidatconcourstci postNoteConcoursByEtudiant(@RequestBody NoteMatiereConcoursDto note){
-        System.out.println(" donnee ::: " + note);
+        System.out.println("NoteMatiereConcoursController : postNoteConcoursByEtudiant");
         return noteMatiereConcoursService.creerNoteByEtudiant(note);
     }
 
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public NoteMatiereConcoursDto getNoteConcours(@PathVariable("idConcours") Integer idConcours, @PathVariable("idCentre") Integer idCentre){
+        System.out.println("NoteMatiereConcoursController : getNoteConcours");
         try {
             return noteMatiereConcoursService.getNote(idConcours, idCentre);
         }catch (Exception e){

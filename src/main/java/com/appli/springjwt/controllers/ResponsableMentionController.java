@@ -29,28 +29,14 @@ public class ResponsableMentionController {
         }
 
     }
-/*
-    @PutMapping
-    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
-    public void put(@RequestBody ArrayList<DefinitionMentionDto> definitionMentionDto){
-        responsableMentionService.update(definitionMentionDto);
-    }
 
- */
     @GetMapping("/annee/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public ArrayList<DefinitionMentionDto> list(@PathVariable("id") Integer idAU) {
         return responsableMentionService.get(idAU);
     }
 
-/*
-    @GetMapping("/personne/{id}")
-    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
-    public DirectionGestionDto getById(@PathVariable("id") Integer id) {
-        return responsableMentionService.getById(id);
-    }
 
- */
 @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void deleteCandidat(@PathVariable("id") Integer numero){

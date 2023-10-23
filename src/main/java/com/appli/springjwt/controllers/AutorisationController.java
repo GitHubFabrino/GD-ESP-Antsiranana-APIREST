@@ -45,6 +45,7 @@ public class AutorisationController {
         return autorisationInscriptionService.ListAutorisationNiveau(idNiveau,idAU);
     }
 
+
     @PutMapping("{id}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public AuthentificationDto putAutorisation(@PathVariable("id") Integer id, @RequestBody AutorisationDto autorisationDto){

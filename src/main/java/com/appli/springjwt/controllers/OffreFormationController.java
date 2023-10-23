@@ -18,6 +18,7 @@ public class OffreFormationController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<OffreFormationDto> offreFormationDtos){
+
         offreFormationService.save(offreFormationDtos);
     }
 

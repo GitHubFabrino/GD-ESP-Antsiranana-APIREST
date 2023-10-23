@@ -6,6 +6,7 @@ import com.appli.springjwt.payload.response.MessageResponse;
 import com.appli.springjwt.repository.AuthentificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class ModifiermotdepasseController {
     @Autowired
     PasswordEncoder encoder;
     @PostMapping()
+    @PreAuthorize("hasRole('USER') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public ResponseEntity<?> modifiermotdepasse(@Valid @RequestBody ModifiermotdepasseDto modifiermotdepasseDto) {
         System.out.println("ModifiermotdepasseController : modifiermotdepasse");
 

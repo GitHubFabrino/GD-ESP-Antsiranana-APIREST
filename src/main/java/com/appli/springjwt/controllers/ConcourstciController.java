@@ -38,7 +38,7 @@ public class ConcourstciController {
         concourstciService.creerConcours(concours);
     }
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN') or hasAuthority('DIRECTION')")
     public List<ConcourstciView> listConcours() {
         System.out.println("ConcourstciController : listConcours");
         return concourstciService.getConcoursList();
