@@ -44,9 +44,13 @@ public class CentreConcourstciService {
             System.out.println("ID : " + centre.getId());
             System.out.println("Nom Centre CTCI : " + centre.getNomCentreCTCI());
             System.out.println("Code Postal : " + centre.getCodePostale());
-            System.out.println("Nom : " + centre.getIdPersonne().getNom());
-            System.out.println("Prénoms : " + centre.getIdPersonne().getPrenoms());
+            System.out.println("id Chef de centre : " + centre.getIdPersonne());
+            System.out.println("Nom Chef de centre : " + centre.getIdPersonne().getNom());
+            System.out.println("Prénoms Chef de centre : " + centre.getIdPersonne().getPrenoms());
+            System.out.println("Nom Adjoint de centre : " + centre.getIdPersonneAdjoit().getNom());
+            System.out.println("Prénoms Adjoint de centre : " + centre.getIdPersonneAdjoit().getPrenoms());
             System.out.println("Téléphone : " + centre.getIdPersonne().getTelephone());
+
             System.out.println("-------------------------------------");
         }
 
@@ -58,6 +62,8 @@ public class CentreConcourstciService {
                     centre.getIdPersonne().getNom(),
                     centre.getIdPersonne().getPrenoms(),
                     centre.getIdPersonne().getTelephone(),
+                    centre.getIdPersonneAdjoit().getNom(),
+                    centre.getIdPersonneAdjoit().getPrenoms(),
                     centre.getIdCTCI()
             );
             centreConcoursTCIDtos.add(centreDto);

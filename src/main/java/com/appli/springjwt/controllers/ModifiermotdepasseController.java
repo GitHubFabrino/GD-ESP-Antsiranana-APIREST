@@ -22,7 +22,7 @@ public class ModifiermotdepasseController {
     @Autowired
     PasswordEncoder encoder;
     @PostMapping()
-    @PreAuthorize("hasRole('USER') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public ResponseEntity<?> modifiermotdepasse(@Valid @RequestBody ModifiermotdepasseDto modifiermotdepasseDto) {
         System.out.println("ModifiermotdepasseController : modifiermotdepasse");
 

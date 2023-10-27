@@ -17,21 +17,21 @@ public class InscriptionAdministrativeController {
     InscriptionAdministrativeService inscriptionAdministrativeService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void post(@RequestBody ArrayList<InscriptionAdministrativeDto> inscriptionAdministrativeDtos){
         System.out.println(" InscriptionAdministrativeController : post" );
         inscriptionAdministrativeService.save(inscriptionAdministrativeDtos);
     }
 
     @GetMapping("/annee/{idAnnee}/niveau/{idNiveau}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public  ArrayList<InscriptionAdministrativeDto> get(@PathVariable("idNiveau") Integer idNiveau, @PathVariable("idAnnee") Integer idAnnee){
         System.out.println(" InscriptionAdministrativeController : get" );
         return  inscriptionAdministrativeService.getByIdAU(idNiveau, idAnnee);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void put(@PathVariable("id") Integer id, @RequestBody InscriptionAdministrativeDto inscriptionAdministrativeDto){
         System.out.println(" InscriptionAdministrativeController : put" );
         inscriptionAdministrativeService.update(id, inscriptionAdministrativeDto);

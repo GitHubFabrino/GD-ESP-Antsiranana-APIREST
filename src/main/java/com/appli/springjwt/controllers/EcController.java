@@ -19,7 +19,7 @@ public class EcController {
     ElementconstitutifRepository elementconstitutifRepository;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<ElementConstitutifDto> elementConstitutifDtos){
 
         System.out.println("EcController : post");

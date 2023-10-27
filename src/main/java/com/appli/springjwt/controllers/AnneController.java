@@ -24,7 +24,7 @@ public class AnneController {
     AnneeunivRepository anneeunivRepository;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void postAnnee(@RequestBody Anneeuniv anneeuniv){
 
         System.out.println("AnneController : postAnnee");
@@ -40,7 +40,7 @@ public class AnneController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public List<Anneeuniv> listAnnee() {
         System.out.println("AnneController : listAnnee");
         List<Anneeuniv> annee = anneeunivRepository.findAll();
@@ -48,14 +48,14 @@ public class AnneController {
         return annee;
     }
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public Anneeuniv listAnnee(@PathVariable("id") Integer id) {
         System.out.println("AnneController : listAnnee");
         return anneeunivRepository.findById(id).orElseThrow();
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void modifierAnnee(@PathVariable("id") Integer id, @RequestBody Anneeuniv anneeuniv){
         System.out.println("AnneController : modifierAnnee");
         Anneeuniv annee = anneeunivRepository.findById(id).orElseThrow();
@@ -67,7 +67,7 @@ public class AnneController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimerAnnee(@PathVariable("id") Integer id){
         System.out.println("AnneController : supprimerAnnee");
         Anneeuniv annee = anneeunivRepository.findById(id).orElseThrow();

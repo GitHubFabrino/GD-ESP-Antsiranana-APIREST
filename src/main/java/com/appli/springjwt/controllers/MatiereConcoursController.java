@@ -25,21 +25,21 @@ public class MatiereConcoursController {
     MatiereConcoursRepository matiereConcoursRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Object[]> getMatiereConcours(){
         System.out.println(" MatiereConcoursController : getMatiereConcours" );
         return matiereService.getAll();
     }
 
     @GetMapping(path = "/concours")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<MatiereConcours> getMatiereconcou(){
         System.out.println(" MatiereConcoursController : getMatiereconcou" );
         return matiereConcoursService.getAllMatiereConcours();
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void postMatiereConcours(@RequestBody MatiereConcours matiereConcours){
         System.out.println(" MatiereConcoursController : postMatiereConcours" );
         matiereConcoursRepository.save(matiereConcours);

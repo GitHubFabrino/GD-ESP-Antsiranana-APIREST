@@ -21,19 +21,11 @@ public class ScolariteController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody ScolariteDto scolariteDtos){
-/*
-        if (userRepository.existsByUsername(scolariteDtos.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }else {
-        }
- */
         scolariteService.save(scolariteDtos);
     }
 
     @PutMapping("/tache")
-    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void putTache(@RequestBody ArrayList<ScolariteDto> scolariteDtos){
         scolariteService.updateTache(scolariteDtos);
     }
@@ -45,13 +37,13 @@ public class ScolariteController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<ScolariteDto> list() {
         return scolariteService.get();
     }
 
     @GetMapping("/personne/{id}")
-    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ScolariteDto getById(@PathVariable("id") Integer id) {
         return scolariteService.getById(id);
     }

@@ -25,11 +25,8 @@ public class PresidentJuryController {
     @Autowired
     PresidentJuryRepository presidentJuryRepository;
 
-
-
-
     @PostMapping
-    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('SCOLARITE')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE')")
     public void post(@RequestBody DefinitionPresidentJuryDto presidentJury){
         System.out.println("ok");
         System.out.println(presidentJury.getIdAU());
@@ -47,7 +44,7 @@ public class PresidentJuryController {
     }
 
     @GetMapping("/list")
-   /* @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")*/
+   @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public ArrayList<PresidentJuryDto> list() {
         System.out.println("ato zay");
         return presidentJuryService.getList();
@@ -55,7 +52,7 @@ public class PresidentJuryController {
 
 
     @DeleteMapping("/delete/{id_pdj}")
-   /* @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN')")*/
+    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void deleteCandidat(@PathVariable("id_pdj") Integer numero){
         presidentJuryService.delete(numero);
     }

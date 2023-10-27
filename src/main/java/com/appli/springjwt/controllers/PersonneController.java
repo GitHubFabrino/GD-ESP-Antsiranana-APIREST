@@ -29,7 +29,7 @@ public class PersonneController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('DIRECTION')or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
     public List<Authentification> postPersonne(@RequestBody Personne personne){
         System.out.println("La methode post a été invoqué");
         personneService.creerPersonne(personne);
@@ -37,7 +37,7 @@ public class PersonneController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public void putPersonne(@PathVariable("id") Integer numero, @RequestBody Personne personne){
         System.out.println("La methode put a été invoqué " );
         personneService.modifierPersonne(numero, personne);
@@ -45,7 +45,7 @@ public class PersonneController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('ENSEIGNANT') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasAuthority('ENSEIGNANT') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public PersonneDto get(@PathVariable("id") Integer numero){
         System.out.println("La methode get a été invoqué");
 
@@ -53,7 +53,7 @@ public class PersonneController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(" hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize(" hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void deletePersonne(@PathVariable("id") Integer numero){
         personneService.deletePersonne(numero);
     }

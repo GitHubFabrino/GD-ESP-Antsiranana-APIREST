@@ -38,32 +38,47 @@ public class ConcourstciService {
     public Personne creerConcours(ConcoursDto dto){
 
         ArrayList<CentreConcoursTCIDto> objCentreConcoursTCIDto = dto.getCentreConcoursTCI();
-
         ArrayList<MatiereDto> objMatiereDtos = dto.getMatiereConcoursTCI();
-
         ArrayList<CalendrierConcoursTCIDto> ObjCalendrierConcoursTCIDtos = dto.getCalendrierConcoursTCI();
 
         ConcoursTCIDto objConcoursTCIDto = dto.getConcoursTCI();
 
         if (objConcoursTCIDto.getId() == null) {
-
+            System.out.println("CREATION D UN NOUVEAU CONCOUR / CENTRE");
             Concourstci concours = new Concourstci(objConcoursTCIDto.getSessionCTCI(),objConcoursTCIDto.getDescriptionCTCI());
-
             concourstciRepository.save(concours);
-
-            // Maintenant que l'enregistrement est effectué, vous pouvez récupérer l'ID du concours
-            Integer idConcours = concours.getId();
-            System.out.println("======== anatiny id null " + idConcours);
+            System.out.println("CREATION D UN NOUVEAU CONCOUR OK :)");
 
             for (CentreConcoursTCIDto centre : objCentreConcoursTCIDto ){
 
-                Centreconcourstci centreconcours = new Centreconcourstci(centre.getNomCentreCTCI(),centre.getCodePostale(),concours,centre.getIdPersonne());
-                if (centre.getId_centreCTCI() == null) {
-                    centreconcours.setNomCentreCTCI(centre.getNomCentreCTCI());
-                    System.out.println("/////////////////////"+centreconcours.getNomCentreCTCI()+"///////");
-                    centreconcours.setCodePostale(centre.getCodePostale());
+                Centreconcourstci centreconcours = new Centreconcourstci(
+                        centre.getNomCentreCTCI(),
+                        centre.getCodePostale(),
+                        concours,
+                        centre.getIdPersonne());
 
+                System.out.println("Nom adjoint : "+centre.getNomAdjoint());
+                System.out.println("prenom adjoint : "+centre.getPrenomAdjoint());
+                Personne adjoint = personneRepository.findByNomAndPrenoms(centre.getNomAdjoint(), centre.getPrenomAdjoint()).orElse(null);
+                Personne adjointNew = new Personne();
+                if (adjoint == null){
+                    System.out.println("NOUVEAU ADJOINT");
+                    adjointNew.setNom(centre.getNomAdjoint());
+                    adjointNew.setPrenoms(centre.getPrenomAdjoint());
+                    personneRepository.save(adjointNew);
+                    System.out.println(" AJOUT ADJOINT OK id : " + adjointNew.getId());
+                }else {
+                    System.out.println(" ADJOINT EXIST DEJA id : " + adjoint.getId());
+                }
+
+                Personne adjointExist = personneRepository.findByNomAndPrenoms(centre.getNomAdjoint(), centre.getPrenomAdjoint()).orElse(null);
+
+                if (centre.getId_centreCTCI() == null) {
+                    System.out.println("CREATION NEW CENTRE ");
+                    centreconcours.setNomCentreCTCI(centre.getNomCentreCTCI());
+                    centreconcours.setCodePostale(centre.getCodePostale());
                     centreconcours.setIdCTCIINT(concours.getId());
+                    centreconcours.setIdPersonneAdjoit(adjointExist);
 
                     Integer id_chefDeCentre = Integer.valueOf(String.valueOf(findPersonIdByFullName(centre.getNom(), centre.getPrenoms())));
 
@@ -71,32 +86,51 @@ public class ConcourstciService {
                         System.out.println("Id personne : "+id_chefDeCentre);
                         centreconcours.setIdPersonneID(id_chefDeCentre);
                     }
+                    System.out.println("Id concours TCI "+centre.getIdCTCI());
                     System.out.println("Centre: "+ centre.getNomCentreCTCI());
+                    System.out.println("Id Chef de centre"+centre.getIdPersonne());
                     System.out.println("Nom Chef de centre"+centre.getNom());
                     System.out.println("Prenom Chef de centre"+centre.getPrenoms());
-                    System.out.println("Id concours TCI "+centre.getIdCTCI());
-                    System.out.println("Num tel  Chef de centre"+centre.getTelephone());
-                    System.out.println("Id Chef de centre"+centre.getIdPersonne());
-
+                    System.out.println("----------------------------------");
+                    System.out.println("Id adjoint de centre"+adjointExist.getId());
+                    System.out.println("Nom Chef de centre"+adjointExist.getNom());
+                    System.out.println("Prenom Chef de centre"+adjointExist.getPrenoms());
 
                     centreconcourstciRepository.save(centreconcours);
+                    System.out.println("CREATION D UN NOUVEAU CONCOUR / CENTRE / ADJOINT  OK :)");
 
                 } else {
+                    System.out.println("MODIFICATION CENTRE id :  " + centre.getId_centreCTCI());
 
-                    System.out.println("////////////////////ici");
+                    System.out.println("INFO");
+                    System.out.println("IdCTCI : " + centre.getIdCTCI() );
+                    System.out.println("NomCentreCTCI : " + centre.getNomCentreCTCI() );
+                    System.out.println("CodePostale : " + centre.getCodePostale());
+                    System.out.println("id chef centre : " + centre.getIdPersonne());
+                    System.out.println("Nom Chef de centre : " + centre.getIdPersonne().getNom());
+                    System.out.println("Prenom Chef  : " + centre.getIdPersonne().getPrenoms());
+                    System.out.println("id Adjoint centre : " + centre.getId_PersonneAdjoit());
+                    System.out.println("Nom Adjoint de centre : " + centre.getNomAdjoint());
+                    System.out.println("Prenom Adjoint  : " + centre.getPrenomAdjoint());
+                    System.out.println("Telephone : " + centre.getTelephone() );
                     Centreconcourstci centre1 = centreconcourstciRepository.findById(centre.getId_centreCTCI()).orElseThrow();
                     Centreconcourstci centreconcours1 = new Centreconcourstci(centre.getNomCentreCTCI(),centre.getCodePostale(),concours,centre.getIdPersonne());
 
-                    System.out.println("////////////////////////"+centreconcours1+"//////////////");
                     centre1.setNomCentreCTCI(centre.getNom());
                     centre1.setCodePostale(centre.getCodePostale());
                     centre1.setIdCTCI(centre.getIdCTCI());
                     centre1.setIdPersonne(centre1.getIdPersonne());
-                    //centre1.getIdPersonne().setNom(centre.getNom());
-                    //centre1.getIdPersonne().setPrenoms(centre.getPrenoms());
-                    //centre1.getIdPersonne().setTelephone(centre.getTelephone());
+                    centre1.setIdPersonneAdjoit(adjointExist);
 
                     centreconcourstciRepository.save(centre1);
+                    System.out.println("NomCentreCTCI : " + centre1.getNomCentreCTCI() );
+                    System.out.println("CodePostale : " + centre1.getCodePostale());
+                    System.out.println("Nom Chef de centre : " + centre1.getIdPersonne().getNom());
+                    System.out.println("Prenom Chef  : " + centre1.getIdPersonne().getPrenoms());
+                    System.out.println("-----------------------------------------");
+                    System.out.println("Nom Adjoint de centre : " + adjointExist.getNom());
+                    System.out.println("Prenom Adjoint  : " + adjointExist.getPrenoms());
+                    System.out.println("MODIFICATION D'UN CONCOUR / CENTRE / ADJOINT  OK :)");
                 }
             }
 
@@ -171,46 +205,82 @@ public class ConcourstciService {
 
         }
         else{
-            System.out.println("========= eto aminy id tsy null : " + objConcoursTCIDto.getId());
+            System.out.println("MODIFICATION CONCOUR id : " + objConcoursTCIDto.getId() + " Session : " + objConcoursTCIDto.getSessionCTCI());
+
             Concourstci concours = concourstciRepository.findById(objConcoursTCIDto.getId()).orElseThrow();
             concours.setSessionCTCI(objConcoursTCIDto.getSessionCTCI());
             concours.setDescriptionCTCI(objConcoursTCIDto.getDescriptionCTCI());
             concours.setDateDebutConcours(objConcoursTCIDto.getDateDebutConcours());
             concours.setDateFinConcours(objConcoursTCIDto.getDateFinConcours());
             concourstciRepository.save(concours);
-            System.out.println("=========== concours enregistrer ilay misy id  : "+concours);
-            // Maintenant que l'enregistrement est effectué, vous pouvez récupérer l'ID du concours
-            Integer idConcours = concours.getId();
-            System.out.println("============id Concour : " + idConcours);
 
             for (CentreConcoursTCIDto centre : objCentreConcoursTCIDto ){
+                System.out.println("Id Adjoint : " + centre.getId_PersonneAdjoit());
+                System.out.println("Nom adjoint : "+centre.getNomAdjoint());
+                System.out.println("prenom adjoint : "+centre.getPrenomAdjoint());
+                System.out.println("Id_centre : " + centre.getId_centreCTCI());
+
 
                 Centreconcourstci centreconcours = new Centreconcourstci(centre.getNomCentreCTCI(),centre.getCodePostale(),concours,centre.getIdPersonne());
                 if (centre.getId_centreCTCI() == null) {
+                    System.out.println("CREATION DU NOUVEAU CENTRE ");
+
+                    Personne adjoint = personneRepository.findByNomAndPrenoms(centre.getNomAdjoint(), centre.getPrenomAdjoint()).orElse(null);
+                    Personne adjointNew = new Personne();
+                    if (adjoint == null){
+                        System.out.println("NOUVEAU ADJOINT");
+                        adjointNew.setNom(centre.getNomAdjoint());
+                        adjointNew.setPrenoms(centre.getPrenomAdjoint());
+                        personneRepository.save(adjointNew);
+                        System.out.println(" AJOUT ADJOINT OK id : " + adjointNew.getId());
+                    }else {
+                        System.out.println(" ADJOINT EXIST DEJA id : " + adjoint.getId());
+                    }
+
+                    Personne adjointExist = personneRepository.findByNomAndPrenoms(centre.getNomAdjoint(), centre.getPrenomAdjoint()).orElse(null);
+
                     centreconcours.setNomCentreCTCI(centre.getNomCentreCTCI());
                     centreconcours.setCodePostale(centre.getCodePostale());
                     centreconcours.setIdCTCIINT(concours.getId());
-
-                    System.out.println("/////////////////////"+centreconcours.getNomCentreCTCI()+"///////");
-
+                    centreconcours.setIdPersonneAdjoit(adjointExist);
                     Integer id_chefDeCentre = Integer.valueOf(String.valueOf(findPersonIdByFullName(centre.getNom(), centre.getPrenoms())));
 
                     if (id_chefDeCentre != null){
                         System.out.println("Id personne chef de centre : "+id_chefDeCentre);
                         centreconcours.setIdPersonneID(id_chefDeCentre);
                     }
+                    System.out.println("Id concours TCI "+centreconcours.getIdCTCI());
                     System.out.println("Centre: "+ centreconcours.getNomCentreCTCI());
+                    System.out.println("Id Chef de centre"+centreconcours.getIdPersonne());
                     System.out.println("Nom Chef de centre"+centre.getNom());
                     System.out.println("Prenom Chef de centre"+centre.getPrenoms());
-                    System.out.println("Id concours TCI "+centreconcours.getIdCTCI());
-                    System.out.println("Num tel  Chef de centre"+centre.getTelephone());
-                    System.out.println("Id Chef de centre"+centreconcours.getIdPersonne());
 
+                    System.out.println("----------------------------------");
+                    System.out.println("Id adjoint de centre"+adjointExist.getId());
+                    System.out.println("Nom Chef de centre"+adjointExist.getNom());
+                    System.out.println("Prenom Chef de centre"+adjointExist.getPrenoms());
                     centreconcourstciRepository.save(centreconcours);
-                    System.out.println("Eto izy Enregistrer ilay centre " + centreconcourstciRepository.save(centreconcours));
+                    System.out.println("CREATION NOUVEAU CONCOUR ET CENTRE ET ADJOINT OK");
 
-                } else {
-                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaa");
+                }
+                else {
+                    System.out.println("CENTRE EXIST MAIS MODIFIER ");
+                    Centreconcourstci centreCTCIExist = centreconcourstciRepository.findById(centre.getId_centreCTCI()).orElseThrow();
+                    System.out.println("Id_centre : " + centreCTCIExist.getId());
+                    System.out.println("Id_Addjoint : " + centreCTCIExist.getIdPersonneAdjoit());
+
+                    Personne adjointModifier = personneRepository.findById(centreCTCIExist.getIdPersonneAdjoit().getId()).orElseThrow();
+                    System.out.println("Id_Addjointmodifier : " + adjointModifier.getId());
+                    System.out.println("Nom Adjoint avant : " + adjointModifier.getNom());
+                    System.out.println("Prenom Ajoint avant : " + adjointModifier.getPrenoms());
+
+                    adjointModifier.setNom(centre.getNomAdjoint());
+                    adjointModifier.setPrenoms(centre.getPrenomAdjoint());
+                    personneRepository.save(adjointModifier);
+                    System.out.println("Id_Addjointmodifier : " + adjointModifier.getId());
+                    System.out.println("Nom Adjoint apres : " + adjointModifier.getNom());
+                    System.out.println("Prenom Ajoint apres : " + adjointModifier.getPrenoms());
+
                     Centreconcourstci centre1 = centreconcourstciRepository.findById(centre.getId_centreCTCI()).orElseThrow();
                     centre1.setNomCentreCTCI(centre.getNomCentreCTCI());
                     centre1.setCodePostale(centre.getCodePostale());
@@ -218,12 +288,25 @@ public class ConcourstciService {
                     centre1.getIdPersonne().setPrenoms(centre.getPrenoms());
                     centre1.getIdPersonne().setTelephone(centre.getTelephone());
 
+                    System.out.println(
+                            "AJOUT ADJOINT id : " + adjointModifier.getId() +
+                            "NOM PRENOM ADJOINT : " + adjointModifier.getNom() +" "+ adjointModifier.getPrenoms());
+                    centre1.setIdPersonneAdjoit(adjointModifier);
+
                     centreconcourstciRepository.save(centre1);
-                    System.out.println("NomCentreCTCI : " + centre1.getNomCentreCTCI() );
-                    System.out.println("CodePostale : " + centre1.getCodePostale());
-                    System.out.println("Nom Chef de centre : " + centre1.getIdPersonne().getNom());
-                    System.out.println("Prenom Chef  : " + centre1.getIdPersonne().getPrenoms());
-                    System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+                    System.out.println("INFO");
+                    System.out.println("IdCTCI : " + centre.getIdCTCI() );
+                    System.out.println("Id_centre : " + centre.getId_centreCTCI());
+                    System.out.println("NomCentreCTCI : " + centre.getNomCentreCTCI() );
+                    System.out.println("CodePostale : " + centre.getCodePostale());
+                    System.out.println("id chef centre : " + centre.getIdPersonne());
+                    System.out.println("Nom Chef de centre : " + centre.getNom());
+                    System.out.println("Prenom Chef  : " + centre.getPrenoms());
+                    System.out.println("id Adjoint centre : " + centre.getId_PersonneAdjoit());
+                    System.out.println("Nom Adjoint de centre : " + centre.getNomAdjoint());
+                    System.out.println("Prenom Adjoint  : " + centre.getPrenomAdjoint());
+                    System.out.println("Telephone : " + centre.getTelephone() );
                 }
             }
 

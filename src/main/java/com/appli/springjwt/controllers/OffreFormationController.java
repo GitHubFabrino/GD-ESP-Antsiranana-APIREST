@@ -16,20 +16,20 @@ public class OffreFormationController {
     OffreFormationService offreFormationService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<OffreFormationDto> offreFormationDtos){
 
         offreFormationService.save(offreFormationDtos);
     }
 
     @GetMapping("/annee/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<OffreFormationDto> list(@PathVariable("id") Integer id) {
         return offreFormationService.get(id);
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<OffreFormationDto> offreFormationDtos){
         offreFormationService.update(offreFormationDtos);
     }

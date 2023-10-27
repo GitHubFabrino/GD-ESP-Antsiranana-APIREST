@@ -1,7 +1,6 @@
 package com.appli.springjwt.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,6 +26,10 @@ public class Centreconcourstci {
     @JoinColumn(name = "id_personne", nullable = true)
     private Personne idPersonne;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "id_PersonneAdjoit", nullable = true)
+    private Personne idPersonneAdjoit;
+
     //@NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "id_CTCI", nullable = true)
@@ -35,6 +38,27 @@ public class Centreconcourstci {
     @OneToMany(mappedBy = "idCentreCTCI", orphanRemoval = true)
     private Set<Candidatconcourstci> candidatconcourstcis = new LinkedHashSet<>();
 
+    public Centreconcourstci() {
+    }
+
+    public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Personne idPersonne, Personne idPersonneAdjoit, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
+        this.nomCentreCTCI = nomCentreCTCI;
+        this.codePostale = codePostale;
+        this.idPersonne = idPersonne;
+        this.idPersonneAdjoit = idPersonneAdjoit;
+        this.idCTCI = idCTCI;
+        this.candidatconcourstcis = candidatconcourstcis;
+    }
+
+    public Centreconcourstci(Integer id, String nomCentreCTCI, Integer codePostale, Personne idPersonne, Personne idPersonneAdjoit, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
+        this.id = id;
+        this.nomCentreCTCI = nomCentreCTCI;
+        this.codePostale = codePostale;
+        this.idPersonne = idPersonne;
+        this.idPersonneAdjoit = idPersonneAdjoit;
+        this.idCTCI = idCTCI;
+        this.candidatconcourstcis = candidatconcourstcis;
+    }
 
     public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Personne idPersonne, Concourstci idCTCI, Set<Candidatconcourstci> candidatconcourstcis) {
         this.nomCentreCTCI = nomCentreCTCI;
@@ -58,6 +82,14 @@ public class Centreconcourstci {
             Integer codePostale,
             Concourstci concours,
             Integer idPersonne) {
+    }
+
+    public Personne getIdPersonneAdjoit() {
+        return idPersonneAdjoit;
+    }
+
+    public void setIdPersonneAdjoit(Personne idPersonneAdjoit) {
+        this.idPersonneAdjoit = idPersonneAdjoit;
     }
 
     public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Concourstci concours, Personne idPersonne) {
@@ -108,7 +140,7 @@ public class Centreconcourstci {
         this.idCTCI = concours;
     }
 
-    public Centreconcourstci() {
+    public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Concourstci concours, Personne idPersonne, Personne id_PersonneAdjoit) {
     }
 
     public Centreconcourstci(String nomCentreCTCI, Integer codePostale, Personne idPersonne, Concourstci idCTCI) {

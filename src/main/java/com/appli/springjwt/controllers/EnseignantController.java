@@ -37,14 +37,14 @@ public class EnseignantController {
     }
 
     @GetMapping("/nom")
-    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('SCOLARITE')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE')")
     public ArrayList<EnseignantDto> listInfo() {
         System.out.println("EnseignantController : listInfo");
         return enseignantService.getNomPrenom();
     }
 
     @GetMapping("/personne/{id}")
-    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ENSEIGNANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ENSEIGNANT') or hasRole('ADMIN')")
     public EnseignantDto getById(@PathVariable("id") Integer id) {
         System.out.println("EnseignantController : getById");
         return enseignantService.getById(id);

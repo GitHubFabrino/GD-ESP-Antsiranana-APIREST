@@ -17,21 +17,21 @@ public class DefinitionDroitController {
     DefinitionDroitService definitionDroitService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@RequestBody ArrayList<DefinitionDroitDto> definitionDroitDto){
         System.out.println("DefinitionDroitController : post");
         definitionDroitService.save(definitionDroitDto);
     }
 
     @GetMapping("/annee/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public ArrayList<DefinitionDroitDto> list(@PathVariable("id") Integer id) {
         System.out.println("DefinitionDroitController : list");
         return definitionDroitService.getDefinitionDroit(id);
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<DefinitionDroitDto> definitionDroitDto){
         System.out.println("DefinitionDroitController : put");
         definitionDroitService.update(definitionDroitDto);

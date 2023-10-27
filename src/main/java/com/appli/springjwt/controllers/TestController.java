@@ -38,7 +38,7 @@ public class TestController {
   }
 
   @GetMapping("/user")
-  @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE')")
+  @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') ")
   public String userAccess() {
     return "Admin Board.";
     //return personneService.getPersonneById((Integer)1);

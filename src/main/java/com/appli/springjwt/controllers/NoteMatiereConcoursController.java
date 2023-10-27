@@ -15,21 +15,21 @@ public class NoteMatiereConcoursController {
     NoteMatiereConcoursService noteMatiereConcoursService;
 
     @PutMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public Candidatconcourstci postNoteConcours(@RequestBody NoteMatiereConcoursDto note){
         System.out.println("NoteMatiereConcoursController : postNoteConcours");
         return noteMatiereConcoursService.creerNote(note);
     }
 
     @PutMapping("/candidat")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")
     public Candidatconcourstci postNoteConcoursByEtudiant(@RequestBody NoteMatiereConcoursDto note){
         System.out.println("NoteMatiereConcoursController : postNoteConcoursByEtudiant");
         return noteMatiereConcoursService.creerNoteByEtudiant(note);
     }
 
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    /*@PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")*/
     public NoteMatiereConcoursDto getNoteConcours(@PathVariable("idConcours") Integer idConcours, @PathVariable("idCentre") Integer idCentre){
         System.out.println("NoteMatiereConcoursController : getNoteConcours");
         try {

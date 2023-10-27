@@ -3,8 +3,6 @@ package com.appli.springjwt.dto;
 import com.appli.springjwt.models.Concourstci;
 import com.appli.springjwt.models.Personne;
 
-import java.util.Optional;
-
 public class CentreConcoursTCIDto {
     Integer id_centreCTCI;
     String nomCentreCTCI;
@@ -13,21 +11,54 @@ public class CentreConcoursTCIDto {
     String prenoms;
     String telephone;
 
+
+    String nomAdjoint;
+
+    String prenomAdjoint;
+    Personne idPersonneAdjoit;
+
     Personne idPersonne;
     Concourstci idCTCI;
 
-    public CentreConcoursTCIDto() {
-    }
-
-    public CentreConcoursTCIDto(Integer id_centreCTCI, String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone, Concourstci idCTCI) {
+    public CentreConcoursTCIDto(Integer id_centreCTCI, String nomCentreCTCI, Integer codePostale, String nom, String prenoms, String telephone, String nomAdjoint, String prenomAdjoint, Concourstci idCTCI) {
         this.id_centreCTCI = id_centreCTCI;
         this.nomCentreCTCI = nomCentreCTCI;
         this.codePostale = codePostale;
         this.nom = nom;
         this.prenoms = prenoms;
         this.telephone = telephone;
+        this.nomAdjoint = nomAdjoint;
+        this.prenomAdjoint = prenomAdjoint;
+        this.idPersonneAdjoit = idPersonneAdjoit;
         this.idPersonne = idPersonne;
         this.idCTCI = idCTCI;
+    }
+
+    public CentreConcoursTCIDto() {
+    }
+
+    public Personne getId_PersonneAdjoit() {
+        return idPersonneAdjoit;
+    }
+
+    public void setId_PersonneAdjoit(Personne id_PersonneAdjoit) {
+        this.idPersonneAdjoit = id_PersonneAdjoit;
+    }
+
+    public String getNomAdjoint() {
+        return nomAdjoint;
+    }
+
+    public void setNomAdjoint(String nomAdjoint) {
+        this.nomAdjoint = nomAdjoint;
+    }
+
+    public String getPrenomAdjoint() {
+        return prenomAdjoint;
+    }
+
+    public void setPrenomAdjoint(String prenomAdjoint) {
+        this.prenomAdjoint = prenomAdjoint;
     }
 
     public Integer getId_centreCTCI() {

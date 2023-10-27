@@ -21,7 +21,7 @@ public class CandidatController {
     CandidatService candidatService;
 
     @PutMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidat(@RequestBody CandidatDto candidat){
         System.out.println("CandidatController : putCandidat" );
         System.out.println(candidat.getCandidatConcoursTCI());
@@ -30,21 +30,21 @@ public class CandidatController {
     }
 
     @GetMapping("/centre/{id}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")
     public ArrayList<CandidatConcoursDto> listCandidat(@PathVariable("id") Integer numero) {
         System.out.println("CandidatController : putCandidat" );
         return candidatService.getCandidatList(numero);
     }
 
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours,@PathVariable("idCentre") Integer idCentre) {
         System.out.println("CandidatController : listCandidatConcours" );
         return candidatService.getCandidatConcoursList(idConcours,idCentre);
     }
 
     @PutMapping("/concours/{idConcours}/centre/{idCentre}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidatConcours(@RequestBody ArrayList<CandidatConcoursDto> candidat){
         System.out.println("CandidatController : putCandidatConcours" );
         candidatService.creerCandidatConcours(candidat);

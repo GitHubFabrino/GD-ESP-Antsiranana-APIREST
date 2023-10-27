@@ -26,7 +26,7 @@ public class ProgrammeController {
     private UniteenseignementRepository uniteenseignementRepository;
 
     @PostMapping("/dp/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@PathVariable("id") Integer id, @RequestBody ProgrammeEnseignementDto programmeDtos){
         programmeService.save(programmeDtos, id);
     }
@@ -60,13 +60,13 @@ public class ProgrammeController {
 
  */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimer(@PathVariable("id") Integer id){
         programmeService.delete(id);
     }
 
     @DeleteMapping("/code-ec/{code}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimerByCodeEc(@PathVariable("code") String id){
         programmeService.deleteByCodeEc(id);
     }

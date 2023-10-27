@@ -18,34 +18,34 @@ public class ReleveNoteController {
     ReleveNoteService releveNoteService;
 
     @PutMapping("/ueec/{idUEEC}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void postReleveNote(@PathVariable("idUEEC") Integer idUEEC, @RequestBody ArrayList<MoyenneEtudiantDto> moyenneEtudiantDtos){
         System.out.println("ReleveNoteController : postReleveNote");
         releveNoteService.creer(idUEEC, moyenneEtudiantDtos);
     }
     @PutMapping("/ueec/etudiant/{idUEEC}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void postReleveNoteByEtudiant(@PathVariable("idUEEC") Integer idUEEC, @RequestBody MoyenneEtudiantDto moyenneEtudiantDtos){
         System.out.println("ReleveNoteController : postReleveNoteByEtudiant");
         releveNoteService.updateByEtudiant(idUEEC, moyenneEtudiantDtos);
     }
 
     @GetMapping("/ueec/{idUEEC}/dp/{idDp}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<MoyenneEtudiantDto> getNote(@PathVariable("idUEEC") Integer idUEEC, @PathVariable("idDp") Integer idDp){
         System.out.println("ReleveNoteController : getNote");
         return releveNoteService.getNote(idUEEC,idDp);
     }
 
     @GetMapping("/dp/{idDp1}/{idDp2}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<MoyenneGeneraleDto> getMoyenneSemestre(@PathVariable("idDp1") Integer idDp1, @PathVariable("idDp2") Integer idDp2){
         System.out.println("ReleveNoteController : getMoyenneSemestre");
         return releveNoteService.getNoteDP(idDp1,idDp2);
     }
 
     @PutMapping("/etudiant/{idEtudiant}/dp/{idDp1}/{idDp2}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public Byte modifierCodeDeRedoublement(@PathVariable("idEtudiant") Integer idEtudiant, @PathVariable("idDp1") Integer idDp1, @PathVariable("idDp2") Integer idDp2, @RequestBody MoyenneEtudiantDto moyenneEtudiantDtos){
         System.out.println("ReleveNoteController : modifierCodeDeRedoublement");
         releveNoteService.modifierCodeRedoubleme(idEtudiant,idDp1,idDp2,moyenneEtudiantDtos);
@@ -53,14 +53,14 @@ public class ReleveNoteController {
     }
 
     @GetMapping("/etudiant/{idEtudiant}/dp/{idDp1}/{idDp2}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<MoyenneGeneraleDto> getMoyenneEtudiant(@PathVariable("idEtudiant") Integer idEtudiant,@PathVariable("idDp1") Integer idDp1,@PathVariable("idDp2") Integer idDp2){
         System.out.println("ReleveNoteController : getMoyenneEtudiant");
         return releveNoteService.getNoteDPEtudiant(idEtudiant,idDp1,idDp2);
     }
 
     @GetMapping("/etudiant/{idEtudiant}/dp/{idDp1}")
-    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ENSEIGNANT') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<ReleveNoteDto> getReleveEtudiant(@PathVariable("idEtudiant") Integer idEtudiant, @PathVariable("idDp1") Integer idDp1){
         System.out.println("ReleveNoteController : getReleveEtudiant");
         return releveNoteService.getReleveEtudiant(idEtudiant,idDp1);

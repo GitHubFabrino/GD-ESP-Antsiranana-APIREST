@@ -20,7 +20,7 @@ public class HeureEnseignementController {
     HeureEnseignementService heureEnseignementService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public ResponseEntity<?> post(@RequestBody ArrayList<HeureenseignementDto> heureenseignementDtos){
         System.out.println("HeureEnseignementController : post");
         String message = "";
@@ -36,7 +36,7 @@ public class HeureEnseignementController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<HeureenseignementDto> heureenseignementDtos){
         heureEnseignementService.update(heureenseignementDtos);
     }

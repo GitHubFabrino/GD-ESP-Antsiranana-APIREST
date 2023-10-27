@@ -26,7 +26,7 @@ public class CentreConcourstciController {
 
 
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Centreconcourstci> listCentre() {
         System.out.println("CentreConcourstciController : listCentre");
         return concourstciService.getConcoursList();
@@ -34,7 +34,7 @@ public class CentreConcourstciController {
 
 
     @GetMapping(path = "/concours")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<CentreConcours> getMatiereconcou(){
         System.out.println("CentreConcourstciController : getMatiereconcou");
         return centreConcoursService.getAllCentreConcours();
@@ -42,7 +42,7 @@ public class CentreConcourstciController {
 
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void postCentreConcours(@RequestBody CentreConcours CentreConcours){
         System.out.println("CentreConcourstciController : postCentreConcours");
         centreConcoursRepository.save(CentreConcours);

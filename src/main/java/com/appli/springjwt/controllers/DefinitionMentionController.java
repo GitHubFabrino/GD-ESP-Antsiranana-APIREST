@@ -30,7 +30,7 @@ public class DefinitionMentionController {
     private EnseignantRepository enseignantRepository;
 
     @PostMapping("/annee/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void post(@PathVariable("id") Integer idAU, @RequestBody ArrayList<DefinitionMentionDto> mentiondto){
         System.out.println("DefinitionMentionController : post");
         for(DefinitionMentionDto definitionMentionDto: mentiondto){
@@ -57,7 +57,7 @@ public class DefinitionMentionController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void put(@RequestBody ArrayList<DefinitionMentionDto> dto){
         System.out.println("DefinitionMentionController : put");
         for(DefinitionMentionDto mentionDto: dto){
@@ -71,14 +71,14 @@ public class DefinitionMentionController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public Definitionmention listbyId(@PathVariable("id") Integer id) {
         System.out.println("DefinitionMentionController : listbyId");
         return definitionmentionRepository.findById(id).orElseThrow();
     }
 
     @GetMapping("/annee/{id}")
-    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public ArrayList<DefinitionMentionDto> list(@PathVariable("id") Integer idAU){
         System.out.println("DefinitionMentionController : list");
         return definitionMentionService.get(idAU);

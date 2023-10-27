@@ -32,27 +32,27 @@ public class ConcourstciController {
     CalendrierService calendrierService;
 
     @PutMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void postConcours(@RequestBody ConcoursDto concours){
         System.out.println("ConcourstciController : postConcours");
         concourstciService.creerConcours(concours);
     }
     @GetMapping
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN') or hasAuthority('DIRECTION')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasAuthority('DIRECTION') or hasAuthority('PRESIDENT_JURY')")
     public List<ConcourstciView> listConcours() {
         System.out.println("ConcourstciController : listConcours");
         return concourstciService.getConcoursList();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public ConcourstciInfo get(@PathVariable("id") Integer numero){
         System.out.println("ConcourstciController : get");
         return concourstciService.getConcoursById(numero);
     }
 
    @GetMapping("/{id}/centre")
-   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
    public ArrayList<CentreConcoursTCIDto> getCentreConcours(@PathVariable("id") Integer numero){
        System.out.println("ConcourstciController : getCentreConcours");
        return (ArrayList<CentreConcoursTCIDto>) centreConcourstciService.getCentreConcoursList(numero);
@@ -62,11 +62,12 @@ public class ConcourstciController {
     @DeleteMapping("/{id}/centre/{idCentre}")
     public void deleteCentreConcours(@PathVariable("id") Integer id,@PathVariable("idCentre") Integer idCentre){
         System.out.println("ConcourstciController : deleteCentreConcours");
+        System.out.println("idCentre : " + idCentre + " id : " + id);
         centreConcourstciService.deleteCentreConcours(id, idCentre);
     }
 
     @GetMapping("/{id}/matiere")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+   /* @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")*/
     public ArrayList<MatiereDto> getMatiereConcours(@PathVariable("id") Integer numero){
         System.out.println("ConcourstciController : deleteCentreConcours");
         return matiereService.getMatiereConcoursList(numero);
@@ -79,14 +80,14 @@ public class ConcourstciController {
     }
 
     @GetMapping("/{id}/calendrier")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+ /*   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")*/
     public ArrayList<CalendrierConcoursTCIDto> getCalendrierConcours(@PathVariable("id") Integer numero){
         System.out.println("ConcourstciController : getCalendrierConcours");
         return calendrierService.getCalendrierConcoursList(numero);
     }
 
     @GetMapping("/{id}/{idMatiere}/calendrier")
-    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasRole('ADMIN')")
+  /*  @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")*/
     public ArrayList<CalendrierService> getCalendrierTest(@PathVariable("id") Integer numero, @PathVariable("idMatiere") Integer[] idMatiere){
         System.out.println("ConcourstciController : getCalendrierTest");
         return null;

@@ -29,7 +29,7 @@ public class FilesController {
   FilesStorageService storageService;
 
   @PostMapping("/upload")
-  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile[] files) {
     System.out.println("FilesController : uploadFile");
     String message = "";
@@ -52,7 +52,7 @@ public class FilesController {
   }
   @PermitAll
   @GetMapping("/files")
-  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<List<Fichier>> getListFiles() {
     System.out.println("FilesController : getListFiles");
     List<Fichier> fileInfos = storageService.loadAll().map(path -> {
@@ -67,7 +67,7 @@ public class FilesController {
   }
   @PermitAll
   @GetMapping("/files/{filename:=+}")
-  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<Resource> getFile(@PathVariable String filename ) {
     System.out.println("FilesController : getFile");
     Resource file = storageService.load(filename);
@@ -76,7 +76,7 @@ public class FilesController {
   }
 
   @DeleteMapping("/files/{filename:.+}")
-  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
+  @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ENSEIGNANT') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
   public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename) {
     System.out.println("FilesController : deleteFile");
     String message = "";

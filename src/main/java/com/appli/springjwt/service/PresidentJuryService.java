@@ -1,5 +1,6 @@
 package com.appli.springjwt.service;
 
+import com.appli.springjwt.dto.CentreConcoursTCIDto;
 import com.appli.springjwt.dto.DefinitionPresidentJuryDto;
 import com.appli.springjwt.dto.PresidentJuryDto;
 import com.appli.springjwt.models.*;
@@ -73,25 +74,7 @@ public class PresidentJuryService {
         } catch (Exception e){}
 
         this.presidentJuryRepository.save(Jyry);
-/*
 
-        presidentJury.setIdEnseignant(presidentJury.getIdEnseignant());
-       /* presidentJury.setIdAu(presidentJury.getIdAu());
-        presidentJury.setId_CTCI(presidentJury.getId_CTCI());
-
-
-        System.out.println(presidentJury.getId_CTCI());
-        System.out.println(presidentJury.getIdEnseignant());
-        System.out.println(presidentJury.getIdAu());*/
-/*
-        try {
-            Status status = new Status();
-            status.setIdAuthentification(authentificationRepository.findById(enseignant.getIdPersonne().getAuthentification().getId()).orElseThrow());
-            status.setIdFonction(fonctionRepository.findByName(ERole.PRESIDENT_JURY).orElseThrow());
-
-            statusRepository.save(status);
-        } catch (Exception e){}
-        this.presidentJuryRepository.save(presidentJury);*/
     }
 
     public ArrayList<PresidentJuryDto> getList() {
@@ -111,7 +94,6 @@ public class PresidentJuryService {
                         pdj.getIdEnseignant().getIdPersonne().getNom(),
                         pdj.getIdEnseignant().getIdPersonne().getPrenoms()
 
-
                 ));
             } catch (Exception e){}
             i+=1;
@@ -119,16 +101,36 @@ public class PresidentJuryService {
         return PresidentJuryDTOS;
     }
 
-    public void delete(Integer id) {
+  /*  public PresidentJuryModel find(int id_enseignant) {
+        Optional<PresidentJuryModel> pdjExist = this.presidentJuryRepository.findByIdEnseignant(id_enseignant);
+        if (pdjExist.isPresent()){
+            return pdjExist.get();
+        }
+        return null;
+    }*/
+
+    public Object delete(Integer id) {
         PresidentJuryModel presidentJury = presidentJuryRepository.findById(id).orElseThrow();
         Personne personne= presidentJury.getIdEnseignant().getIdPersonne();
-        Fonction fonction = fonctionRepository.findByName(ERole.PRESIDENT_JURY).orElseThrow();
-       /* presidentJury.setIdEnseignant(null);*/
-
-        Status status = statusRepository.findByIdAuthentificationAndIdFonction(personne.getAuthentification(),fonction).orElseThrow();
-
-        statusRepository.delete(status);
+        Enseignant personneIdEnseignant = presidentJury.getIdEnseignant();
+        System.out.println("eto amn president jury" + personneIdEnseignant);
+        System.out.println(personne);
         presidentJuryRepository.delete(presidentJury);
+        System.out.println("voafafa");
 
+        Fonction fonction = fonctionRepository.findByName(ERole.PRESIDENT_JURY).orElseThrow();
+
+
+        List<PresidentJuryModel> pdjExist = this.presidentJuryRepository.findByIdEnseignant(personneIdEnseignant);
+        if (pdjExist.size() == 0){
+           System.out.println("efa tsy  anatiny table president jury ");
+            Status status = statusRepository.findByIdAuthentificationAndIdFonction(personne.getAuthentification(),fonction).orElseThrow();
+            System.out.println("efa tsy anatiny table president jury ");
+            statusRepository.delete(status);
+        }else {
+            System.out.println("Mbola  anatiny table president jury ");
+       }
+
+        return null;
     }
 }
