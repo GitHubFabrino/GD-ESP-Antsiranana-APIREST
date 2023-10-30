@@ -36,21 +36,30 @@ public class CandidatController {
         return candidatService.getCandidatList(numero);
     }
 
+    @GetMapping("/concours/{idConcours}")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
+    public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours) {
+        System.out.println("CandidatController : listCandidatConcours" );
+        System.out.println("IIIIIIIICCCCCCCCCCCCCCCCCIIIIIIIIIIIIIIIII" );
+        return candidatService.getCandidatConcoursList(idConcours);
+    }
+
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours,@PathVariable("idCentre") Integer idCentre) {
         System.out.println("CandidatController : listCandidatConcours" );
-        return candidatService.getCandidatConcoursList(idConcours,idCentre);
+        //System.out.println("on est ici " );
+        return candidatService.getCandidatConcoursLista(idConcours,idCentre);
     }
 
     @PutMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidatConcours(@RequestBody ArrayList<CandidatConcoursDto> candidat){
         System.out.println("CandidatController : putCandidatConcours" );
+        System.out.println("on est ici " );
         candidatService.creerCandidatConcours(candidat);
         return null;
     }
-
 
     @DeleteMapping("/{id}")
     public void deleteCandidat(@PathVariable("id") Integer numero){

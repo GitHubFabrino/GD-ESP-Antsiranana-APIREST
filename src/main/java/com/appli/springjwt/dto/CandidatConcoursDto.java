@@ -20,6 +20,8 @@ public class CandidatConcoursDto {
     private Integer idCentreCTCI;
 
     private String status_etudiant;
+    
+    private String nomCentreConcours;
 
     public CandidatConcoursDto(String nom, String prenoms, String telephone) {
         this.nom = nom;
@@ -34,7 +36,7 @@ public class CandidatConcoursDto {
         this.passationCandidatCTCI = passationCandidatCTCI;
     }
 
-    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, BigDecimal moyenneCandidatCTCI, Boolean passationCandidatCTCI) {
+    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, BigDecimal moyenneCandidatCTCI, Boolean passationCandidatCTCI , Integer idCentreCTCI , String nomCentreConcours) {
         this.id = id;
         this.nom = nom;
         this.prenoms = prenoms;
@@ -42,15 +44,26 @@ public class CandidatConcoursDto {
         this.numeroCandidatCTCI = numeroCandidatCTCI;
         this.moyenneCandidatCTCI = moyenneCandidatCTCI;
         this.passationCandidatCTCI = passationCandidatCTCI;
+        this.idCentreCTCI = idCentreCTCI;
+        this.nomCentreConcours = nomCentreConcours;
     }
 
-    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, Integer idCentreCTCI) {
+    public String getNomCentreConcours() {
+        return nomCentreConcours;
+    }
+
+    public void setNomCentreConcours(String nomCentreConcours) {
+        this.nomCentreConcours = nomCentreConcours;
+    }
+
+    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, Integer idCentreCTCI ) {
         this.id = id;
         this.nom = nom;
         this.prenoms = prenoms;
         this.telephone = telephone;
         this.numeroCandidatCTCI = numeroCandidatCTCI;
         this.idCentreCTCI = idCentreCTCI;
+
     }
 
     public CandidatConcoursDto(String nom, String prenoms, String telephone, Long numeroCandidatCTCI, Integer idCentreCTCI) {
@@ -68,7 +81,7 @@ public class CandidatConcoursDto {
         this.idCentreCTCI = idCentreCTCI;
     }
 
-    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, BigDecimal moyenneCandidatCTCI, Boolean passationCandidatCTCI, Integer idCentreCTCI, String status_etudiant) {
+    public CandidatConcoursDto(Integer id, String nom, String prenoms, String telephone, Long numeroCandidatCTCI, BigDecimal moyenneCandidatCTCI, Boolean passationCandidatCTCI, Integer idCentreCTCI, String status_etudiant,String nomCentreConcours) {
         this.id = id;
         this.nom = nom;
         this.prenoms = prenoms;
@@ -78,6 +91,8 @@ public class CandidatConcoursDto {
         this.passationCandidatCTCI = passationCandidatCTCI;
         this.idCentreCTCI = idCentreCTCI;
         this.status_etudiant = status_etudiant;
+        this.nomCentreConcours = nomCentreConcours;
+
     }
 
     public CandidatConcoursDto(Integer id, String nom, String prenoms, Boolean passationCandidatCTCI, String status_etudiant) {
