@@ -33,6 +33,10 @@ public class Candidatconcourstci {
     @OneToMany(mappedBy = "idCandidatctci", orphanRemoval = true)
     private Set<Notematiereconcourstci> notematiereconcourstcis = new LinkedHashSet<>();
 
+    //todo ajout attente
+    @Column(name = "passation_candidatCTCIAttente")
+    private Boolean passationCandidatCTCIAttente;
+
 
 
     public Candidatconcourstci() {
@@ -51,6 +55,32 @@ public class Candidatconcourstci {
         this.idCentreCTCI = idCentreCTCI;
     }
 
+    public Candidatconcourstci(Integer id, Long numeroCandidatCTCI, Boolean passationCandidatCTCI, Personne idPersonne, Centreconcourstci idCentreCTCI, Set<Notematiereconcourstci> notematiereconcourstcis, Boolean passationCandidatCTCIAttente) {
+        this.id = id;
+        this.numeroCandidatCTCI = numeroCandidatCTCI;
+        this.passationCandidatCTCI = passationCandidatCTCI;
+        this.idPersonne = idPersonne;
+        this.idCentreCTCI = idCentreCTCI;
+        this.notematiereconcourstcis = notematiereconcourstcis;
+        this.passationCandidatCTCIAttente = passationCandidatCTCIAttente;
+    }
+
+    public Candidatconcourstci(Long numeroCandidatCTCI, Boolean passationCandidatCTCI, Personne idPersonne, Centreconcourstci idCentreCTCI, Set<Notematiereconcourstci> notematiereconcourstcis, Boolean passationCandidatCTCIAttente) {
+        this.numeroCandidatCTCI = numeroCandidatCTCI;
+        this.passationCandidatCTCI = passationCandidatCTCI;
+        this.idPersonne = idPersonne;
+        this.idCentreCTCI = idCentreCTCI;
+        this.notematiereconcourstcis = notematiereconcourstcis;
+        this.passationCandidatCTCIAttente = passationCandidatCTCIAttente;
+    }
+
+    public Boolean getPassationCandidatCTCIAttente() {
+        return passationCandidatCTCIAttente;
+    }
+
+    public void setPassationCandidatCTCIAttente(Boolean passationCandidatCTCIAttente) {
+        this.passationCandidatCTCIAttente = passationCandidatCTCIAttente;
+    }
 
     public Set<Notematiereconcourstci> getNotematiereconcourstcis() {
     return notematiereconcourstcis;

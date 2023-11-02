@@ -31,7 +31,7 @@ public class ResultatConcoursTCI {
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
     public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours, @PathVariable("idCentre") Integer idCentre) {
         System.out.println("CandidatController : listCandidatConcours" );
-        return candidatService.getCandidatConcoursLista(idConcours,idCentre);
+        return candidatService.getCandidatConcoursListResultat(idConcours,idCentre);
     }
 
     @GetMapping("/listConcours")
