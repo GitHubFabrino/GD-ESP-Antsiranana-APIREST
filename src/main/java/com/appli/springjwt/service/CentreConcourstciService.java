@@ -28,7 +28,6 @@ public class CentreConcourstciService {
 
     public List<Centreconcourstci> getCentreByConcoursId(Integer numero) {
         Concourstci concourstci =  concourstciRepository.findById(numero).orElseThrow();
-        System.out.println(concourstciRepository.findById(numero).orElseThrow());
         return centreconcourstciRepository.findByIdCTCI(concourstci);
 
     }
@@ -38,21 +37,6 @@ public class CentreConcourstciService {
 
         List<CentreConcoursTCIDto> centreConcoursTCIDtos = new ArrayList<>();
         List<Centreconcourstci> objCentreConcoursTCI = centreconcourstciRepository.findAllByIdCTCI(concourstci);
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        // Affichage des données des objets Centreconcourstci contenus dans la liste objCentreConcoursTCI
-        for (Centreconcourstci centre : objCentreConcoursTCI) {
-            System.out.println("ID : " + centre.getId());
-            System.out.println("Nom Centre CTCI : " + centre.getNomCentreCTCI());
-            System.out.println("Code Postal : " + centre.getCodePostale());
-            System.out.println("id Chef de centre : " + centre.getIdPersonne());
-            System.out.println("Nom Chef de centre : " + centre.getIdPersonne().getNom());
-            System.out.println("Prénoms Chef de centre : " + centre.getIdPersonne().getPrenoms());
-            System.out.println("Nom Adjoint de centre : " + centre.getIdPersonneAdjoit().getNom());
-            System.out.println("Prénoms Adjoint de centre : " + centre.getIdPersonneAdjoit().getPrenoms());
-            System.out.println("Téléphone : " + centre.getIdPersonne().getTelephone());
-
-            System.out.println("-------------------------------------");
-        }
 
         for (Centreconcourstci centre : objCentreConcoursTCI) {
             CentreConcoursTCIDto centreDto = new CentreConcoursTCIDto(
@@ -68,9 +52,7 @@ public class CentreConcourstciService {
             );
             centreConcoursTCIDtos.add(centreDto);
         }
-        System.out.println("centreConcoursTCIDtos : " + centreConcoursTCIDtos);
 
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         Collections.reverse(centreConcoursTCIDtos);
         return centreConcoursTCIDtos;
     }

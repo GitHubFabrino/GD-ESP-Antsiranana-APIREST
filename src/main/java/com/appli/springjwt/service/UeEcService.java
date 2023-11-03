@@ -43,7 +43,6 @@ public class UeEcService {
             ueEcRepository.save(associerUeEc);
         }
     }
-
     public ArrayList<UeEcDto> get() {
         List<UeEc> associerUeEc = ueEcRepository.findAll();
         ArrayList<UeEcDto> ueEcDtos = new ArrayList<>();
@@ -67,7 +66,6 @@ public class UeEcService {
         }
         return ueEcDtos;
     }
-
     public void update(ArrayList<UeEcDto> ueEcDtos) {
 
         for(UeEcDto ueEc :ueEcDtos){
@@ -85,7 +83,6 @@ public class UeEcService {
             ueEcRepository.save(associerUeEc);
         }
     }
-
     public void delete(Integer id) {
         UeEc ueEc = ueEcRepository.findById(id).orElseThrow();
         ueEcRepository.delete(ueEc);

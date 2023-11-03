@@ -2,7 +2,6 @@ package com.appli.springjwt.service;
 
 import com.appli.springjwt.dto.DefinitionMentionDto;
 import com.appli.springjwt.repository.AnneeunivRepository;
-import com.appli.springjwt.repository.MentionRepository;
 import com.appli.springjwt.models.Definitionmention;
 import com.appli.springjwt.repository.DefinitionmentionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ public class DefinitionMentionService {
     DefinitionmentionRepository definitionmentionRepository;
     @Autowired
     AnneeunivRepository anneeunivRepository;
-    @Autowired
-    MentionRepository mentionRepository;
 
     public ArrayList<DefinitionMentionDto> get(Integer idAU) {
         ArrayList<Definitionmention> ObjDefinition = definitionmentionRepository.findAllByIdAu(anneeunivRepository.findById(idAU).orElseThrow());
@@ -47,10 +44,7 @@ public class DefinitionMentionService {
                 ));
             }
             i+=1;
-            System.out.println(definitionmention.getIdMention().getAcronymeMention());
-            System.out.println(definitionmention.getIdMention().getMention());
         }
-       // System.out.println(definitionMentionDtos.get(0).getAcronymeMention());
         Collections.reverse(definitionMentionDtos);
         return definitionMentionDtos;
     }

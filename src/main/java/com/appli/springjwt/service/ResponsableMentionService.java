@@ -26,9 +26,6 @@ public class ResponsableMentionService {
     AnneeunivRepository anneeunivRepository;
 
     public void save(DefinitionMentionDto definitionMentionDto) {
-        System.out.println(definitionMentionDto.getId());
-        System.out.println(definitionMentionDto.getIdEnseignant());
-
         Definitionmention definitionmention = definitionmentionRepository.findById(definitionMentionDto.getId()).orElseThrow();
         Enseignant enseignant = enseignantRepository.findById(definitionMentionDto.getIdEnseignant()).orElseThrow();
 
@@ -43,7 +40,6 @@ public class ResponsableMentionService {
         } catch (Exception e){}
         definitionmentionRepository.save(definitionmention);
     }
-
     public ArrayList<DefinitionMentionDto> get(Integer idAU) {
         ArrayList<Definitionmention> ObjDefinition = definitionmentionRepository.findAllByIdAu(anneeunivRepository.findById(idAU).orElseThrow());
 
@@ -67,15 +63,11 @@ public class ResponsableMentionService {
 
             }
             i+=1;
-            System.out.println(definitionmention.getIdMention().getAcronymeMention());
-            System.out.println(definitionmention.getIdMention().getMention());
         }
-        // System.out.println(definitionMentionDtos.get(0).getAcronymeMention());
         Collections.reverse(definitionMentionDtos);
         return definitionMentionDtos;
 
     }
-
     public void delete(Integer id) {
         Definitionmention definitionmention = definitionmentionRepository.findById(id).orElseThrow();
         Personne personne= definitionmention.getIdEnseignant().getIdPersonne();
@@ -95,7 +87,6 @@ public class ResponsableMentionService {
     }
 
     public static boolean isid_mention_AlreadyExists(Integer id_mention) {
-        // Vérifie si une Anneeuniv avec le même nomAU existe déjà
         return definitionmentionRepository.existsByIdMention(id_mention);
     }
 }

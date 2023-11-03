@@ -35,8 +35,6 @@ public class HeureEnseignementService {
             heureenseignementRepository.save(heureenseignement);
         }
     }
-
-
     public void update(ArrayList<HeureenseignementDto> heureenseignementDtos) {
 
         for(HeureenseignementDto dto: heureenseignementDtos){
@@ -55,7 +53,6 @@ public class HeureEnseignementService {
             heureenseignementRepository.save(heureenseignement);
         }
     }
-
     public void delete(ArrayList<HeureenseignementDto> heureenseignementDtos) {
         for(HeureenseignementDto dto: heureenseignementDtos){
             Anneeuniv anneeuniv = anneeunivRepository.findById(dto.getIdAU()).orElseThrow();
@@ -67,7 +64,6 @@ public class HeureEnseignementService {
 
         }
     }
-
     public ArrayList<HeureenseignementDto> get(Integer idAnnee, Integer idDp) {
 
             Anneeuniv anneeuniv = anneeunivRepository.findById(idAnnee).orElseThrow();
@@ -99,7 +95,6 @@ public class HeureEnseignementService {
 
         return heureenseignementDto;
     }
-
     @Transactional
     public void delete(Integer idAnnee, Integer idEnseignant, Integer idPe) {
 

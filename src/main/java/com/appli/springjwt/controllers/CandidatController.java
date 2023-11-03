@@ -24,7 +24,6 @@ public class CandidatController {
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidat(@RequestBody CandidatDto candidat){
         System.out.println("CandidatController : putCandidat" );
-        System.out.println(candidat.getCandidatConcoursTCI());
         candidatService.creerCandidat(candidat);
         return null;
     }
@@ -33,16 +32,13 @@ public class CandidatController {
    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN') or hasRole('PRESIDENT_JURY')")
     public ArrayList<CandidatConcoursDto> listCandidat(@PathVariable("id") Integer numero) {
         System.out.println("CandidatController : putCandidat" );
-        System.out.println("on est ici 2" );
+
         return candidatService.getCandidatList(numero);
     }
 
     @GetMapping("/concours/{idConcours}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcours(@PathVariable("idConcours") Integer idConcours) {
-        System.out.println("CandidatController : listCandidatConcours" );
-        System.out.println("IIIIIIIICCCCCCCCCCCCCCCCCIIIIIIIIIIIIIIIII" );
-        //todo apina passation attente true
         return candidatService.getCandidatConcoursList(idConcours);
     }
 
@@ -50,14 +46,13 @@ public class CandidatController {
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcoursn(@PathVariable("idConcours") Integer idConcours) {
         System.out.println("CandidatController : listCandidatConcours" );
-        //System.out.println("on est ici " );
         return candidatService.getCandidatConcoursLista(idConcours);
     }
     @GetMapping("/concours/{idConcours}/centre/{idCentre}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<CandidatConcoursDto> listCandidatConcoursn(@PathVariable("idConcours") Integer idConcours , @PathVariable("idCentre") Integer idCentre) {
         System.out.println("CandidatController : listCandidatConcours" );
-        //System.out.println("on est ici " );
+
         return candidatService.getCandidatConcoursListResultat(idConcours , idCentre);
     }
 
@@ -65,8 +60,6 @@ public class CandidatController {
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public List<Candidatconcourstci> putCandidatConcours(@RequestBody ArrayList<CandidatConcoursDto> candidat){
         System.out.println("CandidatController : putCandidatConcours" );
-        System.out.println("on est ici " );
-        //todo ampina passation attente
         candidatService.creerCandidatConcours(candidat);
         return null;
     }

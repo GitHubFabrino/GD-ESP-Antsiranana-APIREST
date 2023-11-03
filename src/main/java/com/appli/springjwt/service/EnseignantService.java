@@ -27,18 +27,14 @@ public class EnseignantService {
     PasswordEncoder encoder;
     @Autowired
     StatusRepository statusRepository;
-    /*@Autowired
-    EmailService emailService;
 
-     */
     @Autowired
     FonctionRepository fonctionRepository;
     @Autowired
     private EnseignantRepository enseignantRepository;
 @Transactional
     public void save(EnseignantDto enseignantDto) {
-        // à deployer
-        //String password = generateRandomPassword();
+
         String password = "enseignantesp";
 
         String matricule;
@@ -47,19 +43,8 @@ public class EnseignantService {
         if(enseignantRepository.count()<1){
             matricule = "1";
         }else{
-            // matricule = etudiantRepository.findById(etudiantRepository.count()).orElseThrow().getNumeroMatricule();
-            //matricule = String.valueOf(enseignantRepository.findById(intValue(enseignantRepository.count())).orElseThrow().getId()+1);
-
             matricule = String.valueOf(enseignantRepository.findTopByOrderByIdDesc().orElseThrow().getId()+1);
         }
-        ;
-        // Create new user's account
-        // à deployer
-        /*
-        Authentification authentification = new Authentification(enseignantDto.getEmail(),
-                encoder.encode(password));
-
-         */
         String pseudo = enseignantDto.getNom().toLowerCase() +"."+ enseignantDto.getPrenoms().toLowerCase().split(" ")[0];
         Authentification authentification = new Authentification(
                 enseignantDto.getEmail(),
@@ -92,9 +77,6 @@ public class EnseignantService {
         authentification.setRoles(fonctions);
         authentification.setIdPersonne(personne);
 
-        // à deployer
-       // emailService.sendSimpleMessage(enseignantDto.getEmail(), "LOGIN ESP Antsiranana  ", " Votre compte a été créé avec le mot de passe suivant." + password);
-
         enseignant.setIdPersonne(personne);
 
         personneRepository.save(personne);
@@ -104,12 +86,9 @@ public class EnseignantService {
     }
 
     public String generateRandomPassword() {
-        // Generate a random password with 8 characters
         String password = RandomStringUtils.randomAlphanumeric(8);
         return password;
     }
-
-
     public void update(Integer id, ArrayList<EnseignantDto> dto) {
 
         for(EnseignantDto enseignantDto: dto){
@@ -127,8 +106,6 @@ public class EnseignantService {
             enseignantRepository.save(enseignant);
         }
     }
-
-
     public ArrayList<EnseignantDto> get() {
         List<Enseignant> listenseignant = enseignantRepository.findAll();
         ArrayList<EnseignantDto> enseignantDtos = new ArrayList<>();

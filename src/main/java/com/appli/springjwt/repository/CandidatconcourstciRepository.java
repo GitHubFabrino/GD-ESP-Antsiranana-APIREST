@@ -30,4 +30,6 @@ public interface CandidatconcourstciRepository extends JpaRepository<Candidatcon
     ArrayList<Candidatconcourstci> findByIdPersonne(Integer idPersonne);
 
     Optional<Candidatconcourstci> findByidPersonne(Integer id);
+
+    ArrayList<Candidatconcourstci> findAllByPassationCandidatCTCIAttenteAndIdCentreCTCI(boolean b, Centreconcourstci centreconcours);
 }

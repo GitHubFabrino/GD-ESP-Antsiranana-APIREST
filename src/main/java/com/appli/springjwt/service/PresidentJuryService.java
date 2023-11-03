@@ -35,11 +35,6 @@ public class PresidentJuryService {
     @Autowired
     ConcourstciRepository concourstciRepository;
 
-/*
-    public static boolean isid_presidentJury_AlreadyExists(int id_concours) {
-
-        return presidentJuryRepository.existsByIdCTCI(id_concours);
-    }*/
 
     public PresidentJuryModel findOne(int idConcour) {
         Optional<PresidentJuryModel> concourExist = presidentJuryRepository.findById(idConcour);
@@ -59,11 +54,6 @@ public class PresidentJuryService {
         Jyry.setIdEnseignant(enseignant);
         Jyry.setId_CTCI(concour);
         Jyry.setIdAu(au);
-
-        System.out.println("avant");
-        System.out.println(Jyry.getId_CTCI());
-        System.out.println(Jyry.getIdEnseignant());
-        System.out.println(Jyry.getIdAu());
 
         try {
             Status status = new Status();
@@ -101,36 +91,20 @@ public class PresidentJuryService {
         return PresidentJuryDTOS;
     }
 
-  /*  public PresidentJuryModel find(int id_enseignant) {
-        Optional<PresidentJuryModel> pdjExist = this.presidentJuryRepository.findByIdEnseignant(id_enseignant);
-        if (pdjExist.isPresent()){
-            return pdjExist.get();
-        }
-        return null;
-    }*/
-
     public Object delete(Integer id) {
         PresidentJuryModel presidentJury = presidentJuryRepository.findById(id).orElseThrow();
         Personne personne= presidentJury.getIdEnseignant().getIdPersonne();
         Enseignant personneIdEnseignant = presidentJury.getIdEnseignant();
-        System.out.println("eto amn president jury" + personneIdEnseignant);
-        System.out.println(personne);
         presidentJuryRepository.delete(presidentJury);
-        System.out.println("voafafa");
 
         Fonction fonction = fonctionRepository.findByName(ERole.PRESIDENT_JURY).orElseThrow();
 
 
         List<PresidentJuryModel> pdjExist = this.presidentJuryRepository.findByIdEnseignant(personneIdEnseignant);
         if (pdjExist.size() == 0){
-           System.out.println("efa tsy  anatiny table president jury ");
             Status status = statusRepository.findByIdAuthentificationAndIdFonction(personne.getAuthentification(),fonction).orElseThrow();
-            System.out.println("efa tsy anatiny table president jury ");
             statusRepository.delete(status);
-        }else {
-            System.out.println("Mbola  anatiny table president jury ");
-       }
-
+        }
         return null;
     }
 }

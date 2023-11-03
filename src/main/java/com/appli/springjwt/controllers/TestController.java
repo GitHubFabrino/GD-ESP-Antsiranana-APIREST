@@ -32,8 +32,6 @@ public class TestController {
   @GetMapping("/all/{id}")
   @PreAuthorize("hasRole('SCOLARITE')")
   public String allAccess() {
-
-   // return personneService.getPersonneById((Integer)1);
     return "Admin Board.";
   }
 
@@ -41,14 +39,12 @@ public class TestController {
   @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') ")
   public String userAccess() {
     return "Admin Board.";
-    //return personneService.getPersonneById((Integer)1);
   }
 
   @GetMapping("/mod")
   @PreAuthorize("hasRole('MODERATOR')")
   public String moderatorAccess() {
     return "Admin Board.";
-    //return personneService.getPersonneById((Integer)1);
   }
 
   @GetMapping("/admin")

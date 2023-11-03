@@ -51,14 +51,6 @@ public class ProgrammeController {
         return listUE;
     }
 
-    /*
-    @PutMapping
-    @PreAuthorize("hasAuthority('DIRECTION') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasRole('ADMIN')")
-    public void modifier(@RequestBody ArrayList<ProgrammeDto> programmeDtos){
-        programmeService.update(programmeDtos);
-    }
-
- */
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('RESPONSABLE_PARCOURS') or hasAuthority('RESPONSABLE_MENTION') or hasAuthority('DIRECTION') or hasRole('ADMIN')")
     public void supprimer(@PathVariable("id") Integer id){

@@ -45,7 +45,6 @@ public class DirectionGestionService {
 
             String password = generateRandomPassword();
 
-            // Create new user's account
             Authentification authentification = new Authentification(directionGestionDto.getEmail(),
                     encoder.encode(password));
 
@@ -87,14 +86,10 @@ public class DirectionGestionService {
             directionRepository.save(direction);
 
     }
-
     public String generateRandomPassword() {
-        // Generate a random password with 8 characters
         String password = RandomStringUtils.randomAlphanumeric(8);
         return password;
     }
-
-
     public void update(ArrayList<DirectionGestionDto> dto) {
 
         for(DirectionGestionDto directionGestionDto: dto){
@@ -110,7 +105,6 @@ public class DirectionGestionService {
         }
 
     }
-
     public void delete(Integer id) {
         Direction direction = directionRepository.findById(id).orElseThrow();
         Personne personne= direction.getIdPersonne();
@@ -122,8 +116,6 @@ public class DirectionGestionService {
         directionRepository.deleteById(id);
 
     }
-
-
     public ArrayList<DirectionGestionDto> get() {
         List<Direction> listdirection = directionRepository.findAll();
         ArrayList<DirectionGestionDto> directionGestionDtos = new ArrayList<>();
@@ -143,18 +135,12 @@ public class DirectionGestionService {
         }
         return  directionGestionDtos;
     }
-
     public DirectionGestionDto getById(Integer id) {
         Personne personne = personneRepository.findById(id).orElseThrow();
         Direction getdirection = personne.getDirection();
-
-        //Direction direction = directionRepository.findById(getdirection.getId()).orElseThrow();
-
         DirectionGestionDto directionGestionDto = new DirectionGestionDto();
 
         directionGestionDto.setId(getdirection.getId());
-        //directionGestionDto.setNom(getdirection.getIdPersonne().getNom());
-        //directionGestionDto.setPrenoms( getdirection.getIdPersonne().getPrenoms());
         directionGestionDto.setGestionUtilisateur(getdirection.getGestionUtilisateur());
         directionGestionDto.setGestionSeminairePedagogiques(getdirection.getGestionSeminairePedagogiques());
         directionGestionDto.setStatus(getdirection.getStatusDirection());
@@ -162,7 +148,6 @@ public class DirectionGestionService {
 
         return directionGestionDto;
     }
-
     public DirectionGestionDto getDirecteur() {
         Direction directeur = directionRepository.findByStatusDirection("DIRECTEUR").orElseThrow();
         DirectionGestionDto direction = new DirectionGestionDto();

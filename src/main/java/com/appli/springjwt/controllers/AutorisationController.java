@@ -24,6 +24,13 @@ public class AutorisationController {
         autorisationInscriptionService.creerAutorisation(id, autorisationDto);
     }
 
+    @PostMapping("/concours/{id}/attente")
+    @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE')  or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
+    public void postAutorisationAttente(@PathVariable("id") Integer id , @RequestBody AutorisationDto autorisationDto){
+        System.out.println("AutorisationController : postAutorisation");
+        autorisationInscriptionService.creerAutorisationAttente(id, autorisationDto);
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public ArrayList<AutorisationDto> listAutorisation() {

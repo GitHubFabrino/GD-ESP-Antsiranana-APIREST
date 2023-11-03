@@ -72,11 +72,9 @@ public class ScolariteService {
 
     }
     public String generateRandomPassword() {
-        // Generate a random password with 8 characters
         String password = RandomStringUtils.randomAlphanumeric(8);
         return password;
     }
-
     public void update(ArrayList<ScolariteDto> dto) {
         for(ScolariteDto scolariteDto: dto){
             Scolarite scolarite = scolariteRepository.findById(scolariteDto.getId()).orElseThrow();
@@ -91,8 +89,6 @@ public class ScolariteService {
             scolariteRepository.save(scolarite);
         }
     }
-
-
     public ArrayList<ScolariteDto> get() {
         List<Scolarite> listscolarite = scolariteRepository.findAll();
         ArrayList<ScolariteDto> scolariteDtos = new ArrayList<>();
@@ -113,7 +109,6 @@ public class ScolariteService {
         }
         return scolariteDtos;
     }
-
     public ScolariteDto getById(Integer id) {
         Personne personne = personneRepository.findById(id).orElseThrow();
         Scolarite scolarite = personne.getScolarite();
@@ -132,7 +127,6 @@ public class ScolariteService {
         return scolariteDto;
 
     }
-
     public void delete(Integer id) {
         Scolarite scolarite = scolariteRepository.findById(id).orElseThrow();
         Personne personne= scolarite.getIdPersonne();
@@ -143,7 +137,6 @@ public class ScolariteService {
         statusRepository.delete(status);
         scolariteRepository.deleteById(id);
     }
-
     public void updateTache(ArrayList<ScolariteDto> dto) {
         for(ScolariteDto scolariteDto: dto){
             Scolarite scolarite = scolariteRepository.findById(scolariteDto.getId()).orElseThrow();

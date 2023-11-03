@@ -39,17 +39,7 @@ public class DefinitionDroitService {
         String numeroCompte = definitionDroitDto.getNumeroCompte();
         Niveau niveau = niveauRepository.findById(definitionDroitDto.getIdNiveau()).orElseThrow();
         Anneeuniv annee = anneeunivRepository.findById(definitionDroitDto.getIdAU()).orElseThrow();
-/*
-        if (droitRepository.existsByMontantAndNomBanqueAndNumeroCompte(montant, nomBanque, numeroCompte)){
-            droit= droitRepository.findByMontantAndNomBanqueAndNumeroCompte(montant, nomBanque, numeroCompte).orElseThrow();
 
-        } else{
-            droit.setMontant(montant);
-            droit.setNomBanque(nomBanque);
-            droit.setNumeroCompte(numeroCompte);
-        }
-
- */
             droit.setMontant(montant);
             droit.setNomBanque(nomBanque);
             droit.setNumeroCompte(numeroCompte);
@@ -69,7 +59,6 @@ public class DefinitionDroitService {
         }
 
     }
-
     public void update(ArrayList<DefinitionDroitDto> dto) {
 
         for(DefinitionDroitDto definitionDroitDto: dto){
@@ -85,14 +74,11 @@ public class DefinitionDroitService {
 
         }
     }
-
     public ArrayList<DefinitionDroitDto> getDefinitionDroit(Integer id) {
         List<Definitiondroit> Objdefinition = definitiondroitRepository.findAllByIdAU(anneeunivRepository.findById(id).orElseThrow());
         ArrayList<DefinitionDroitDto> definitionDroitDtos = new ArrayList<>();
         String nombre = "000";
         DecimalFormat n = new DecimalFormat("000");
-
-        //n.format(20);
 
         String date = "2022 - 2023";
 
@@ -101,8 +87,6 @@ public class DefinitionDroitService {
         String dateSplit2= dateSplit[1];
         String datePrefix =  dateSplit1.substring(dateSplit1.length()-2)+dateSplit2.substring(dateSplit2.length()-2);
 
-        System.out.println(  dateSplit1.substring(dateSplit1.length()-2));
-        System.out.println( dateSplit2.substring(dateSplit2.length()-2) );
         for(Definitiondroit definition :Objdefinition){
             Integer i = 0;
             definitionDroitDtos.add(i,new DefinitionDroitDto(
@@ -121,7 +105,6 @@ public class DefinitionDroitService {
         Collections.reverse(definitionDroitDtos);
         return definitionDroitDtos;
     }
-
     public void delete(Integer id) {
         definitiondroitRepository.deleteById(id);
     }

@@ -47,8 +47,6 @@ public class AutorisationInscriptionService {
     DefinitionparcourRepository definitionparcourRepository;
 
     public Candidatconcourstci creerAutorisation(Integer idConcours, AutorisationDto autorisationDto) {
-        System.out.println("AU 1 " );
-        System.out.println("AutorisationDto : " + autorisationDto.getNiveau() );
 
         Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
         List<Centreconcourstci> centreconcourstci = centreconcourstciRepository.findByIdCTCI(concourstci);
@@ -59,7 +57,37 @@ public class AutorisationInscriptionService {
             for (Candidatconcourstci candidat : candidatList) {
 
                 Personne personne = candidat.getIdPersonne();
-                System.out.println(personne);
+
+                Niveau niveau = niveauRepository.findById(autorisationDto.getIdNiveau()).orElseThrow();
+                Anneeuniv anneeuniv = anneeunivRepository.findById(autorisationDto.getIdAU()).orElseThrow();
+
+                if (!autorisationinscriptionaRepository.existsByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau)) {
+                    Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona(
+                            false, personne, niveau, anneeuniv
+                    );
+                    autorisationinscriptionaRepository.save(autorisationinscriptiona);
+                } else {
+
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    public Candidatconcourstci creerAutorisationAttente(Integer idConcours, AutorisationDto autorisationDto) {
+
+        Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
+        List<Centreconcourstci> centreconcourstci = centreconcourstciRepository.findByIdCTCI(concourstci);
+
+        for (Centreconcourstci centreconcours : centreconcourstci) {
+            ArrayList<Candidatconcourstci> candidatList = candidatconcourstciRepository.findAllByPassationCandidatCTCIAttenteAndIdCentreCTCI(true, centreconcours);
+
+            for (Candidatconcourstci candidat : candidatList) {
+
+                Personne personne = candidat.getIdPersonne();
+
                 Niveau niveau = niveauRepository.findById(autorisationDto.getIdNiveau()).orElseThrow();
                 Anneeuniv anneeuniv = anneeunivRepository.findById(autorisationDto.getIdAU()).orElseThrow();
 
@@ -120,7 +148,7 @@ public class AutorisationInscriptionService {
 
             String sem = parcour.getIdSemestre().getSemestre();
             if (Objects.equals(sem, "S1")){
-                System.out.println("eeeeeeeeeee");
+
                 parcoursInscription = parcour.getIdParcours().getParcours();
                 parcoursInscriptionAcronyme = parcour.getIdParcours().getAcronymeParcours();
                 mention = parcour.getIdDm().getIdMention().getMention();
@@ -210,10 +238,7 @@ public class AutorisationInscriptionService {
 
                 Fonction etudianFonction = roleRepository.findByName(ERole.ETUDIANT).orElseThrow();
                 fonctions.add(etudianFonction);
-/*
-            authentification.setIdPersonne(authentification.getIdPersonne());
-            authentification.setRoles(fonctions);
-*/
+
                 Authentification authentification = new Authentification(pseudo, encoder.encode(randomPass), autorisationinscriptiona.getIdPersonne(), randomPass, fonctions);
                 userRepository.save(authentification);
                 autorisationinscriptionaRepository.save(autorisationinscriptiona);
@@ -273,15 +298,6 @@ public class AutorisationInscriptionService {
                ));
            }
 
-
-
-
-
-     /*  password.setPass_word("");
-            authentificationRepository.save(password);*/
-
-
-
             i += 1;
         }
         Collections.reverse(autorisationDto);
@@ -327,11 +343,9 @@ public class AutorisationInscriptionService {
                     personneUpdate.setPass_word(null);
                     personneUpdate.setPassword(null);
                     authentificationRepository.save(personneUpdate);
-                    System.out.println("MOT DE PASSE AFTER SAVE : " + personneUpdate.getPass_word() +"et : " +personneUpdate.getPassword());
                 }
                 System.out.println("T 6");
                 Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona();
-                System.out.println("NIVEAU ACTUEL : "+niveau.getNiveau());
                 if(dto.getCodeRedoublement()==1 || dto.getCodeRedoublement()==2 || dto.getCodeRedoublement()==3){
                     if (niveau.getNiveau().equalsIgnoreCase("L1") ) {
                         autorisationinscriptiona.setIdNiveau(niveauRepository.findByNiveau("L2").orElseThrow());
@@ -355,16 +369,6 @@ public class AutorisationInscriptionService {
 
             } else {
                 System.out.println("T 7");
-                /*Authentification personneUpdate = authentificationRepository.findByIdPersonne(personne);
-                if (personneUpdate != null){
-                    System.out.println("T 4");
-                    personneUpdate.setPass_word(null);
-                    personneUpdate.setPassword(null);
-                    authentificationRepository.save(personneUpdate);
-                    System.out.println("MOT DE PASSE AFTER SAVE : " + personneUpdate.getPass_word() +"et : " +personneUpdate.getPassword());
-                }*/
-                System.out.println("T 8");
-                System.out.println("EFA MIEXISTE TY ");
             }
         }
     }

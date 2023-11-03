@@ -16,11 +16,6 @@ PersonneDto dto = null;
 public Personne creerPersonne(Personne dto){
 
     Personne personne =new Personne();
-    /*
-    Email email = new Email(dto.getEmail());
-    personne.setIdEmail(email);
-     */
-
     personne.setId(dto.getId());
     personne.setNom(dto.getNom());
     personne.setPrenoms(dto.getPrenoms());
@@ -41,8 +36,6 @@ public Personne creerPersonne(Personne dto){
 
     personne.setEmail(dto.getEmail());
 
-   // emailRepository.save(personne.getIdEmail());
-
     personneRepository.save(personne);
 
 return null;
@@ -50,7 +43,6 @@ return null;
 
     public PersonneDto getPersonneById(Integer id){
 
-    //PersonneDto dto=new PersonneDto();
    Personne personne = personneRepository.findById(id).orElseThrow(); // Recuperation Entité
         try {
             dto = new PersonneDto(  // Valorisation toutes ses Propriétés
@@ -116,7 +108,6 @@ public void modifierPersonne(Integer id,Personne dto) {
             personne.setAnneeEntree(dto.getAnneeEntree());
             personne.setTelephone(dto.getTelephone());
             personne.setEmail(dto.getEmail());
-            //personne.getIdEmail().setEmail(dto.getEmail());
             personneRepository.save(personne);
 }
     public void deletePersonne(Integer id) {

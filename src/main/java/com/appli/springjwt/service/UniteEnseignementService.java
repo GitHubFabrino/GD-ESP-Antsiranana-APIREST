@@ -26,7 +26,6 @@ public class UniteEnseignementService {
             uniteenseignementRepository.save(uniteenseignement);
         }
     }
-
     public void update(ArrayList<UniteEnseignementDto> uniteEnseignementDtos) {
         for(UniteEnseignementDto dto: uniteEnseignementDtos){
             Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(dto.getId()).orElseThrow();
@@ -38,7 +37,6 @@ public class UniteEnseignementService {
             uniteenseignementRepository.save(uniteenseignement);
         }
     }
-
     public ArrayList<UniteEnseignementDto> get() {
         List<Uniteenseignement> elementconstitutifs = uniteenseignementRepository.findAll();
         ArrayList<UniteEnseignementDto> uniteEnseignementDtos = new ArrayList<>();
@@ -55,7 +53,6 @@ public class UniteEnseignementService {
         Collections.reverse(uniteEnseignementDtos);
         return uniteEnseignementDtos;
     }
-
     public void delete(Integer id) {
         Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(id).orElseThrow();
         uniteenseignementRepository.delete(uniteenseignement);

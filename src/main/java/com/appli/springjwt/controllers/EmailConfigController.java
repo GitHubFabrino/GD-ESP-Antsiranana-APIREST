@@ -26,10 +26,7 @@ public class EmailConfigController {
     public ResponseEntity<?> updateEmailConfig(@RequestParam("username") String username,
                                                @RequestParam("password") String password) {
         System.out.println("EmailConfigController : updateEmailConfig");
-        // code pour valider les valeurs de username et password, par exemple en les stockant dans une base de données
-        // ...
 
-        // mettre à jour les propriétés de Spring
         emailProperties.setProperty("spring.mail.username", username);
         emailProperties.setProperty("spring.mail.password", password);
 

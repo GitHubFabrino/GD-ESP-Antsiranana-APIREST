@@ -30,8 +30,6 @@ public class CursusService {
     RelevenoteRepository relevenoteRepository;
 
     @Autowired
-    ProgrammeenseignementRepository programmeenseignementRepository;
-    @Autowired
     ProgrammeService programmeService;
 
 @Transactional
@@ -40,21 +38,9 @@ public class CursusService {
         Etudiant etudiant = etudiantRepository.findById(cursusDto.getIdEtudiant()).orElseThrow();
         etudiant.getIdPersonne().setTelephone(cursusDto.getTelephone());
         etudiant.getIdPersonne().setEmail(cursusDto.getEmail());
-        System.out.println(cursusDto.getIdDP());
-        System.out.println(etudiant.getStatusEtudiant());
-        System.out.println(cursusDto.getStatus_etudiant());
         etudiant.setStatusEtudiant(cursusDto.getStatus_etudiant());
 
         etudiantRepository.save(etudiant);
-    System.out.println(etudiant.getStatusEtudiant());
-
-        //List<Definitionparcour> iddpList = etudiant.getCursus().stream().collect(Collectors.toList()).subList(0, 1).stream().map(Cursus::getIdDp).collect(Collectors.toList());
-    /*List<Definitionparcour> iddpList = new ArrayList<>();
-    if (!etudiant.getCursus().isEmpty()) {
-        iddpList = etudiant.getCursus().stream()
-                .map(Cursus::getIdDp)
-                .collect(Collectors.toList());
-    }*/
     List<Definitionparcour> iddpList = new ArrayList<>();
     if (!cursusDto.getIdDP().isEmpty()) {
         for (Integer idDP : cursusDto.getIdDP()) {
@@ -99,28 +85,15 @@ public class CursusService {
                                         releveNew.setIdUeEc(ueEc);
                                         releveNew.setIdCursus(cursus);
                                         releveNew.setNote(BigDecimal.valueOf(releve.getNoteEC().get(i)));
-
-                                        System.out.println("ici cursus avant save");
                                         cursusRepository.save(cursus);
                                         relevenoteRepository.save(releveNew);
                                     }
-                                        /*
-                                    for (UeEc ueecMap : ueecList) {
-                                        if (ueecMap.getIdEc().getCodeEc().equalsIgnoreCase(ueEc.getIdEc().getCodeEc())) {
-                                            releveNew.setIdUeEc(ueecMap);
-                                            releveNew.setIdCursus(cursus);
-
-                                        }
-                                    }
-                                         */
                                 }
-                                // Cursus cursus = cursusRepository.findById(dto.getIdCursus()).orElseThrow();
                             }
                         }
                     }
                 } else {
                     System.out.println("ici 5");
-                    System.out.println("ici cursus avant save else");
                     cursus.setValiditeCurcus(false);
                     cursus.setValiditeIp(true);
                     cursus.setIdEtudiant(etudiant);
@@ -130,8 +103,6 @@ public class CursusService {
             }
         }
     }
-
-
     public void update(ArrayList<CursusDto> cursusDto) {
         for(CursusDto dto: cursusDto){
             Cursus cursus = cursusRepository.findById(dto.getId()).orElseThrow();
@@ -140,7 +111,6 @@ public class CursusService {
             cursusRepository.save(cursus);
         }
     }
-
     public ArrayList<CursusDto> getById(Integer id) {
 
         ArrayList<CursusDto> cursusDto = new ArrayList<>();

@@ -15,8 +15,6 @@ public class DefinitionParcoursService {
     @Autowired
     SemestreRepository semestreRepository;
     @Autowired
-    MentionRepository mentionRepository;
-    @Autowired
     NiveauRepository niveauRepository;
     @Autowired
     ParcourRepository parcourRepository;
@@ -35,7 +33,6 @@ public class DefinitionParcoursService {
             Definitionparcour offreformation = new Definitionparcour();
             Definitionmention definitionmention = definitionmentionRepository.findById(offreFormationDto.getIdDM()).orElseThrow();
             Semestre semestre = semestreRepository.findById(offreFormationDto.getIdSemestre()).orElseThrow();
-            //Mention mention = mentionRepository.findById(offreFormationDto.getIdDM()).orElseThrow();
             Niveau niveau = niveauRepository.findById(offreFormationDto.getIdNiveau()).orElseThrow();
             Anneeuniv anneeuniv = anneeunivRepository.findById(offreFormationDto.getIdAU()).orElseThrow();
             Parcour parcour = new Parcour();
@@ -53,18 +50,10 @@ public class DefinitionParcoursService {
             offreformation.setIdAu(anneeuniv);
             offreformation.setIdDm(definitionmention);
             offreformation.setIdSemestre(semestre);
-           // offreformation.getIdDm().setIdMention(mention);
             offreformation.setIdNiveau(niveau);
             offreformation.setIdParcours(parcour);
-            //try {
-            offreformation.setIdEnseignant(enseignant);
-            /*
-            }catch (Exception e) {
-                enseignant = null;
-                offreformation.setIdEnseignant(enseignant);
-            }
 
-             */
+            offreformation.setIdEnseignant(enseignant);
             parcourRepository.save(parcour);
 
             if(definitionparcourRepository.existsByIdAuAndIdNiveauAndIdDmAndIdSemestreAndIdParcoursAndIdEnseignant(
@@ -74,7 +63,6 @@ public class DefinitionParcoursService {
             }
         }
     }
-
     public ArrayList<DefinitionParcoursDto> get(Integer id) {
 
         ArrayList<Definitionparcour> Objoffre = definitionparcourRepository.findAllByIdAu(anneeunivRepository.findById(id).orElseThrow());
@@ -116,7 +104,6 @@ public class DefinitionParcoursService {
         Collections.reverse(offreFormationDtos);
         return offreFormationDtos;
     }
-
     public void update(ArrayList<DefinitionParcoursDto> dto) {
 
         for(DefinitionParcoursDto offreFormationDto: dto){

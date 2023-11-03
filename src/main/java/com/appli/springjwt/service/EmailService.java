@@ -23,7 +23,6 @@ public class EmailService {
             emailSender.send(message);
         }catch (Exception exception){
             System.out.println(exception.getMessage());
-            //throw  new RuntimeException(exception.getMessage());
         }
     }
 }

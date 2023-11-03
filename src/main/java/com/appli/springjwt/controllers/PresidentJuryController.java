@@ -28,11 +28,6 @@ public class PresidentJuryController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE')")
     public void post(@RequestBody DefinitionPresidentJuryDto presidentJury){
-        System.out.println("ok");
-        System.out.println(presidentJury.getIdAU());
-        System.out.println(presidentJury.getIdEnseignant());
-        System.out.println(presidentJury.getIdConcour());
-
         Optional<PresidentJuryModel> concourExist = presidentJuryRepository.findById(presidentJury.getIdConcour());
         if (concourExist.isPresent()){
             System.out.println("Efa miexist");
@@ -46,7 +41,6 @@ public class PresidentJuryController {
     @GetMapping("/list")
    @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public ArrayList<PresidentJuryDto> list() {
-        System.out.println("ato zay");
         return presidentJuryService.getList();
     }
 

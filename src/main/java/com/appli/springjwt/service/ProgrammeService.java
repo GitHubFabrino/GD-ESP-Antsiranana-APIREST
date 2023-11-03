@@ -32,17 +32,12 @@ public class ProgrammeService {
  @Transactional
     public void save(ProgrammeEnseignementDto programmeDto, Integer idDp) {
 
-    System.out.println("UEList = " + programmeDto.getUe().size());
-
     Uniteenseignement uniteenseignement = new Uniteenseignement();
 
     BigDecimal creditUE = BigDecimal.valueOf(0);
 
     ArrayList<UniteEnseignementDto> eclist = programmeDto.getUe();
 
-    System.out.println("EC LIST : " + eclist.size());
-
-    //       System.out.println("EC LIST : "+ eclist.stream());
 Integer i=0;
 
         for (UniteEnseignementDto ue : programmeDto.getUe()) {
@@ -52,7 +47,6 @@ Integer i=0;
 
             if (uniteenseignementRepository.existsByCodeUe(ue.getCodeUE())) {
                 uniteenseignement = uniteenseignementRepository.findByCodeUe(ue.getCodeUE()).orElseThrow();
-                // A retirer après 1er test d'enregistrement id Enseignant
                 uniteenseignement.setIdEnseignant(enseignantRepository.findById(ue.getIdEnseignant()).orElseThrow());
                 uniteenseignement.setIdDp(definitionparcourRepository.findById(idDp).orElseThrow());
                 uniteenseignement.setCreditUe(sumCredits);
@@ -71,17 +65,12 @@ Integer i=0;
                 Elementconstitutif elementconstitutif = new Elementconstitutif();
                 i+=1;
 
-                System.out.println("programmeDto.getEc()" + ec);
-
                 if (elementconstitutifRepository.existsByCodeEc(ec.getCodeEC())) {
                     elementconstitutif = elementconstitutifRepository.findByCodeEc(ec.getCodeEC()).orElseThrow();
                 } else {
 
                     elementconstitutif.setNomEc(ec.getNomEC());
                     elementconstitutif.setCodeEc(ec.getCodeEC());
-
-                System.out.println("getNomEC : " + ec.getNomEC());
-                System.out.println("getCodeEC : " + ec.getCodeEC());
 
                 elementconstitutifRepository.save(elementconstitutif);
             }
@@ -130,8 +119,6 @@ Integer i=0;
 
                 }
 
-                System.out.println("creditUE : " + creditUE);
-
                 Programmeenseignement programme = new Programmeenseignement();
 
                 if (programmeenseignementRepository.existsByIdUeEcAndIdDp(
@@ -146,11 +133,7 @@ Integer i=0;
                 }
             } //fin boucle ec
         } //fin boucle ue
-
-        System.out.println("compteur nombre ec = " + i );
 }
-
-
     public ArrayList<ProgrammeDto> get(Integer id) {
         List<Programmeenseignement> programme = programmeenseignementRepository.findAllByIdDp(definitionparcourRepository.findById(id).orElseThrow());
         ArrayList<ProgrammeDto> programmeDtos = new ArrayList<>();
@@ -166,7 +149,6 @@ Integer i=0;
         }
         return programmeDtos;
     }
-
     public List<ProgrammeGetDto> getByIdDp(Integer id) {
         List<Programmeenseignement> programme = programmeenseignementRepository.findAllByIdDp(definitionparcourRepository.findById(id).orElseThrow());
         ArrayList<ProgrammeGetDto> programmeDtos = new ArrayList<>();
@@ -179,7 +161,6 @@ Integer i=0;
         ArrayList<Integer> idUE = new ArrayList<>();
 
         Map<Integer, List<UeEc>> ueMap = ueecList.stream().collect(Collectors.groupingBy(ueEc -> ueEc.getIdUe().getId()));
-        //List<CalculResult> results = new ArrayList<>();
         Integer ueMapCompteur =0;
         for (Map.Entry<Integer, List<UeEc>> entry : ueMap.entrySet()) {
             ArrayList<Integer> idUEEC= new ArrayList<>();
@@ -191,7 +172,6 @@ Integer i=0;
             ArrayList<BigDecimal> creditEC = new ArrayList<>();
             ArrayList<ResponsableECDto> responsableEC = new ArrayList<>();
             ArrayList<ResponsableECDto> responsableUE = new ArrayList<>();
-            System.out.println("Boucle no : "+ueMapCompteur);
             Integer idUe = entry.getKey();
             List<UeEc> ueEcsByUe = entry.getValue();
 
@@ -216,13 +196,7 @@ Integer i=0;
             ueEcsByUe.stream().map(UeEc::getVolumeHoraireEt).forEach(et ->volumeHoraireET.add(et) );
             ueEcsByUe.stream().map(UeEc::getVolumeHoraireEd).forEach(ed ->volumeHoraireED.add(ed) );
             ueEcsByUe.stream().map(UeEc::getVolumeHoraireTp).forEach(tp ->volumeHoraireTP.add(tp) );
-/*
-            ueEcsByUe.stream().map(UeEc::getIdEc).forEach(ec -> {
-                    nomEC.add(ec.getNomEc());
 
-        });
-
- */
             ueEcsByUe.stream().map(UeEc::getCreditEc).forEach(credit ->creditEC.add(credit) );
 
             ueEcsByUe.stream().map(UeEc::getIdEnseignant).forEach(enseignant -> {
@@ -236,8 +210,6 @@ Integer i=0;
                 }
             });
 
-            //ueEcsByUe.stream().map(UeEc::getId)
-
             sumId.stream().forEach(integer -> {
                 idUEEC.add(integer);
                 System.out.println("UEEC ID = "+integer);});
@@ -246,7 +218,6 @@ Integer i=0;
             if (sumCredits.compareTo(BigDecimal.ZERO) != 0) {
                 average = sumIds.divide(sumCredits, 2, RoundingMode.HALF_UP);
             }
-            //results.add(new CalculResult(idUe, average));
 
             ArrayList<String> ueList = new ArrayList<>();
             ueList.add(nomUE.get(ueMapCompteur));
@@ -256,8 +227,6 @@ Integer i=0;
 
             ArrayList<Integer> idUEList = new ArrayList<>();
             idUEList.add(idUE.get(ueMapCompteur));
-            System.out.println("idUEList  : "+ idUEList);
-            System.out.println("ID UE  : "+ idUE);
 
             responsableUE.add(new ResponsableECDto(
                     uniteenseignementRepository.findById(idUe).orElse(null).getIdEnseignant().getId(),
@@ -282,38 +251,9 @@ Integer i=0;
 
             ueMapCompteur+=1;
         }
-        System.out.println("ueMapCompeur = "+ueMapCompteur);
 
         return programmeDtos;
     }
-/*
-    public List<ProgrammeGetDtoEC> getEC() {
-        ArrayList<ProgrammeGetDtoEC> programmeDtos = new ArrayList<>();
-
-
-            programmeDtos.add(new ProgrammeGetDto(
-                    idUEList,
-                    codeUeList,
-                    ueList,
-                    idUEEC,
-                    nomEC,
-                    codeEC,
-                    volumeHoraireET,
-                    volumeHoraireED,
-                    volumeHoraireTP,
-                    creditEC,
-                    responsableEC,
-                    responsableUE
-            ));
-
-            ueMapCompteur+=1;
-        }
-        System.out.println("ueMapCompeur = "+ueMapCompteur);
-
-        return programmeDtos;
-    }
-
-*/
     public List<UeEc> findUeEcByDpList(Definitionparcour dp) {
         List<Programmeenseignement> programmeenseignements = programmeenseignementRepository.findAllByIdDp(dp);
 

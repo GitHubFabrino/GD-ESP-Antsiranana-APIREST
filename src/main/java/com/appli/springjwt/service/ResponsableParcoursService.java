@@ -29,22 +29,10 @@ public class ResponsableParcoursService {
     public void save(ArrayList<DefinitionParcoursDto> dto) {
 
         for(DefinitionParcoursDto definitionParcoursDto: dto) {
-            //Definitionparcour definitionparcour = new Definitionparcour();
             Definitionparcour definitionparcour = definitionparcourRepository.findById(definitionParcoursDto.getId()).orElseThrow();
             Enseignant enseignant = enseignantRepository.findById(definitionParcoursDto.getIdEnseignant()).orElseThrow();
 
             definitionparcour.setIdEnseignant(enseignant);
-            /*
-            try {
-
-            }catch (Exception e){
-                definitionparcour.setIdEnseignant(null);
-            }
-
-             */
-
-            //definitionparcour.setIdParcours(parcourRepository.findById(definitionParcoursDto.getIdParcours()).orElseThrow());
-
             try {
                 Status status = new Status();
                 status.setIdAuthentification(authentificationRepository.findById(enseignant.getIdPersonne().getAuthentification().getId()).orElseThrow());
@@ -79,7 +67,6 @@ public class ResponsableParcoursService {
             } catch(Exception e){  }
             i+=1;
         }
-        // System.out.println(definitionMentionDtos.get(0).getAcronymeMention());
         Collections.reverse(definitionParcoursDtos);
         return definitionParcoursDtos;
 

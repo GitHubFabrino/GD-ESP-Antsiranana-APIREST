@@ -71,8 +71,6 @@ public class EtudiantService {
                     for(ProgrammeGetDto programme : pe1){
                         System.out.println("PE1 NO :"+ pe1Index);
                         ArrayList<Integer> idUeEcList = programme.getIdUEEC();
-                        //ArrayList<Integer> idUeList = programme.getIdUE();
-                        // Validationue validationueobj = new Validationue();
 
                         Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(programme.getIdUE().get(0)).orElseThrow();
                         ArrayList<Integer> validationEC = new ArrayList<>();
@@ -95,13 +93,10 @@ public class EtudiantService {
                             moyenneUE = moyenneUE.add(note.multiply(creditEC));
                             totalCredit = totalCredit.add(creditEC);
                         }
-                        System.out.println("VALIDATION EC SIZE = "+ validationEC.size());
 
                         if (totalCredit.compareTo(BigDecimal.ZERO) != 0) {
                             moyenneUE = moyenneUE.divide(totalCredit, 2, RoundingMode.HALF_UP);
                         }
-                    //
-                        //System.out.println("VALIDATION UE NO "+ programme.getIdUE().get(0)+" = "+ validationUEList.get(pe1Index));
                         if(validationueRepository.existsByIdUeAndIdCursus(uniteenseignement,cursus.get(0))){
                             Validationue validationSave = validationueRepository.findByIdUeAndIdCursus(uniteenseignement,cursus.get(0)).orElseThrow();
 
@@ -143,7 +138,6 @@ public class EtudiantService {
 
                     for(ProgrammeGetDto programme : pe2){
                         ArrayList<Integer> idUeEcList = programme.getIdUEEC();
-                        //ArrayList<Integer> idUeList = programme.getIdUE();
 
                         Uniteenseignement uniteenseignement = uniteenseignementRepository.findById(programme.getIdUE().get(0)).orElseThrow();
                         ArrayList<Integer> validationEC = new ArrayList<>();
@@ -254,20 +248,11 @@ public class EtudiantService {
             Resultatfinau etudiantRedoublant = resultatfinauRepository.findByIdEtudiantAndIdDp(etudiantResultat, dp2).orElseThrow();
             if(etudiantRedoublant.getCodeRedoublement() == 4){
                 List<Uniteenseignement> ueList = uniteenseignementRepository.findByIdDpIn(Arrays.asList(dp1, dp2));
-                System.out.println("????????????????????????????????????????????????????????????????????????");
-                System.out.println("Nombre ue " + ueList.size());
-                System.out.println("????????????????????????????????????????????????????????????????????????");
-
                 for( Uniteenseignement ue:ueList){
-                  //  System.out.println("NOM UE : " + ue.getNomUe());
-
                     for(Cursus c:cursus) {
-                     //   System.out.println("NOM Cursus : " + c.getId());
                         Validationue validationue = validationueRepository.findByIdUeAndIdCursus(ue, c).orElse(null);
                         if(validationue == null){}
                         else{
-                       //     System.out.println("VALIDATION : " + validationue);
-                            //Todo eto ilay misy olana str misy valeur null anatiny bd table validationue
                             if (validationue.getValidationUe() == null){
                                 System.out.println("Null be ato ayyy");
                             }else{
@@ -285,7 +270,6 @@ public class EtudiantService {
         }
 
     }
-
     private void validationUE(Integer id, List<Integer> listdp, DeliberationAUDto dto) {
 
         Definitionparcour dp = definitionparcourRepository.findById(id).orElseThrow();
@@ -343,28 +327,9 @@ public class EtudiantService {
                         }
                     }
                 }
-
-                /*
-                validationUE.add(0);
-                validationueobj.setIdCursus(c);
-
-                for(Integer idue:idUeList){
-                    validationueobj.setIdUe(uniteenseignementRepository.findById(idue).orElseThrow());
-
-                    if(validationueRepository.existsByIdUeAndIdCursus(uniteenseignementRepository.findById(idue).orElseThrow(),c)){
-                        Validationue validation = validationueRepository.findByIdUeAndIdCursus(uniteenseignementRepository.findById(idue).orElseThrow(),c).orElseThrow();
-                        validationueobj.setValidationUe(validationUE);
-                        validationueRepository.save(validation);
-                    }else {
-                        validationueobj.setValidationUe(validationUE);
-                        validationueRepository.save(validationueobj);
-                    }
-                }
-*/
             }
         }
     }
-
     public EtudiantDto getById(Integer id) {
         EtudiantDto etudiantDto = new EtudiantDto();
         try {
@@ -381,7 +346,6 @@ public class EtudiantService {
         }
         return  etudiantDto;
     }
-
     public ArrayList<CursusDto> getByIdDP(Integer id) {
         ArrayList<CursusDto> cursusDto = new ArrayList<>();
         ArrayList<Cursus> cursus = cursusRepository.findAllByIdDp(definitionparcourRepository.findById(id).orElseThrow());
@@ -403,14 +367,12 @@ public class EtudiantService {
         return cursusDto;
 
     }
-
     public ArrayList<CursusDto> get(Integer id) {
         ArrayList<CursusDto> cursusDto = new ArrayList<>();
         ArrayList<Cursus> cursus = cursusRepository.findAllByIdDpAndValiditeIp(definitionparcourRepository.findById(id).orElseThrow(),true);
         
         for(Cursus c: cursus) {
-            //Set<Cursus> cursusList = c.getIdEtudiant().getCursus();
-            //cursusList = cursusRepository.find
+
             Integer i = 0;
             cursusDto.add(i,new CursusDto(
                     c.getId(),
@@ -426,8 +388,6 @@ public class EtudiantService {
         Collections.reverse(cursusDto);
         return cursusDto;
     }
-
-
     public ArrayList<ResultatAUDto> getResultatByIdDP(Integer id) {
 
         ArrayList<ResultatAUDto> resultatAUDtos = new ArrayList<>();
