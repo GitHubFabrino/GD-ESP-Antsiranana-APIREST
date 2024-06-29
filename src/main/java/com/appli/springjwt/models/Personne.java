@@ -88,6 +88,67 @@ public class Personne {
     private Scolarite scolarite;
 
 
+    @Column(name = "etude1")
+    private String etude1;
+    @Column(name = "etude2")
+    private String etude2;
+    @Column(name = "etude3")
+    private String etude3;
+
+    @Column(name = "annee1")
+    private String annee1;
+    @Column(name = "annee2")
+    private String annee2;
+    @Column(name = "annee3")
+    private String annee3;
+
+    public String getEtude1() {
+        return etude1;
+    }
+
+    public void setEtude1(String etude1) {
+        this.etude1 = etude1;
+    }
+
+    public String getEtude2() {
+        return etude2;
+    }
+
+    public void setEtude2(String etude2) {
+        this.etude2 = etude2;
+    }
+
+    public String getEtude3() {
+        return etude3;
+    }
+
+    public void setEtude3(String etude3) {
+        this.etude3 = etude3;
+    }
+
+    public String getAnnee1() {
+        return annee1;
+    }
+
+    public void setAnnee1(String annee1) {
+        this.annee1 = annee1;
+    }
+
+    public String getAnnee2() {
+        return annee2;
+    }
+
+    public void setAnnee2(String annee2) {
+        this.annee2 = annee2;
+    }
+
+    public String getAnnee3() {
+        return annee3;
+    }
+
+    public void setAnnee3(String annee3) {
+        this.annee3 = annee3;
+    }
 
     public Scolarite getScolarite() {
         return scolarite;

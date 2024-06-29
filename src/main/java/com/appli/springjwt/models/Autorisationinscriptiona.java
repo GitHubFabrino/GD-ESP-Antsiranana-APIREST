@@ -131,7 +131,13 @@ public class Autorisationinscriptiona {
     @Override
     public String toString() {
         return "Autorisationinscriptiona{" +
-                "idPersonne=" + idPersonne +
+                "id=" + id +
+                ", autorisation=" + autorisation +
+                ", numeroRecu='" + numeroRecu + '\'' +
+                ", idPersonne=" + idPersonne +
+                ", idNiveau=" + idNiveau +
+                ", idAu=" + idAu +
+                ", pass_word='" + pass_word + '\'' +
                 '}';
     }
 }

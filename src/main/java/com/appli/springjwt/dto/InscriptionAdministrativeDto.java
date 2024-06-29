@@ -6,7 +6,7 @@ public class InscriptionAdministrativeDto {
     Integer id;
     Boolean validiteIA;
     Integer idEtudiant;
-    Integer numeroMatricule;
+    String numeroMatricule;
     Integer idPersonne;
 
     String nom;
@@ -33,6 +33,16 @@ public class InscriptionAdministrativeDto {
     Integer idNiveau;
     Integer idAU;
 
+    String etude1;
+    String etude2;
+    String etude3;
+
+    String annee1;
+    String annee2;
+    String annee3;
+
+
+
     public InscriptionAdministrativeDto() {
     }
 
@@ -43,6 +53,69 @@ public class InscriptionAdministrativeDto {
         this.idPersonne = idPersonne;
         this.nom = nom;
         this.prenoms = prenoms;
+    }
+
+    public InscriptionAdministrativeDto(Integer id, Boolean validiteIA, Integer idEtudiant, Integer idPersonne, String nom, String prenoms, String etude1, String etude2, String etude3, String annee1, String annee2, String annee3) {
+        this.id = id;
+        this.validiteIA = validiteIA;
+        this.idEtudiant = idEtudiant;
+        this.idPersonne = idPersonne;
+        this.nom = nom;
+        this.prenoms = prenoms;
+        this.etude1 = etude1;
+        this.etude2 = etude2;
+        this.etude3 = etude3;
+        this.annee1 = annee1;
+        this.annee2 = annee2;
+        this.annee3 = annee3;
+    }
+
+    public String getEtude1() {
+        return etude1;
+    }
+
+    public void setEtude1(String etude1) {
+        this.etude1 = etude1;
+    }
+
+    public String getEtude2() {
+        return etude2;
+    }
+
+    public void setEtude2(String etude2) {
+        this.etude2 = etude2;
+    }
+
+    public String getEtude3() {
+        return etude3;
+    }
+
+    public void setEtude3(String etude3) {
+        this.etude3 = etude3;
+    }
+
+    public String getAnnee1() {
+        return annee1;
+    }
+
+    public void setAnnee1(String annee1) {
+        this.annee1 = annee1;
+    }
+
+    public String getAnnee2() {
+        return annee2;
+    }
+
+    public void setAnnee2(String annee2) {
+        this.annee2 = annee2;
+    }
+
+    public String getAnnee3() {
+        return annee3;
+    }
+
+    public void setAnnee3(String annee3) {
+        this.annee3 = annee3;
     }
 
     public Integer getId() {
@@ -69,11 +142,11 @@ public class InscriptionAdministrativeDto {
         this.idEtudiant = idEtudiant;
     }
 
-    public Integer getNumeroMatricule() {
+    public String getNumeroMatricule() {
         return numeroMatricule;
     }
 
-    public void setNumeroMatricule(Integer numeroMatricule) {
+    public void setNumeroMatricule(String numeroMatricule) {
         this.numeroMatricule = numeroMatricule;
     }
 
@@ -257,5 +330,44 @@ public class InscriptionAdministrativeDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "InscriptionAdministrativeDto{" +
+                "id=" + id +
+                ", validiteIA=" + validiteIA +
+                ", idEtudiant=" + idEtudiant +
+                ", numeroMatricule=" + numeroMatricule +
+                ", idPersonne=" + idPersonne +
+                ", nom='" + nom + '\'' +
+                ", prenoms='" + prenoms + '\'' +
+                ", sexe='" + sexe + '\'' +
+                ", dateNaissance=" + dateNaissance +
+                ", lieuNaissance='" + lieuNaissance + '\'' +
+                ", villeNaissance='" + villeNaissance + '\'' +
+                ", paysNaissance='" + paysNaissance + '\'' +
+                ", nationalite='" + nationalite + '\'' +
+                ", adresse='" + adresse + '\'' +
+                ", numeroCIN='" + numeroCIN + '\'' +
+                ", dateDelivreCIN=" + dateDelivreCIN +
+                ", villeDelivreCIN='" + villeDelivreCIN + '\'' +
+                ", affiliation1='" + affiliation1 + '\'' +
+                ", affiliation2='" + affiliation2 + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", idEmail=" + idEmail +
+                ", email='" + email + '\'' +
+                ", idBacc=" + idBacc +
+                ", Bacc='" + Bacc + '\'' +
+                ", anneeBacc=" + anneeBacc +
+                ", idNiveau=" + idNiveau +
+                ", idAU=" + idAU +
+                ", etude1='" + etude1 + '\'' +
+                ", etude2='" + etude2 + '\'' +
+                ", etude3='" + etude3 + '\'' +
+                ", annee1='" + annee1 + '\'' +
+                ", annee2='" + annee2 + '\'' +
+                ", annee3='" + annee3 + '\'' +
+                '}';
     }
 }

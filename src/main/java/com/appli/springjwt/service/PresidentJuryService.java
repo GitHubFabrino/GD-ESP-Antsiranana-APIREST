@@ -1,6 +1,5 @@
 package com.appli.springjwt.service;
 
-import com.appli.springjwt.dto.CentreConcoursTCIDto;
 import com.appli.springjwt.dto.DefinitionPresidentJuryDto;
 import com.appli.springjwt.dto.PresidentJuryDto;
 import com.appli.springjwt.models.*;
@@ -52,7 +51,7 @@ public class PresidentJuryService {
         Concourstci concour = concourstciRepository.findById(presidentJury.getIdConcour()).orElseThrow();
         PresidentJuryModel Jyry = new PresidentJuryModel();
         Jyry.setIdEnseignant(enseignant);
-        Jyry.setId_CTCI(concour);
+        Jyry.setId_CTCI(concour.getId());
         Jyry.setIdAu(au);
 
         try {
@@ -75,11 +74,11 @@ public class PresidentJuryService {
         for (PresidentJuryModel pdj: listPDJ){
             Integer i = 0;
             try{
-
+                Optional<Concourstci> concour = concourstciRepository.findById(pdj.getId_CTCI());
                 PresidentJuryDTOS.add(i, new PresidentJuryDto(
                         pdj.getId(),
-                        pdj.getId_CTCI().getId(),
-                        pdj.getId_CTCI().getSessionCTCI(),
+                        pdj.getId_CTCI(),
+                        concour.get().getSessionCTCI(),
                         pdj.getIdEnseignant().getId(),
                         pdj.getIdEnseignant().getIdPersonne().getNom(),
                         pdj.getIdEnseignant().getIdPersonne().getPrenoms()

@@ -3,6 +3,7 @@ package com.appli.springjwt.repository;
 import com.appli.springjwt.models.Personne;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public interface PersonneRepository extends JpaRepository<Personne, Integer> {
@@ -13,5 +14,6 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
 
     Optional<Personne> findByNomAndPrenoms(String nom,String prenoms);
   //  Optional<Personne> findByFirstNameAndLastName(String firstName, String lastName);
+  ArrayList<Personne> findByPrenomsAndNom(String prenoms , String nom);
 
 }

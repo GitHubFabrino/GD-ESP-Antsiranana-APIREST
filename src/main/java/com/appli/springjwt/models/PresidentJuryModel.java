@@ -15,10 +15,10 @@ public class PresidentJuryModel {
     @JoinColumn(name = "id_AU")
     private Anneeuniv idAu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_CTCI")
-    /*@Column(name = "id_CTCI")*/
-    private Concourstci idCTCI;
+   /* @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_CTCI")*/
+    @Column(name = "id_CTCI")
+    private Integer idCTCI;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_enseignant")
@@ -27,14 +27,14 @@ public class PresidentJuryModel {
     public PresidentJuryModel() {
     }
 
-    public PresidentJuryModel(Integer id, Anneeuniv idAu, Concourstci id_CTCI, Enseignant idEnseignant) {
+    public PresidentJuryModel(Integer id, Anneeuniv idAu, Integer id_CTCI, Enseignant idEnseignant) {
         this.id = id;
         this.idAu = idAu;
         this.idCTCI = id_CTCI;
         this.idEnseignant = idEnseignant;
     }
 
-    public PresidentJuryModel(Anneeuniv idAu, Concourstci id_CTCI, Enseignant idEnseignant) {
+    public PresidentJuryModel(Anneeuniv idAu, Integer id_CTCI, Enseignant idEnseignant) {
         this.idAu = idAu;
         this.idCTCI = id_CTCI;
         this.idEnseignant = idEnseignant;
@@ -56,11 +56,11 @@ public class PresidentJuryModel {
         this.idAu = idAu;
     }
 
-    public Concourstci getId_CTCI() {
+    public Integer getId_CTCI() {
         return idCTCI;
     }
 
-    public void setId_CTCI(Concourstci id_CTCI) {
+    public void setId_CTCI(Integer id_CTCI) {
         this.idCTCI = id_CTCI;
     }
 

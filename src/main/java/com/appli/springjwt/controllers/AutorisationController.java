@@ -20,7 +20,7 @@ public class AutorisationController {
     @PostMapping("/concours/{id}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE')  or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void postAutorisation(@PathVariable("id") Integer id , @RequestBody AutorisationDto autorisationDto){
-        System.out.println("AutorisationController : postAutorisation");
+        System.out.println("AutorisationController : postAutorisation ici");
         autorisationInscriptionService.creerAutorisation(id, autorisationDto);
     }
 
@@ -28,7 +28,8 @@ public class AutorisationController {
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE')  or hasAuthority('PRESIDENT_JURY') or hasRole('ADMIN')")
     public void postAutorisationAttente(@PathVariable("id") Integer id , @RequestBody AutorisationDto autorisationDto){
         System.out.println("AutorisationController : postAutorisation");
-        autorisationInscriptionService.creerAutorisationAttente(id, autorisationDto);
+        System.out.println(autorisationDto);
+       autorisationInscriptionService.creerAutorisationAttente(id, autorisationDto);
     }
 
     @GetMapping
@@ -41,7 +42,7 @@ public class AutorisationController {
     @GetMapping("/personne/{idPersonne}/au/{idAU}")
     @PreAuthorize("hasRole('USER') or hasAuthority('SCOLARITE') or hasAuthority('PRESIDENT_JURY') or hasAuthority('ETUDIANT') or hasRole('ADMIN')")
     public AutorisationDto listAutorisationById(@PathVariable("idPersonne") Integer idPersonne, @PathVariable("idAU") Integer idAU) {
-        System.out.println("AutorisationController : listAutorisationById");
+        System.out.println("AutorisationController : listAutorisationById avec id pers " + idPersonne );
         return autorisationInscriptionService.listAutorisationById(idPersonne,idAU);
     }
 

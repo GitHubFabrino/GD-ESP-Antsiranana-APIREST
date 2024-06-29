@@ -43,4 +43,13 @@ public class DefinitionPresidentJuryDto {
     public void setIdEnseignant(Integer idEnseignant) {
         this.idEnseignant = idEnseignant;
     }
+
+    @Override
+    public String toString() {
+        return "DefinitionPresidentJuryDto{" +
+                "idAU=" + idAU +
+                ", idConcour=" + idConcour +
+                ", idEnseignant=" + idEnseignant +
+                '}';
+    }
 }

@@ -49,4 +49,15 @@ public class EtudiantDto {
     public void setIdBacc(Integer idBacc) {
         this.idBacc = idBacc;
     }
+
+    @Override
+    public String toString() {
+        return "EtudiantDto{" +
+                "id=" + id +
+                ", numeroMatricule='" + numeroMatricule + '\'' +
+                ", anneeBacc=" + anneeBacc +
+                ", statusEtudiant='" + statusEtudiant + '\'' +
+                ", idBacc=" + idBacc +
+                '}';
+    }
 }

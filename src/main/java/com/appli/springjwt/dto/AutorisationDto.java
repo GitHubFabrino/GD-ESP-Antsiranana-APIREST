@@ -148,4 +148,22 @@ public class AutorisationDto {
     public void setPass_word(String pass_word) {
         this.pass_word = pass_word;
     }
+
+    @Override
+    public String toString() {
+        return "AutorisationDto{" +
+                "id=" + id +
+                ", idPersonne=" + idPersonne +
+                ", nom='" + nom + '\'' +
+                ", prenoms='" + prenoms + '\'' +
+                ", numeroRecu='" + numeroRecu + '\'' +
+                ", autorisation=" + autorisation +
+                ", idNiveau=" + idNiveau +
+                ", idAU=" + idAU +
+                ", niveau='" + niveau + '\'' +
+                ", codeRedoublement=" + codeRedoublement +
+                ", pass_word='" + pass_word + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

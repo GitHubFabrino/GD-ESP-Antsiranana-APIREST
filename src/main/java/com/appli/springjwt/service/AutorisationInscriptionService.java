@@ -47,7 +47,7 @@ public class AutorisationInscriptionService {
     DefinitionparcourRepository definitionparcourRepository;
 
     public Candidatconcourstci creerAutorisation(Integer idConcours, AutorisationDto autorisationDto) {
-
+System.out.println("donne" + idConcours + "autre" + autorisationDto);
         Concourstci concourstci = concourstciRepository.findById(idConcours).orElseThrow();
         List<Centreconcourstci> centreconcourstci = centreconcourstciRepository.findByIdCTCI(concourstci);
 
@@ -60,14 +60,24 @@ public class AutorisationInscriptionService {
 
                 Niveau niveau = niveauRepository.findById(autorisationDto.getIdNiveau()).orElseThrow();
                 Anneeuniv anneeuniv = anneeunivRepository.findById(autorisationDto.getIdAU()).orElseThrow();
-
+                System.out.println("ita " + personne.getId() + personne.getNom() + " niveau " + niveau.getNiveau() + "AU "+ anneeuniv.getNomAU());
                 if (!autorisationinscriptionaRepository.existsByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau)) {
                     Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona(
                             false, personne, niveau, anneeuniv
                     );
+                    System.out.println("ato /////////////////////" + autorisationinscriptiona );
                     autorisationinscriptionaRepository.save(autorisationinscriptiona);
                 } else {
+                  //  System.out.println("kkkkk");
+              //      Autorisationinscriptiona autorisationinscriptiona = autorisationinscriptionaRepository.findByIdPersonneAndIdAuAndIdNiveau(personne, anneeuniv, niveau);
+              //    System.out.println("ziy " + autorisationinscriptiona);
+              //    autorisationinscriptiona.setAutorisation(true);
+                   // Autorisationinscriptiona autorisationinscriptiona = new Autorisationinscriptiona(
+                  //          true, personne, niveau, anneeuniv
+                   // );
 
+               //     System.out.println("ato /////////////////////" + autorisationinscriptiona );
+                     //  autorisationinscriptionaRepository.save(autorisationinscriptiona);
                 }
             }
         }
@@ -183,8 +193,10 @@ public class AutorisationInscriptionService {
         String pseudo;
         String prenomSplit[];
         Set<Fonction> fonctions = new HashSet<>();
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaa");
 
-        if (prenom == "") {
+
+        if (prenom == null) {
             pseudo = nom.split(" ")[0] + nom.split(" ")[0];
         } else {
             prenomSplit = prenom.split(" ");
@@ -274,29 +286,77 @@ public class AutorisationInscriptionService {
         for (Autorisationinscriptiona autorisation : autorisationinscriptiona) {
             Integer i = 0;
 
-            System.out.println(autorisation.getIdPersonne());
-           Authentification password = authentificationRepository.findByIdPersonne(autorisation.getIdPersonne());
-           if (password!= null){
-               System.out.println("PASSWORD " + password.getPass_word());
-               autorisationDto.add(i, new AutorisationDto(
-                       autorisation.getId(),
-                       autorisation.getIdPersonne().getNom(),
-                       autorisation.getIdPersonne().getPrenoms(),
-                       autorisation.getNumeroRecu(),
-                       autorisation.getAutorisation()
-                       ,password.getPass_word(),
-                       password.getUsername()
-               ));
-               System.out.println(password.getUsername());
-           }else{
-               autorisationDto.add(i, new AutorisationDto(
-                       autorisation.getId(),
-                       autorisation.getIdPersonne().getNom(),
-                       autorisation.getIdPersonne().getPrenoms(),
-                       autorisation.getNumeroRecu(),
-                       autorisation.getAutorisation()
-               ));
-           }
+            System.out.println(" ======================== "+autorisation.getIdPersonne());
+            ArrayList<Personne> personne = personneRepository.findByPrenomsAndNom(autorisation.getIdPersonne().getPrenoms(), autorisation.getIdPersonne().getNom());
+
+            if (personne.size() == 1 ){
+                Authentification password = authentificationRepository.findByIdPersonne(autorisation.getIdPersonne());
+                if (password!= null ){
+                    System.out.println("PASSWORD " + password.getPass_word());
+                    String mdp = password.getPass_word();
+                    /*if (mdp.length() != 8 ){
+                        System.out.println("Aucun mdp");
+                    }else {
+                        autorisationDto.add(i, new AutorisationDto(
+                                autorisation.getId(),
+                                autorisation.getIdPersonne().getNom(),
+                                autorisation.getIdPersonne().getPrenoms(),
+                                autorisation.getNumeroRecu(),
+                                autorisation.getAutorisation()
+                                ,password.getPass_word(),
+                                password.getUsername()
+                        ));
+                    }*/
+
+                    autorisationDto.add(i, new AutorisationDto(
+                            autorisation.getId(),
+                            autorisation.getIdPersonne().getNom(),
+                            autorisation.getIdPersonne().getPrenoms(),
+                            autorisation.getNumeroRecu(),
+                            autorisation.getAutorisation()
+                            ,password.getPass_word(),
+                            password.getUsername()
+                    ));
+
+                    System.out.println(password.getUsername());
+                }else{
+                    autorisationDto.add(i, new AutorisationDto(
+                            autorisation.getId(),
+                            autorisation.getIdPersonne().getNom(),
+                            autorisation.getIdPersonne().getPrenoms(),
+                            autorisation.getNumeroRecu(),
+                            autorisation.getAutorisation()
+                    ));
+                }
+            }else {
+                for (Personne personne1: personne){
+                    Authentification password = authentificationRepository.findByIdPersonne(personne1);
+                    if (password!= null){
+                        System.out.println("PASSWORD " + password.getPass_word());
+                        autorisationDto.add(i, new AutorisationDto(
+                                autorisation.getId(),
+                                autorisation.getIdPersonne().getNom(),
+                                autorisation.getIdPersonne().getPrenoms(),
+                                autorisation.getNumeroRecu(),
+                                autorisation.getAutorisation()
+                                ,password.getPass_word(),
+                                password.getUsername()
+                        ));
+                        System.out.println(password.getUsername());
+                    }else{
+                       // autorisationDto.add(i, new AutorisationDto(
+                        //        autorisation.getId(),
+                       //         autorisation.getIdPersonne().getNom(),
+                        //        autorisation.getIdPersonne().getPrenoms(),
+                        //        autorisation.getNumeroRecu(),
+                        //        autorisation.getAutorisation()
+                      //  ));
+                    }
+                }
+
+            }
+
+
 
             i += 1;
         }
@@ -318,10 +378,27 @@ public class AutorisationInscriptionService {
 
     public AutorisationDto listAutorisationById(Integer idPersonne, Integer idAU) {
         AutorisationDto autorisationDto = new AutorisationDto();
-        Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
-                personneRepository.findById(idPersonne).orElse(null),
-                anneeunivRepository.findById(idAU).orElse(null));
-        autorisationDto.setNiveau(autorisation.getIdNiveau().getNiveau());
+        System.out.println("id personne " + idPersonne + " id au " + idAU);
+        //Todo mana double
+        Personne personne = personneRepository.findById(idPersonne).orElse(null);
+        System.out.println(personne.getNom());
+        ArrayList<Personne> personne1 = personneRepository.findByPrenomsAndNom( personne.getPrenoms() ,personne.getNom());
+        //System.out.println(personne1.getId());
+        for (Personne personne2 : personne1){
+            System.out.println(personne2.getId());
+            Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+                    personneRepository.findById(personne2.getId()).orElse(null),
+                    anneeunivRepository.findById(idAU).orElse(null));
+            if (autorisation != null){
+                autorisationDto.setNiveau(autorisation.getIdNiveau().getNiveau());
+            }
+        }
+
+       // Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+       //         personneRepository.findById(idPersonne).orElse(null),
+     //           anneeunivRepository.findById(idAU).orElse(null));
+     //   System.out.println("vrais" + autorisation);
+      //  autorisationDto.setNiveau(autorisation.getIdNiveau().getNiveau());
         return autorisationDto;
     }
 
@@ -340,8 +417,8 @@ public class AutorisationInscriptionService {
                 Authentification personneUpdate = authentificationRepository.findByIdPersonne(personne);
                 if (personneUpdate != null){
                     System.out.println("T 4");
-                    personneUpdate.setPass_word(null);
-                    personneUpdate.setPassword(null);
+                    personneUpdate.setPass_word("");
+                   // personneUpdate.setPassword(null);
                     authentificationRepository.save(personneUpdate);
                 }
                 System.out.println("T 6");

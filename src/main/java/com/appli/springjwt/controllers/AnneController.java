@@ -29,13 +29,13 @@ public class AnneController {
 
         System.out.println("AnneController : postAnnee");
         String nomAU = anneeuniv.getNomAU();
-
-        if (!InscriptionAdministrativeService.isNomAUAlreadyExists(nomAU)) {
+        anneeunivRepository.save(anneeuniv);
+      /*  if (!InscriptionAdministrativeService.isNomAUAlreadyExists(nomAU)) {
             // Le nomAU n'existe pas encore, nous pouvons l'ajouter
             anneeunivRepository.save(anneeuniv);
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Le nomAU existe déjà");
-        }
+        }*/
 
     }
 

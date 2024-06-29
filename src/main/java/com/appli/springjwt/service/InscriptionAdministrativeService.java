@@ -10,8 +10,6 @@ import javax.transaction.Transactional;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static org.aspectj.runtime.internal.Conversions.intValue;
-
 @Transactional
 @Service
 public class InscriptionAdministrativeService {
@@ -34,7 +32,7 @@ public class InscriptionAdministrativeService {
     AutorisationinscriptionaRepository autorisationinscriptionaRepository;
 
     public void save(ArrayList<InscriptionAdministrativeDto> dto) {
-        System.out.println("save new etudiant ");
+
         String nombre = "000";
         DecimalFormat nf = new DecimalFormat("000");
         //n.format(20);
@@ -42,160 +40,203 @@ public class InscriptionAdministrativeService {
 
         for(InscriptionAdministrativeDto inscriptionAdministrativeDto: dto){
 
+            System.out.println("++++++++1" + inscriptionAdministrativeDto);
+
             Anneeuniv anneeuniv = anneeunivRepository.findTopByOrderByIdDesc().orElseThrow();
-            System.out.println(anneeuniv.getNomAU());
 
             Personne personne = personneRepository.findById(inscriptionAdministrativeDto.getIdPersonne()).orElseThrow();
-            System.out.println(personne.getNom());
+            System.out.println("********2"+ personne);
 
-            Bacc bacc = baccRepository.findById(inscriptionAdministrativeDto.getIdBacc()).orElseThrow();
-            System.out.println("BACC " + bacc.getBacc());
-            System.out.println(" idPersonne " + inscriptionAdministrativeDto.getIdPersonne());
+            //Todo 25 / 03 /2024
+            ArrayList<Personne> personnes = personneRepository.findByPrenomsAndNom(personne.getPrenoms(), personne.getNom());
+            for(Personne personne1: personnes){
+                System.out.println("********5"+ personne1);
+                Integer id_personne_inscr = personne1.getId();
+                Integer id_Annee_Universitaire = inscriptionAdministrativeDto.getIdAU();
+                Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+                        personneRepository.findById(id_personne_inscr).orElse(null),
+                        anneeunivRepository.findById(id_Annee_Universitaire).orElse(null));
+                System.out.println("********6"+ autorisation);
+                if (autorisation != null){
+                    Niveau niveau = niveauRepository.findById(autorisation.getIdNiveau().getId()).orElseThrow();
+                    Bacc bacc = baccRepository.findById(inscriptionAdministrativeDto.getIdBacc()).orElseThrow();
+                    Etudiant etudiant = new Etudiant();
+                    if (inscriptionAdministrativeDto.getNumeroMatricule() == ""){
+                        matricule = "";
+                    }else {
+                        matricule = inscriptionAdministrativeDto.getNumeroMatricule();
+                    }
+                   // Etudiant etudiant = new Etudiant();
+                    /*            matricule = id_personne_inscr +"/"+ niveau.getNiveau();*/
+                    if (inscriptionAdministrativeDto.getNumeroMatricule() == ""){
+                        matricule = "";
+                    }else {
+                        matricule = inscriptionAdministrativeDto.getNumeroMatricule();
+                    }
 
-            Integer id_personne_inscr = inscriptionAdministrativeDto.getIdPersonne();
-            Integer id_Annee_Universitaire = inscriptionAdministrativeDto.getIdAU();
+                    if(etudiantRepository.existsByIdPersonne(personne)){
 
-            System.out.println("************************");
-            System.out.println("IdAU : " + id_Annee_Universitaire);
-            System.out.println("IdPersonne : " + id_personne_inscr);
+                        etudiant = etudiantRepository.findByIdPersonne(personne).orElseThrow();
 
-           /* Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
-                    personne, anneeuniv
-            );*/
-            Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
-                    personneRepository.findById(id_personne_inscr).orElse(null),
-                    anneeunivRepository.findById(id_Annee_Universitaire).orElse(null));
-            if (autorisation == null) {
-                System.out.println("L'autorisation est null");
-            }
+                        etudiant.getIdPersonne().setNom(inscriptionAdministrativeDto.getNom());
+                        etudiant.getIdPersonne().setPrenoms(inscriptionAdministrativeDto.getPrenoms());
+                        etudiant.getIdPersonne().setSexe(inscriptionAdministrativeDto.getSexe());
+                        etudiant.getIdPersonne().setDateNaissance(inscriptionAdministrativeDto.getDateNaissance());
+                        etudiant.getIdPersonne().setLieuNaissance(inscriptionAdministrativeDto.getLieuNaissance());
+                        etudiant.getIdPersonne().setPaysNaissance(inscriptionAdministrativeDto.getPaysNaissance());
+                        etudiant.getIdPersonne().setVilleNaissance(inscriptionAdministrativeDto.getVilleNaissance());
+                        etudiant.getIdPersonne().setNationalite(inscriptionAdministrativeDto.getNationalite());
+                        etudiant.getIdPersonne().setAdresse(inscriptionAdministrativeDto.getAdresse());
+                        etudiant.getIdPersonne().setNumeroCIN(inscriptionAdministrativeDto.getNumeroCIN());
+                        etudiant.getIdPersonne().setDateDelivreCIN(inscriptionAdministrativeDto.getDateDelivreCIN());
+                        etudiant.getIdPersonne().setVilleDelivreCIN(inscriptionAdministrativeDto.getVilleDelivreCIN());
+                        etudiant.getIdPersonne().setAffiliation1(inscriptionAdministrativeDto.getAffiliation1());
+                        etudiant.getIdPersonne().setAffiliation2(inscriptionAdministrativeDto.getAffiliation2());
+                        etudiant.getIdPersonne().setTelephone(inscriptionAdministrativeDto.getTelephone());
+                        etudiant.getIdPersonne().setEmail(inscriptionAdministrativeDto.getEmail());
 
-          Niveau niveau = niveauRepository.findById(autorisation.getIdNiveau().getId()).orElseThrow();
-            System.out.println(niveau.getNiveau());
-            String[] dateSplit = anneeuniv.getNomAU().split(" - ");
-            String dateSplit1 = dateSplit[0];
-            String dateSplit2 = dateSplit[1];
-            String datePrefix =  dateSplit1.substring(dateSplit1.length()-2) + dateSplit2.substring(dateSplit2.length()-2);
-            System.out.println(  dateSplit1.substring(dateSplit1.length()-2));
-            System.out.println( dateSplit2.substring(dateSplit2.length()-2) );
+                        etudiant.getIdPersonne().setAnnee1(inscriptionAdministrativeDto.getAnnee1());
+                        etudiant.getIdPersonne().setAnnee2(inscriptionAdministrativeDto.getAnnee2());
+                        etudiant.getIdPersonne().setAnnee3(inscriptionAdministrativeDto.getAnnee3());
 
-            Etudiant etudiant = new Etudiant();
-            matricule = id_personne_inscr +"/"+ niveau.getNiveau();
+                        etudiant.getIdPersonne().setEtude1(inscriptionAdministrativeDto.getEtude1());
+                        etudiant.getIdPersonne().setEtude2(inscriptionAdministrativeDto.getEtude2());
+                        etudiant.getIdPersonne().setEtude3(inscriptionAdministrativeDto.getEtude3());
 
-            if(etudiantRepository.existsByIdPersonne(personne)){
+                        etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
+                        etudiant.setIdBacc(bacc);
+                        etudiant.setNumeroMatricule(matricule);
 
-                etudiant = etudiantRepository.findByIdPersonne(personne).orElseThrow();
-                etudiant.getIdPersonne().setNom(inscriptionAdministrativeDto.getNom());
-                etudiant.getIdPersonne().setPrenoms(inscriptionAdministrativeDto.getPrenoms());
-                etudiant.getIdPersonne().setSexe(inscriptionAdministrativeDto.getSexe());
-                etudiant.getIdPersonne().setDateNaissance(inscriptionAdministrativeDto.getDateNaissance());
-                etudiant.getIdPersonne().setLieuNaissance(inscriptionAdministrativeDto.getLieuNaissance());
-                etudiant.getIdPersonne().setPaysNaissance(inscriptionAdministrativeDto.getPaysNaissance());
-                etudiant.getIdPersonne().setVilleNaissance(inscriptionAdministrativeDto.getVilleNaissance());
-                etudiant.getIdPersonne().setNationalite(inscriptionAdministrativeDto.getNationalite());
-                etudiant.getIdPersonne().setAdresse(inscriptionAdministrativeDto.getAdresse());
-                etudiant.getIdPersonne().setNumeroCIN(inscriptionAdministrativeDto.getNumeroCIN());
-                etudiant.getIdPersonne().setDateDelivreCIN(inscriptionAdministrativeDto.getDateDelivreCIN());
-                etudiant.getIdPersonne().setVilleDelivreCIN(inscriptionAdministrativeDto.getVilleDelivreCIN());
-                etudiant.getIdPersonne().setAffiliation1(inscriptionAdministrativeDto.getAffiliation1());
-                etudiant.getIdPersonne().setAffiliation2(inscriptionAdministrativeDto.getAffiliation2());
-                etudiant.getIdPersonne().setTelephone(inscriptionAdministrativeDto.getTelephone());
-                etudiant.getIdPersonne().setEmail(inscriptionAdministrativeDto.getEmail());
+                    }
+                    else {
 
-                etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
-                etudiant.setIdBacc(bacc);
 
-            }
-            else {
+                        personne.setNom(inscriptionAdministrativeDto.getNom());
+                        personne.setPrenoms(inscriptionAdministrativeDto.getPrenoms());
+                        personne.setSexe(inscriptionAdministrativeDto.getSexe());
+                        personne.setDateNaissance(inscriptionAdministrativeDto.getDateNaissance());
+                        personne.setLieuNaissance(inscriptionAdministrativeDto.getLieuNaissance());
+                        personne.setPaysNaissance(inscriptionAdministrativeDto.getPaysNaissance());
+                        personne.setVilleNaissance(inscriptionAdministrativeDto.getVilleNaissance());
+                        personne.setNationalite(inscriptionAdministrativeDto.getNationalite());
+                        personne.setAdresse(inscriptionAdministrativeDto.getAdresse());
+                        personne.setNumeroCIN(inscriptionAdministrativeDto.getNumeroCIN());
+                        personne.setDateDelivreCIN(inscriptionAdministrativeDto.getDateDelivreCIN());
+                        personne.setVilleDelivreCIN(inscriptionAdministrativeDto.getVilleDelivreCIN());
+                        personne.setAffiliation1(inscriptionAdministrativeDto.getAffiliation1());
+                        personne.setAffiliation2(inscriptionAdministrativeDto.getAffiliation2());
+                        personne.setTelephone(inscriptionAdministrativeDto.getTelephone());
+                        personne.setEmail(inscriptionAdministrativeDto.getEmail());
 
-                if(etudiantRepository.count()<1){
-                    matricule = "" ;
-                }else{
-                    // matricule = etudiantRepository.findById(etudiantRepository.count()).orElseThrow().getNumeroMatricule();
-                    //matricule = etudiantRepository.findById(intValue(etudiantRepository.count())).orElseThrow().getNumeroMatricule() + 1;
-                //matricule = 10;
+                        etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
+                        etudiant.setIdPersonne(personne);
+                        etudiant.setNumeroMatricule(matricule);
+                        etudiant.setIdBacc(bacc);
 
-                 matricule = id_personne_inscr +"/"+ niveau.getNiveau();
+                    }
 
+                    //emailRepository.save(email);
+                    personneRepository.save(personne);
+                    baccRepository.save(bacc);
+                    etudiantRepository.save(etudiant);
+
+                    if(etudiantRepository.existsByIdPersonne(personne)){
+
+                        etudiant = etudiantRepository.findByIdPersonne(personne).orElseThrow();
+
+                        etudiant.getIdPersonne().setNom(inscriptionAdministrativeDto.getNom());
+                        etudiant.getIdPersonne().setPrenoms(inscriptionAdministrativeDto.getPrenoms());
+                        etudiant.getIdPersonne().setSexe(inscriptionAdministrativeDto.getSexe());
+                        etudiant.getIdPersonne().setDateNaissance(inscriptionAdministrativeDto.getDateNaissance());
+                        etudiant.getIdPersonne().setLieuNaissance(inscriptionAdministrativeDto.getLieuNaissance());
+                        etudiant.getIdPersonne().setPaysNaissance(inscriptionAdministrativeDto.getPaysNaissance());
+                        etudiant.getIdPersonne().setVilleNaissance(inscriptionAdministrativeDto.getVilleNaissance());
+                        etudiant.getIdPersonne().setNationalite(inscriptionAdministrativeDto.getNationalite());
+                        etudiant.getIdPersonne().setAdresse(inscriptionAdministrativeDto.getAdresse());
+                        etudiant.getIdPersonne().setNumeroCIN(inscriptionAdministrativeDto.getNumeroCIN());
+                        etudiant.getIdPersonne().setDateDelivreCIN(inscriptionAdministrativeDto.getDateDelivreCIN());
+                        etudiant.getIdPersonne().setVilleDelivreCIN(inscriptionAdministrativeDto.getVilleDelivreCIN());
+                        etudiant.getIdPersonne().setAffiliation1(inscriptionAdministrativeDto.getAffiliation1());
+                        etudiant.getIdPersonne().setAffiliation2(inscriptionAdministrativeDto.getAffiliation2());
+                        etudiant.getIdPersonne().setTelephone(inscriptionAdministrativeDto.getTelephone());
+                        etudiant.getIdPersonne().setEmail(inscriptionAdministrativeDto.getEmail());
+
+                        etudiant.getIdPersonne().setAnnee1(inscriptionAdministrativeDto.getAnnee1());
+                        etudiant.getIdPersonne().setAnnee2(inscriptionAdministrativeDto.getAnnee2());
+                        etudiant.getIdPersonne().setAnnee3(inscriptionAdministrativeDto.getAnnee3());
+
+                        etudiant.getIdPersonne().setEtude1(inscriptionAdministrativeDto.getEtude1());
+                        etudiant.getIdPersonne().setEtude2(inscriptionAdministrativeDto.getEtude2());
+                        etudiant.getIdPersonne().setEtude3(inscriptionAdministrativeDto.getEtude3());
+
+                        etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
+                        etudiant.setIdBacc(bacc);
+                        etudiant.setNumeroMatricule(matricule);
+
+                        personneRepository.save(personne);
+                        baccRepository.save(bacc);
+                        etudiantRepository.save(etudiant);
+
+                    }
+
+
+                    if(inscriptionadministrativeRepository.existsByIdAuAndIdEtudiant(anneeuniv,etudiant)){
+                        System.out.println("anatiny");
+                        Inscriptionadministrative inscription = inscriptionadministrativeRepository.findByIdAuAndIdEtudiant(anneeuniv,etudiant).orElseThrow();
+
+                        if (inscription == null){
+                            System.out.println("null");
+                        }else {
+                            System.out.println(" Tsi null");
+                        }
+                        System.out.println(" id persone " + inscription.getIdEtudiant());
+                        System.out.println(anneeuniv.getNomAU());
+                        System.out.println(niveau);
+                        System.out.println(etudiant);
+
+                        inscription.setValiditeIa(true);
+                        inscription.setIdAu(anneeuniv);
+                        inscription.setIdNiveau(niveau);
+                        inscription.setIdEtudiant(etudiant);
+                        etudiant.setNumeroMatricule(matricule);
+                        inscription.getIdEtudiant().setIdBacc(bacc);
+
+                        etudiantRepository.save(etudiant);
+                        inscriptionadministrativeRepository.save(inscription);
+                        System.out.println(" id persone " + inscription.getIdEtudiant());
+                        System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
+
+                    }else {
+                        Inscriptionadministrative inscription = new Inscriptionadministrative();
+
+                        inscription.setValiditeIa(true);
+                        Anneeuniv anneeUniversitaire = anneeunivRepository.findById(id_Annee_Universitaire).orElseThrow();
+                        inscription.setIdAu(anneeUniversitaire);
+                        inscription.setIdNiveau(niveau);
+                        inscription.setIdEtudiant(etudiant);
+                        inscription.getIdEtudiant().setIdBacc(bacc);
+
+                        inscriptionadministrativeRepository.save(inscription);
+
+                        etudiant.setNumeroMatricule(matricule);
+                        etudiantRepository.save(etudiant);
+                    }
                 }
-
-                personne.setNom(inscriptionAdministrativeDto.getNom());
-                personne.setPrenoms(inscriptionAdministrativeDto.getPrenoms());
-                personne.setSexe(inscriptionAdministrativeDto.getSexe());
-                personne.setDateNaissance(inscriptionAdministrativeDto.getDateNaissance());
-                personne.setLieuNaissance(inscriptionAdministrativeDto.getLieuNaissance());
-                personne.setPaysNaissance(inscriptionAdministrativeDto.getPaysNaissance());
-                personne.setVilleNaissance(inscriptionAdministrativeDto.getVilleNaissance());
-                personne.setNationalite(inscriptionAdministrativeDto.getNationalite());
-                personne.setAdresse(inscriptionAdministrativeDto.getAdresse());
-                personne.setNumeroCIN(inscriptionAdministrativeDto.getNumeroCIN());
-                personne.setDateDelivreCIN(inscriptionAdministrativeDto.getDateDelivreCIN());
-                personne.setVilleDelivreCIN(inscriptionAdministrativeDto.getVilleDelivreCIN());
-                personne.setAffiliation1(inscriptionAdministrativeDto.getAffiliation1());
-                personne.setAffiliation2(inscriptionAdministrativeDto.getAffiliation2());
-                personne.setTelephone(inscriptionAdministrativeDto.getTelephone());
-                personne.setEmail(inscriptionAdministrativeDto.getEmail());
-
-
-                etudiant.setAnneeBacc(inscriptionAdministrativeDto.getAnneeBacc());
-                etudiant.setIdPersonne(personne);
-                etudiant.setNumeroMatricule(matricule);
-                etudiant.setIdBacc(bacc);
-
             }
 
-            //emailRepository.save(email);
-            personneRepository.save(personne);
-            baccRepository.save(bacc);
-            etudiantRepository.save(etudiant);
 
-            System.out.println("amn fonction");
-            if(inscriptionadministrativeRepository.existsByIdAuAndIdEtudiant(anneeuniv,etudiant)){
-                System.out.println("anatiny");
-                Inscriptionadministrative inscription = inscriptionadministrativeRepository.findByIdAuAndIdEtudiant(anneeuniv,etudiant).orElseThrow();
+           // Integer id_personne_inscr = inscriptionAdministrativeDto.getIdPersonne();
+           // Integer id_Annee_Universitaire = inscriptionAdministrativeDto.getIdAU();
+         //   Autorisationinscriptiona autorisation = autorisationinscriptionaRepository.findByIdPersonneAndIdAu(
+          //          personneRepository.findById(id_personne_inscr).orElse(null),
+          //          anneeunivRepository.findById(id_Annee_Universitaire).orElse(null));
+         //   System.out.println("********3"+ autorisation);
+         //   System.out.println("********4"+ autorisation.getIdNiveau().getId());
+          //  Niveau niveau = niveauRepository.findById(autorisation.getIdNiveau().getId()).orElseThrow();
 
-                if (inscription == null){
-                    System.out.println("null");
-                }else {
-                    System.out.println(" Tsi null");
-                }
-                System.out.println(" id persone " + inscription.getIdEtudiant());
-                System.out.println(anneeuniv.getNomAU());
-                System.out.println(niveau);
-                System.out.println(etudiant);
 
-                inscription.setValiditeIa(true);
-                inscription.setIdAu(anneeuniv);
-                inscription.setIdNiveau(niveau);
-                inscription.setIdEtudiant(etudiant);
-                etudiant.setNumeroMatricule(matricule);
-                inscription.getIdEtudiant().setIdBacc(bacc);
 
-                etudiantRepository.save(etudiant);
-                inscriptionadministrativeRepository.save(inscription);
-                System.out.println(" id persone " + inscription.getIdEtudiant());
-                System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
 
-            }else {
-                System.out.println("ivelany");
-                Inscriptionadministrative inscription = new Inscriptionadministrative();
-
-                inscription.setValiditeIa(true);
-
-               System.out.println(" anneeuniv.getId(); " +  anneeuniv.getId());
-                /*inscription.setIdAu(anneeuniv);
-                System.out.println("id annee " + anneeuniv);*/
-                Anneeuniv anneeUniversitaire = anneeunivRepository.findById(id_Annee_Universitaire).orElseThrow();
-                inscription.setIdAu(anneeUniversitaire);
-                System.out.println("id annee " + anneeUniversitaire);
-                inscription.setIdNiveau(niveau);
-                inscription.setIdEtudiant(etudiant);
-                inscription.getIdEtudiant().setIdBacc(bacc);
-
-                inscriptionadministrativeRepository.save(inscription);
-
-                etudiant.setNumeroMatricule(matricule);
-                etudiantRepository.save(etudiant);
-            }
     }
 }
 
@@ -231,14 +272,11 @@ public class InscriptionAdministrativeService {
         return dto;
     }
 
-    //private final AnneeunivRepository anneeunivRepository;
-
     @Autowired
     public InscriptionAdministrativeService(AnneeunivRepository anneeunivRepository) {
         this.anneeunivRepository = anneeunivRepository;
     }
     public static boolean isNomAUAlreadyExists(String nomAU) {
-        // Vérifie si une Anneeuniv avec le même nomAU existe déjà
         return anneeunivRepository.findByNomAU(nomAU).isPresent();
     }
 }

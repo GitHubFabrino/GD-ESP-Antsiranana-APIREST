@@ -5,6 +5,7 @@ import com.appli.springjwt.models.PresidentJuryModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PresidentJuryRepository extends JpaRepository<PresidentJuryModel, Integer> {
 
@@ -13,4 +14,6 @@ public interface PresidentJuryRepository extends JpaRepository<PresidentJuryMode
     boolean existsByIdCTCI(int id_concours);
 
     List<PresidentJuryModel> findByIdEnseignant(Enseignant id_enseignant);
+
+    Optional<PresidentJuryModel> findByIdCTCI(Integer idConcour);
 }

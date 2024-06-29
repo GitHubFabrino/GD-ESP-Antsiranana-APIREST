@@ -19,7 +19,7 @@ public class InscriptionAdministrativeController {
     @PostMapping
     @PreAuthorize("hasAuthority('SCOLARITE') or hasAuthority('ETUDIANT') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY')")
     public void post(@RequestBody ArrayList<InscriptionAdministrativeDto> inscriptionAdministrativeDtos){
-        System.out.println(" InscriptionAdministrativeController : post" );
+        System.out.println(" InscriptionAdministrativeController : post" + inscriptionAdministrativeDtos );
         inscriptionAdministrativeService.save(inscriptionAdministrativeDtos);
     }
 

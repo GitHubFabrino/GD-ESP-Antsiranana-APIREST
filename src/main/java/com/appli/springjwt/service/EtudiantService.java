@@ -344,6 +344,7 @@ public class EtudiantService {
         } catch (Exception e) {
             return null;
         }
+        System.out.println(etudiantDto);
         return  etudiantDto;
     }
     public ArrayList<CursusDto> getByIdDP(Integer id) {

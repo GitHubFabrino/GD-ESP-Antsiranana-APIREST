@@ -28,7 +28,10 @@ public class PresidentJuryController {
     @PostMapping
     @PreAuthorize("hasAuthority('DIRECTION') or hasRole('ADMIN') or hasAuthority('PRESIDENT_JURY') or hasAuthority('SCOLARITE')")
     public void post(@RequestBody DefinitionPresidentJuryDto presidentJury){
-        Optional<PresidentJuryModel> concourExist = presidentJuryRepository.findById(presidentJury.getIdConcour());
+        System.out.println(presidentJury);
+        Optional<PresidentJuryModel> concourExist = presidentJuryRepository.findByIdCTCI(presidentJury.getIdConcour());
+        System.out.println(concourExist);
+
         if (concourExist.isPresent()){
             System.out.println("Efa miexist");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "existe déjà");

@@ -19,5 +19,7 @@ public interface AutorisationinscriptionaRepository extends JpaRepository<Autori
     Boolean existsByIdPersonneAndIdAuAndIdNiveau(Personne idPersonne,Anneeuniv idAu,Niveau idNiveau);
     Boolean existsByNumeroRecu(String numeroRecu);
 
+    Autorisationinscriptiona findByIdPersonneAndIdAuAndIdNiveau(Personne idPersonne,Anneeuniv idAu,Niveau idNiveau);
+
 
 }
